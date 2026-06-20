@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WHS: Student AI Study Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        :root {
+            --whs-dark-blue: #002066;
+            --whs-gold: #c5a059;
+            --whs-light-blue: #d1e6f6;
+            --whs-accent: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: var(--whs-accent);
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .whs-gradient-bg {
+            background: linear-gradient(135deg, var(--whs-dark-blue) 0%, #001033 100%);
+        }
+
+        .glass-card {
+            background: white;
+            border: 1px solid var(--whs-light-blue);
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+
+        .nav-btn {
+            padding: 0.75rem 1rem;
+            color: #64748b;
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-btn:hover {
+            color: var(--whs-dark-blue);
+            background-color: #f8fafc;
+        }
+
+        .nav-active {
+            border-bottom-color: var(--whs-dark-blue);
+            color: var(--whs-dark-blue);
+            font-weight: 800;
+            background-color: transparent;
+        }
+
+        .strategy-btn {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background: white;
+            border: 2px solid transparent;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .strategy-btn:hover {
+            border-color: var(--whs-light-blue);
+            transform: translateY(-2px);
+        }
+
+        .strategy-btn.active {
+            border-color: var(--whs-gold);
+            background: #fffcf5;
+        }
+
+        .copy-btn-success {
+            background-color: #16a34a !important;
+            color: white !important;
+            border-color: #16a34a !important;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        /* Breathing Animation */
+        @keyframes breathe {
+            0% { transform: scale(0.8); opacity: 0.6; }
+            40% { transform: scale(1.5); opacity: 1; }
+            60% { transform: scale(1.5); opacity: 1; }
+            100% { transform: scale(0.8); opacity: 0.6; }
+        }
+        .breathe-circle {
+            animation: breathe 12s infinite ease-in-out;
+        }
+        
+        .tabular-nums {
+            font-variant-numeric: tabular-nums;
+        }
+        
+        /* Custom Scrollbars */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        /* Hide scrollbar on nav for clean look on mobile but allow scrolling */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none; 
+            scrollbar-width: none; 
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-[1400px] mx-auto relative">
+        
+        <!-- Header -->
+        <header class="whs-gradient-bg rounded-lg p-8 md:p-12 text-white mb-8 shadow-md relative overflow-hidden flex justify-between items-center">
+            <div class="relative z-10 w-full flex justify-between items-start md:items-center">
+                <div class="flex flex-col md:flex-row items-start md:items-center gap-6 mb-3">
+                    <div class="border-2 border-white rounded-full px-4 py-1 inline-block bg-[#d1e6f6] shadow-sm flex items-center justify-center h-16 w-16 md:h-24 md:w-24 shrink-0">
+                        <span class="font-extrabold text-xl md:text-3xl tracking-widest text-[#002066]">WHS</span>
+                    </div>
+                    <div>
+                        <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-1">Waiheke High School</h1>
+                        <h2 class="text-xl md:text-2xl font-normal text-blue-200">Student AI Study Hub</h2>
+                        <div class="mt-3 inline-block bg-white text-[#002066] px-4 py-1.5 border border-transparent text-xs font-bold uppercase tracking-widest shadow-sm rounded">
+                            Master Your Learning
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Streak Tracker -->
+                <div class="bg-black/20 backdrop-blur-sm border border-white/20 p-3 rounded-xl text-center hidden lg:block shadow-inner">
+                    <div class="text-xs uppercase tracking-widest text-blue-200 font-bold mb-1">Study Streak</div>
+                    <div class="text-3xl font-black text-[#c5a059] flex items-center justify-center gap-2">
+                        🔥 <span id="streak-counter">0</span>
+                    </div>
+                    <div class="text-[10px] text-blue-100">Days in a row</div>
+                </div>
+            </div>
+            <!-- Subtle Background Graphic -->
+            <svg class="absolute right-0 top-0 h-full w-64 text-white/5 transform translate-x-1/4 -translate-y-1/4 scale-150 pointer-events-none" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L2 22h20L12 2zm0 3.5l7.5 15h-15L12 5.5z"/>
+            </svg>
+        </header>
+
+        <!-- Navigation (Evenly Distributed) -->
+        <nav class="flex w-full justify-between items-center border-b-2 border-slate-300 mb-6 overflow-x-auto pb-1 scroll-smooth hide-scrollbar gap-1 md:gap-2">
+            <button onclick="showView('revision')" id="nav-revision" class="nav-btn nav-active flex-1 text-center flex justify-center min-w-max rounded-t-md">Revision</button>
+            <button onclick="showView('writing')" id="nav-writing" class="nav-btn flex-1 text-center flex justify-center min-w-max rounded-t-md">Writing</button>
+            <button onclick="showView('litnum')" id="nav-litnum" class="nav-btn flex-1 text-center flex justify-center min-w-max rounded-t-md">Lit & Num</button>
+            
+            <div class="w-px h-8 bg-slate-300 self-center hidden md:block mx-2 shrink-0"></div>
+            
+            <button onclick="showView('tools')" id="nav-tools" class="nav-btn flex items-center justify-center gap-2 flex-1 min-w-max rounded-t-md">⏱️ Tools</button>
+            <button onclick="showView('vault')" id="nav-vault" class="nav-btn flex items-center justify-center gap-2 flex-1 min-w-max rounded-t-md">🗄️ NCEA Vault</button>
+            <button onclick="showView('wellbeing')" id="nav-wellbeing" class="nav-btn flex items-center justify-center gap-2 text-rose-600 hover:bg-rose-50 flex-1 min-w-max rounded-t-md">💚 Wellbeing</button>
+        </nav>
+
+        <!-- Global Context Bar (Appears on Prompt builder views) -->
+        <div id="global-context" class="glass-card p-6 border-l-4 border-l-amber-500 max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-4 mb-8">
+            <div class="w-full md:w-1/2">
+                <label class="text-xs font-black text-[#002066] uppercase tracking-widest block mb-2">What topic are you studying?</label>
+                <input type="text" id="global-topic" oninput="updateAllPrompts()" placeholder="e.g. Newton's Laws, The Cold War, Linear Algebra..." class="w-full p-3 rounded-lg border border-slate-300 focus:border-[#002066] focus:ring-1 focus:ring-[#002066] outline-none transition font-medium text-slate-800 bg-slate-50">
+            </div>
+            <div class="w-full md:w-1/4">
+                <label class="text-xs font-black text-[#002066] uppercase tracking-widest block mb-2">Year Level</label>
+                <select id="global-year" onchange="updateAllPrompts()" class="w-full p-3 rounded-lg border border-slate-300 focus:border-[#002066] outline-none bg-slate-50 text-slate-800 font-medium">
+                    <option value="Year 7">Year 7</option>
+                    <option value="Year 8">Year 8</option>
+                    <option value="Year 9">Year 9</option>
+                    <option value="Year 10">Year 10</option>
+                    <option value="Year 11 (NCEA L1)" selected>Year 11</option>
+                    <option value="Year 12 (NCEA L2)">Year 12</option>
+                    <option value="Year 13 (NCEA L3)">Year 13</option>
+                </select>
+            </div>
+            <div class="w-full md:w-1/4">
+                <label class="text-xs font-black text-[#002066] uppercase tracking-widest block mb-2">Subject</label>
+                <select id="global-subject" onchange="updateAllPrompts()" class="w-full p-3 rounded-lg border border-slate-300 focus:border-[#002066] outline-none bg-slate-50 text-slate-800 font-medium">
+                    <option value="Science" selected>Science</option>
+                    <option value="Maths">Maths</option>
+                    <option value="English">English</option>
+                    <option value="Social Sciences">Social Sciences</option>
+                    <option value="Physical Education">Physical Education</option>
+                    <option value="The Arts">The Arts</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Te Reo Māori">Te Reo Māori</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- VIEW: REVISION STRATEGIES                  -->
+        <!-- ========================================== -->
+        <div id="view-revision" class="space-y-8 animate-in fade-in duration-500">
+            <div class="text-center max-w-3xl mx-auto mb-4">
+                <h2 class="text-4xl font-black text-slate-900 mb-4">Revision Strategies</h2>
+                <p class="text-slate-600">Based on proven cognitive science methods to help you encode information into long-term memory.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-8 max-w-6xl mx-auto">
+                <div class="lg:col-span-4 space-y-3 flex flex-col h-[550px] overflow-y-auto custom-scrollbar pr-2">
+                    
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 mt-2">Core Foundations</h3>
+                    <button onclick="setRevisionStrategy('Retrieval Quiz')" id="btn-rev-1" class="strategy-btn active border-[#c5a059] bg-[#fffcf5]">
+                        <span class="block font-bold text-[#002066] mb-1">🧠 Quick Retrieval Quiz</span>
+                        <span class="text-xs text-slate-600 block">Test what you know right now with fast questions.</span>
+                    </button>
+                    <button onclick="setRevisionStrategy('Flashcards')" id="btn-rev-4" class="strategy-btn">
+                        <span class="block font-bold text-[#002066] mb-1">🗂️ Generate Flashcards</span>
+                        <span class="text-xs text-slate-600 block">Create a table of terms/formulas to test yourself.</span>
+                    </button>
+                    <button onclick="setRevisionStrategy('ELI5')" id="btn-rev-2" class="strategy-btn">
+                        <span class="block font-bold text-[#002066] mb-1">👶 Explain it Simply (ELI5)</span>
+                        <span class="text-xs text-slate-600 block">Break down complex jargon into plain English.</span>
+                    </button>
+                    <button onclick="setRevisionStrategy('Analogies')" id="btn-rev-3" class="strategy-btn">
+                        <span class="block font-bold text-[#002066] mb-1">🔗 Create an Analogy</span>
+                        <span class="text-xs text-slate-600 block">Compare difficult concepts to everyday things.</span>
+                    </button>
+
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 mt-4">Advanced Deep-Dive</h3>
+                    <button onclick="setRevisionStrategy('Practice Exam')" id="btn-rev-5" class="strategy-btn border-l-4 border-l-blue-500">
+                        <span class="block font-bold text-[#002066] mb-1">📝 Standard NCEA Question</span>
+                        <span class="text-xs text-slate-600 block">Generate a typical exam question and mark schedule.</span>
+                    </button>
+                    <button onclick="setRevisionStrategy('STEM Problem')" id="btn-rev-6" class="strategy-btn border-l-4 border-l-emerald-500">
+                        <span class="block font-bold text-[#002066] mb-1">🧮 Complex STEM Problem</span>
+                        <span class="text-xs text-slate-600 block">Multi-step calculation for Maths, Physics, & Chemistry.</span>
+                    </button>
+                    <button onclick="setRevisionStrategy('Extended Essay')" id="btn-rev-7" class="strategy-btn border-l-4 border-l-indigo-500">
+                        <span class="block font-bold text-[#002066] mb-1">🏛️ Extended Essay / Report</span>
+                        <span class="text-xs text-slate-600 block">In-depth thematic synthesis for Humanities & Arts.</span>
+                    </button>
+
+                </div>
+
+                <div class="lg:col-span-8">
+                    <div class="bg-amber-50 p-6 md:p-8 rounded-2xl border border-amber-200 h-full flex flex-col">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-sm font-black uppercase text-amber-900 tracking-widest">Your Generated Prompt</h4>
+                            <div class="flex gap-2">
+                                <button onclick="savePromptToVault('prompt-revision-text', this)" class="bg-white border border-amber-300 px-3 py-2 rounded-lg transition text-xs font-black tracking-wider text-amber-800 hover:bg-amber-100 shadow-sm">SAVE 💾</button>
+                                <button onclick="copyText('prompt-revision-text', this)" class="bg-[#c5a059] border border-[#c5a059] px-4 py-2 rounded-lg transition text-xs font-black tracking-wider text-white hover:bg-amber-600 shadow-sm">COPY PROMPT</button>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl text-base font-mono text-slate-800 border border-amber-300 mb-6 flex-grow shadow-inner whitespace-pre-wrap" id="prompt-revision-text">...</div>
+                        <a href="https://gemini.google.com/app" target="_blank" class="w-full text-center py-4 bg-[#c5a059] text-white rounded-xl font-bold text-lg hover:bg-amber-600 transition shadow-md">
+                            Open Google Gemini ↗
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- VIEW: WRITING SCAFFOLDS                    -->
+        <!-- ========================================== -->
+        <div id="view-writing" class="hidden space-y-8 animate-in fade-in duration-500">
+            <div class="text-center max-w-3xl mx-auto mb-8">
+                <h2 class="text-4xl font-black text-slate-900 mb-4">Writing & Assignment Help</h2>
+                <p class="text-slate-600">Get feedback on your drafts, unstick writer's block, or check grammar. <strong class="text-red-600">Never ask the AI to write your essay for you.</strong></p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-8 max-w-6xl mx-auto">
+                <div class="lg:col-span-4 space-y-3 flex flex-col h-[550px] overflow-y-auto custom-scrollbar pr-2">
+                    
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 mt-2">General Academic</h3>
+                    <button onclick="setWritingStrategy('Feedback')" id="btn-writ-1" class="strategy-btn active border-[#c5a059] bg-[#fffcf5]">
+                        <span class="block font-bold text-[#002066] mb-1">👀 Critique My Draft</span>
+                        <span class="text-xs text-slate-600 block">Get 'Glows and Grows' on what you've written so far.</span>
+                    </button>
+                    <button onclick="setWritingStrategy('Starters')" id="btn-writ-2" class="strategy-btn">
+                        <span class="block font-bold text-[#002066] mb-1">🚀 Sentence Starters</span>
+                        <span class="text-xs text-slate-600 block">Stuck? Get 3 academic ways to start your next paragraph.</span>
+                    </button>
+                    <button onclick="setWritingStrategy('Structure')" id="btn-writ-3" class="strategy-btn">
+                        <span class="block font-bold text-[#002066] mb-1">🏗️ Outline an Essay</span>
+                        <span class="text-xs text-slate-600 block">Help plan the structure of your argument (e.g., TEEL).</span>
+                    </button>
+                    <button onclick="setWritingStrategy('Grammar')" id="btn-writ-4" class="strategy-btn">
+                        <span class="block font-bold text-[#002066] mb-1">✍️ Grammar Check</span>
+                        <span class="text-xs text-slate-600 block">Identify run-on sentences and confusing wording.</span>
+                    </button>
+
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 mt-4">Maths & Science</h3>
+                    <button onclick="setWritingStrategy('Science CER')" id="btn-writ-5" class="strategy-btn border-l-4 border-l-emerald-500">
+                        <span class="block font-bold text-[#002066] mb-1">🔬 Science Conclusion (CER)</span>
+                        <span class="text-xs text-slate-600 block">Claim, Evidence, Reasoning structure for experiments.</span>
+                    </button>
+                    <button onclick="setWritingStrategy('Stats PPDAC')" id="btn-writ-6" class="strategy-btn border-l-4 border-l-blue-500">
+                        <span class="block font-bold text-[#002066] mb-1">📈 Stats Report (PPDAC)</span>
+                        <span class="text-xs text-slate-600 block">Step-by-step help for statistical investigations.</span>
+                    </button>
+                    <button onclick="setWritingStrategy('Justification')" id="btn-writ-7" class="strategy-btn border-l-4 border-l-indigo-500">
+                        <span class="block font-bold text-[#002066] mb-1">📐 Justifying Reasoning</span>
+                        <span class="text-xs text-slate-600 block">Explain the "why" behind your working.</span>
+                    </button>
+
+                </div>
+
+                <div class="lg:col-span-8">
+                    <div class="bg-teal-50 p-6 md:p-8 rounded-2xl border border-teal-200 h-full flex flex-col">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-sm font-black uppercase text-teal-900 tracking-widest">Your Generated Prompt</h4>
+                            <div class="flex gap-2">
+                                <button onclick="savePromptToVault('prompt-writing-text', this)" class="bg-white border border-teal-300 px-3 py-2 rounded-lg transition text-xs font-black tracking-wider text-teal-800 hover:bg-teal-100 shadow-sm">SAVE 💾</button>
+                                <button onclick="copyText('prompt-writing-text', this)" class="bg-teal-700 border border-teal-700 px-4 py-2 rounded-lg transition text-xs font-black tracking-wider text-white hover:bg-teal-800 shadow-sm">COPY PROMPT</button>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl text-base font-mono text-slate-800 border border-teal-300 mb-6 flex-grow shadow-inner whitespace-pre-wrap" id="prompt-writing-text">...</div>
+                        <a href="https://gemini.google.com/app" target="_blank" class="w-full text-center py-4 bg-teal-700 text-white rounded-xl font-bold text-lg hover:bg-teal-800 transition shadow-md">
+                            Open Google Gemini ↗
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- VIEW: LITERACY & NUMERACY                  -->
+        <!-- ========================================== -->
+        <div id="view-litnum" class="hidden space-y-8 animate-in fade-in duration-500">
+            <div class="text-center max-w-3xl mx-auto mb-4">
+                <h2 class="text-4xl font-black text-slate-900 mb-4">Literacy & Numeracy Toolkit</h2>
+                <p class="text-slate-600">Access our pre-built WHS AI Tutors directly, or generate custom prompts below to practice your core skills.</p>
+            </div>
+
+            <!-- Lit & Num Tutor Gem Banners (3 Columns) -->
+            <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-6 mb-8">
+                <!-- Reading Tutor -->
+                <div class="bg-gradient-to-r from-indigo-50 to-indigo-100/50 p-6 rounded-2xl border border-indigo-200 shadow-sm flex flex-col justify-between gap-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-indigo-900 mb-1 flex items-center gap-2"><span>📖</span> WHS Reading Tutor</h3>
+                        <p class="text-sm text-indigo-800">Need help breaking down a difficult text? Open the dedicated Reading Tutor.</p>
+                    </div>
+                    <a href="https://gemini.google.com/gem/1icWZ0fRVbfpLGqoXYqVvqZ17cL5VGHBJ?usp=sharing" target="_blank" class="w-full text-center bg-indigo-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-indigo-700 transition shadow-sm whitespace-nowrap">
+                        Open Reading Tutor ↗
+                    </a>
+                </div>
+                <!-- Writing Tutor -->
+                <div class="bg-gradient-to-r from-teal-50 to-teal-100/50 p-6 rounded-2xl border border-teal-200 shadow-sm flex flex-col justify-between gap-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-teal-900 mb-1 flex items-center gap-2"><span>✍️</span> WHS Writing Tutor</h3>
+                        <p class="text-sm text-teal-800">Paste your draft to get strict 'glows and grows' feedback and structure help.</p>
+                    </div>
+                    <a href="https://gemini.google.com/gem/1OpFxgqID46DAGNjJvWWIzeVxEMDN98I7?usp=sharing" target="_blank" class="w-full text-center bg-teal-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-teal-700 transition shadow-sm whitespace-nowrap">
+                        Open Writing Tutor ↗
+                    </a>
+                </div>
+                <!-- Numeracy Tutor -->
+                <div class="bg-gradient-to-r from-emerald-50 to-emerald-100/50 p-6 rounded-2xl border border-emerald-200 shadow-sm flex flex-col justify-between gap-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-emerald-900 mb-1 flex items-center gap-2"><span>🧮</span> WHS Numeracy Tutor</h3>
+                        <p class="text-sm text-emerald-800">Stuck on a math problem? Get help working through it step-by-step.</p>
+                    </div>
+                    <a href="https://gemini.google.com/gem/1BnYex-O4z_YDo3csuF25IAvo8ScKJwwL?usp=sharing" target="_blank" class="w-full text-center bg-emerald-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-emerald-700 transition shadow-sm whitespace-nowrap">
+                        Open Numeracy Tutor ↗
+                    </a>
+                </div>
+            </div>
+
+            <div class="text-center mt-2 mb-6">
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">— OR GENERATE CUSTOM PROMPTS BELOW —</span>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-8 max-w-6xl mx-auto">
+                <div class="lg:col-span-4 space-y-6 flex flex-col">
+                    <div class="space-y-3 border-l-4 border-indigo-500 pl-4">
+                        <h3 class="text-sm font-black text-indigo-800 uppercase tracking-widest mb-2">📚 Literacy Practice</h3>
+                        <button onclick="setLitNumStrategy('Vocab Decoder')" id="btn-ln-1" class="strategy-btn w-full active border-[#c5a059] bg-[#fffcf5]">
+                            <span class="block font-bold text-[#002066] mb-1">📖 Vocab Decoder</span>
+                            <span class="text-xs text-slate-600 block">Generate a text and decode the hardest words.</span>
+                        </button>
+                        <button onclick="setLitNumStrategy('Reading Comp')" id="btn-ln-2" class="strategy-btn w-full">
+                            <span class="block font-bold text-[#002066] mb-1">🤔 Test My Reading</span>
+                            <span class="text-xs text-slate-600 block">Generate a reading passage and 3 comprehension questions.</span>
+                        </button>
+                    </div>
+
+                    <div class="space-y-3 border-l-4 border-emerald-500 pl-4 mt-4">
+                        <h3 class="text-sm font-black text-emerald-800 uppercase tracking-widest mb-2">🔢 Numeracy Practice</h3>
+                        <button onclick="setLitNumStrategy('Word Problem')" id="btn-ln-3" class="strategy-btn w-full">
+                            <span class="block font-bold text-[#002066] mb-1">🧮 Word Problem Setup</span>
+                            <span class="text-xs text-slate-600 block">Generate a word problem and help me set it up.</span>
+                        </button>
+                        <button onclick="setLitNumStrategy('Data Graph')" id="btn-ln-4" class="strategy-btn w-full">
+                            <span class="block font-bold text-[#002066] mb-1">📊 Data & Graph Guide</span>
+                            <span class="text-xs text-slate-600 block">Generate a data table and questions to test my analysis.</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-8">
+                    <div class="bg-indigo-50 p-6 md:p-8 rounded-2xl border border-indigo-200 h-full flex flex-col">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-sm font-black uppercase text-indigo-900 tracking-widest">Your Generated Prompt</h4>
+                            <div class="flex gap-2">
+                                <button onclick="savePromptToVault('prompt-litnum-text', this)" class="bg-white border border-indigo-300 px-3 py-2 rounded-lg transition text-xs font-black tracking-wider text-indigo-800 hover:bg-indigo-100 shadow-sm">SAVE 💾</button>
+                                <button onclick="copyText('prompt-litnum-text', this)" class="bg-indigo-700 border border-indigo-700 px-4 py-2 rounded-lg transition text-xs font-black tracking-wider text-white hover:bg-indigo-800 shadow-sm">COPY PROMPT</button>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl text-base font-mono text-slate-800 border border-indigo-300 mb-6 flex-grow shadow-inner whitespace-pre-wrap" id="prompt-litnum-text">...</div>
+                        <a href="https://gemini.google.com/app" target="_blank" class="w-full text-center py-4 bg-indigo-700 text-white rounded-xl font-bold text-lg hover:bg-indigo-800 transition shadow-md">
+                            Open Google Gemini ↗
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- VIEW: STUDY TOOLS & PRODUCTIVITY           -->
+        <!-- ========================================== -->
+        <div id="view-tools" class="hidden space-y-8 animate-in fade-in duration-500">
+            <div class="text-center max-w-3xl mx-auto mb-4">
+                <h2 class="text-4xl font-black text-slate-900 mb-4">Study Tools & Productivity</h2>
+                <p class="text-slate-600">Keep yourself on track. Use the Pomodoro timer to maintain focus, track your tasks, or generate a realistic study schedule.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                
+                <!-- Pomodoro Timer -->
+                <div class="glass-card p-8 border-t-8 border-t-red-500 text-center flex flex-col items-center justify-center min-h-[400px]">
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Focus Timer</h3>
+                    <p id="timer-mode" class="text-sm font-bold uppercase tracking-widest text-red-500 mb-6">Work Session (25m)</p>
+                    
+                    <div id="timer-display" class="text-7xl md:text-8xl font-black text-[#002066] tabular-nums mb-8">25:00</div>
+                    
+                    <div class="flex gap-4">
+                        <button onclick="toggleTimer()" id="timer-btn" class="bg-red-500 text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-red-600 transition shadow-md w-32">Start</button>
+                        <button onclick="resetTimer()" class="bg-slate-200 text-slate-700 px-6 py-3 rounded-full font-bold text-lg hover:bg-slate-300 transition w-32">Reset</button>
+                    </div>
+                </div>
+
+                <!-- To-Do List -->
+                <div class="glass-card p-8 border-t-8 border-t-emerald-500 flex flex-col h-[400px]">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4">Session Goals</h3>
+                    <div class="flex gap-2 mb-6">
+                        <input type="text" id="todo-input" placeholder="What needs to get done today?" class="flex-grow p-3 rounded-lg border border-slate-300 focus:border-emerald-500 outline-none text-sm" onkeypress="if(event.key === 'Enter') addTodo()">
+                        <button onclick="addTodo()" class="bg-emerald-500 text-white px-4 py-2 rounded-lg font-bold hover:bg-emerald-600 transition shadow-sm">+</button>
+                    </div>
+                    <ul id="todo-list" class="flex-grow overflow-y-auto custom-scrollbar space-y-2 pr-2">
+                        <!-- Todos injected via JS -->
+                    </ul>
+                </div>
+                
+                <!-- Timetable Generator Prompt -->
+                <div class="lg:col-span-2 bg-[#002066] p-8 rounded-2xl text-white shadow-lg flex flex-col md:flex-row gap-8 items-center">
+                    <div class="w-full md:w-1/3">
+                        <h3 class="text-2xl font-bold text-[#c5a059] mb-2">📅 Timetable Generator</h3>
+                        <p class="text-sm text-blue-100 mb-4">Input the subjects you need to study and your exam dates. The AI will generate a realistic, spaced-repetition study calendar for you.</p>
+                        <input type="text" id="timetable-subjects" oninput="updateTimetablePrompt()" placeholder="e.g. Math (12 Nov), Bio (15 Nov)" class="w-full p-3 rounded-lg text-slate-900 border-none outline-none text-sm mb-4">
+                        <button onclick="copyText('prompt-timetable', this)" class="w-full bg-[#c5a059] text-white px-4 py-3 rounded-lg font-bold hover:bg-amber-600 transition shadow-md">COPY PROMPT</button>
+                    </div>
+                    <div class="w-full md:w-2/3 bg-white/10 p-5 rounded-xl text-sm font-mono text-blue-50 border border-white/20 whitespace-pre-wrap h-full" id="prompt-timetable">...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- VIEW: NCEA VAULT                           -->
+        <!-- ========================================== -->
+        <div id="view-vault" class="hidden space-y-8 animate-in fade-in duration-500">
+            <div class="text-center max-w-3xl mx-auto mb-4">
+                <h2 class="text-4xl font-black text-slate-900 mb-4">The NCEA Vault</h2>
+                <p class="text-slate-600">Quick links to official resources, tutors, cheat sheets, and your personalized library of saved AI prompts.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8 max-w-[1400px] mx-auto">
+                
+                <!-- Col 1: Links & Structures -->
+                <div class="flex flex-col gap-6">
+                    <div class="glass-card p-6">
+                        <h3 class="text-lg font-bold text-[#002066] mb-4 border-b pb-2">🔗 Official Quick Links</h3>
+                        <ul class="space-y-4 text-sm">
+                            <li><a href="https://www2.nzqa.govt.nz/ncea/student-assessment-hub/" target="_blank" class="font-bold text-blue-600 hover:underline flex items-center gap-2"><span>🎯</span> NCEA Student Assessment Hub ↗</a></li>
+                            <li><a href="https://www.nzqa.govt.nz/ncea/subjects/" target="_blank" class="font-medium text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-2"><span>📄</span> Past Papers & Exemplars ↗</a></li>
+                            <li><a href="https://studyit.govt.nz/" target="_blank" class="font-medium text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-2"><span>💬</span> StudyIt Forums ↗</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="glass-card p-6 border-l-4 border-l-[#c5a059]">
+                        <h3 class="text-lg font-bold text-[#002066] mb-4 border-b pb-2">📋 Essay Structures</h3>
+                        <div class="space-y-4 text-sm text-slate-700">
+                            <div>
+                                <a href="https://www.youtube.com/results?search_query=TEEL+paragraph+structure" target="_blank" class="font-bold text-slate-900 hover:text-blue-600 hover:underline flex items-center gap-1">TEEL (Standard Paragraph) ↗</a>
+                                <p class="text-xs mt-1"><strong>T</strong>opic Sentence (Main point)<br><strong>E</strong>xplanation (What do you mean?)<br><strong>E</strong>vidence (Quotes/Data)<br><strong>L</strong>ink (Connect back to question)</p>
+                            </div>
+                            <div>
+                                <a href="https://www.youtube.com/results?search_query=SEXY+paragraph+structure+NCEA" target="_blank" class="font-bold text-slate-900 hover:text-blue-600 hover:underline flex items-center gap-1">SEXY (English/Lit) ↗</a>
+                                <p class="text-xs mt-1"><strong>S</strong>tatement (Idea)<br><strong>E</strong>xplanation<br><strong>X</strong>-ample (Quote/Technique)<br><strong>Y</strong> (Why does this matter?)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Col 2: YouTube Channels & Tutors -->
+                <div class="flex flex-col gap-6">
+                    
+                    <div class="glass-card p-6 border-t-4 border-t-red-500 h-[380px] flex flex-col">
+                        <h3 class="text-lg font-bold text-[#002066] mb-4 border-b pb-2">📺 Best YouTube Channels</h3>
+                        <div class="flex-grow overflow-y-auto custom-scrollbar pr-2 space-y-4 text-sm">
+                            <div>
+                               <strong class="text-slate-900 block mb-1 text-xs uppercase tracking-widest">Mathematics</strong>
+                               <ul class="text-blue-600 space-y-1 text-xs font-medium">
+                                  <li><a href="https://www.youtube.com/results?search_query=Infinity+Plus+One+NCEA" target="_blank" class="hover:underline">• Infinity Plus One ↗</a></li>
+                                  <li><a href="https://www.youtube.com/@TheOrganicChemistryTutor" target="_blank" class="hover:underline">• Organic Chemistry Tutor ↗</a></li>
+                                  <li><a href="https://www.youtube.com/@khanacademy" target="_blank" class="hover:underline">• Khan Academy ↗</a></li>
+                               </ul>
+                            </div>
+                            <div>
+                               <strong class="text-slate-900 block mb-1 text-xs uppercase tracking-widest">Physics</strong>
+                               <ul class="text-blue-600 space-y-1 text-xs font-medium">
+                                  <li><a href="https://www.youtube.com/@PhysicsHigh" target="_blank" class="hover:underline">• Physics High ↗</a></li>
+                                  <li><a href="https://www.youtube.com/@ALevelPhysicsOnline" target="_blank" class="hover:underline">• A Level Physics Online ↗</a></li>
+                                  <li><a href="https://www.youtube.com/@FlippingPhysics" target="_blank" class="hover:underline">• Flipping Physics ↗</a></li>
+                               </ul>
+                            </div>
+                            <div>
+                               <strong class="text-slate-900 block mb-1 text-xs uppercase tracking-widest">Chemistry</strong>
+                               <ul class="text-blue-600 space-y-1 text-xs font-medium">
+                                  <li><a href="https://www.youtube.com/@MelissaMaribel" target="_blank" class="hover:underline">• Melissa Maribel Chemistry ↗</a></li>
+                                  <li><a href="https://www.youtube.com/@tdewitt451" target="_blank" class="hover:underline">• Tyler DeWitt ↗</a></li>
+                                  <li><a href="https://www.youtube.com/results?search_query=Crash+Course+Chemistry" target="_blank" class="hover:underline">• Crash Course Chemistry ↗</a></li>
+                               </ul>
+                            </div>
+                            <div>
+                               <strong class="text-slate-900 block mb-1 text-xs uppercase tracking-widest">Biology</strong>
+                               <ul class="text-blue-600 space-y-1 text-xs font-medium">
+                                  <li><a href="https://www.youtube.com/@AmoebaSisters" target="_blank" class="hover:underline">• Amoeba Sisters ↗</a></li>
+                                  <li><a href="https://www.youtube.com/@bozemanscience" target="_blank" class="hover:underline">• Bozeman Science ↗</a></li>
+                               </ul>
+                            </div>
+                            <div>
+                               <strong class="text-slate-900 block mb-1 text-xs uppercase tracking-widest">English & Humanities</strong>
+                               <ul class="text-blue-600 space-y-1 text-xs font-medium">
+                                  <li><a href="https://www.youtube.com/@mrbruff" target="_blank" class="hover:underline">• Mr Bruff ↗</a></li>
+                                  <li><a href="https://www.youtube.com/results?search_query=The+English+Teacher+Essay" target="_blank" class="hover:underline">• The English Teacher ↗</a></li>
+                                  <li><a href="https://www.youtube.com/results?search_query=Crash+Course+History" target="_blank" class="hover:underline">• Crash Course History ↗</a></li>
+                               </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 border-t-4 border-t-emerald-500 h-[380px] flex flex-col">
+                        <h3 class="text-lg font-bold text-[#002066] mb-4 border-b pb-2">🎓 NCEA Tutoring Providers</h3>
+                        <div class="flex-grow overflow-y-auto custom-scrollbar pr-2 space-y-4 text-sm">
+                            <div>
+                                <a href="https://mytuition.nz" target="_blank" class="font-bold text-emerald-700 hover:underline block">MyTuition NZ ↗</a>
+                                <span class="text-xs text-slate-600">One-to-one tutoring across most NCEA subjects.</span>
+                            </div>
+                            <div>
+                                <a href="https://www.google.com/search?q=NumberWorks'nWords+NZ" target="_blank" class="font-bold text-emerald-700 hover:underline block">NumberWorks'nWords ↗</a>
+                                <span class="text-xs text-slate-600">Maths, English, literacy and numeracy support.</span>
+                            </div>
+                            <div>
+                                <a href="https://ult.co.nz" target="_blank" class="font-bold text-emerald-700 hover:underline block">ULT Tutoring ↗</a>
+                                <span class="text-xs text-slate-600">High-end NCEA, Scholarship and science subjects.</span>
+                            </div>
+                            <div>
+                                <a href="https://www.google.com/search?q=InTuition+Tutoring+NZ" target="_blank" class="font-bold text-emerald-700 hover:underline block">InTuition Tutoring NZ ↗</a>
+                                <span class="text-xs text-slate-600">Online Maths and Science tutoring.</span>
+                            </div>
+                            <div>
+                                <a href="https://kiwitutoring.co.nz" target="_blank" class="font-bold text-emerald-700 hover:underline block">Kiwi Tutoring ↗</a>
+                                <span class="text-xs text-slate-600">Level 2–3 Physics, Chemistry and Calculus.</span>
+                            </div>
+                            <div>
+                                <a href="https://brainbox.org.nz" target="_blank" class="font-bold text-emerald-700 hover:underline block">Brainbox Education ↗</a>
+                                <span class="text-xs text-slate-600">Online and group NCEA tutoring workshops.</span>
+                            </div>
+                            <div>
+                                <a href="https://www.google.com/search?q=NCEA+Tutor+NZ" target="_blank" class="font-bold text-emerald-700 hover:underline block">NCEA Tutor NZ ↗</a>
+                                <span class="text-xs text-slate-600">Free tutor-matching platform.</span>
+                            </div>
+                            <div>
+                                <a href="https://www.google.com/search?q=Brilliance+Educare+Centre+NZ" target="_blank" class="font-bold text-emerald-700 hover:underline block">Brilliance Educare Centre ↗</a>
+                                <span class="text-xs text-slate-600">Auckland-based NCEA, Cambridge and IB provider.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Col 3: Saved Prompts -->
+                <div class="glass-card p-6 flex flex-col h-full min-h-[600px]">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold text-slate-800">My Saved Prompts</h3>
+                        <span class="bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">Saved Locally</span>
+                    </div>
+                    <div id="saved-prompts-container" class="flex-grow overflow-y-auto custom-scrollbar space-y-4 pr-2">
+                        <!-- Injected via JS -->
+                        <div class="text-center text-slate-400 mt-20 italic">You haven't saved any prompts yet.<br>Click "SAVE 💾" on any prompt generator to store it here.</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- VIEW: WELLBEING & EXAM MINDSET             -->
+        <!-- ========================================== -->
+        <div id="view-wellbeing" class="hidden space-y-8 animate-in fade-in duration-500">
+            <div class="text-center max-w-3xl mx-auto mb-4">
+                <h2 class="text-4xl font-black text-rose-600 mb-4">Take a Breath.</h2>
+                <p class="text-slate-600">Feeling overwhelmed is completely normal. Use these tools to reset your nervous system and break down impossible tasks into tiny steps.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto items-center">
+                
+                <!-- Breathing Exercise -->
+                <div class="glass-card p-10 h-[400px] flex flex-col items-center justify-center relative overflow-hidden bg-rose-50 border-rose-200">
+                    <h3 class="absolute top-6 text-sm font-bold uppercase tracking-widest text-rose-800">Box Breathing</h3>
+                    <p class="absolute top-12 text-xs text-rose-600 text-center w-full px-8">Inhale as the circle grows (4s) • Hold (4s) • Exhale as it shrinks (4s)</p>
+                    
+                    <div class="breathe-circle w-48 h-48 rounded-full bg-rose-300/50 border-4 border-rose-400 mt-8"></div>
+                </div>
+
+                <!-- Overwhelm Coach & Links -->
+                <div class="space-y-6 h-full flex flex-col">
+                    <div class="glass-card p-8 border-l-8 border-l-rose-500 flex-grow flex flex-col">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">The "Panic Button" Prompt</h3>
+                        <p class="text-sm text-slate-600 mb-4">Copy this into the AI when you have a massive assignment due and don't know where to start.</p>
+                        
+                        <div class="bg-slate-50 p-4 rounded-xl text-sm font-mono text-slate-700 border border-slate-200 relative group flex-grow shadow-inner">
+                            <span id="prompt-panic">...</span>
+                            <button onclick="copyText('prompt-panic', this)" class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 bg-white border border-slate-300 px-2 py-1 rounded text-[10px] font-bold text-rose-600 shadow-sm transition">COPY</button>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 bg-slate-900 text-white">
+                        <h3 class="text-lg font-bold mb-3">Need to talk to someone?</h3>
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex items-center gap-3">
+                                <span class="bg-white/20 p-2 rounded text-lg">📞</span>
+                                <div><strong>1737</strong><br><span class="text-slate-400 text-xs">Free call or text anytime</span></div>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span class="bg-white/20 p-2 rounded text-lg">💬</span>
+                                <div><strong>Youthline: 0800 376 633</strong><br><span class="text-slate-400 text-xs">Or free text 234</span></div>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span class="bg-white/20 p-2 rounded text-lg">🏫</span>
+                                <div><strong>WHS Counselling</strong><br><span class="text-slate-400 text-xs">Drop into the Hauora Centre during school hours.</span></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-16 pt-8 border-t border-slate-200 text-center text-slate-400 text-sm pb-8">
+            <p>© 2024 Waiheke High School</p>
+            <p class="mt-1 font-semibold text-[#002066]">Student AI Study Hub • Empowering Independent Learning</p>
+        </footer>
+    </div>
+
+    <script>
+        // State variables
+        let currentRevisionStrategy = 'Retrieval Quiz';
+        let currentWritingStrategy = 'Feedback';
+        let currentLitNumStrategy = 'Vocab Decoder';
+
+        function getContext() {
+            const topic = document.getElementById('global-topic').value.trim() || "[Insert Specific Topic Here]";
+            const year = document.getElementById('global-year').value;
+            const subject = document.getElementById('global-subject').value;
+            return { topic, year, subject };
+        }
+
+        // View Management
+        function showView(viewId) {
+            // Hide global context for specific views
+            if (viewId === 'tools' || viewId === 'vault' || viewId === 'wellbeing') {
+                document.getElementById('global-context').classList.add('hidden');
+            } else {
+                document.getElementById('global-context').classList.remove('hidden');
+                document.getElementById('global-context').classList.add('flex');
+            }
+
+            const views = ['revision', 'writing', 'litnum', 'tools', 'vault', 'wellbeing'];
+            views.forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                const nav = document.getElementById(`nav-${v}`);
+                if(el) el.classList.add('hidden');
+                if(nav) nav.classList.remove('nav-active');
+            });
+            
+            const targetEl = document.getElementById(`view-${viewId}`);
+            const targetNav = document.getElementById(`nav-${viewId}`);
+            if(targetEl) targetEl.classList.remove('hidden');
+            if(targetNav) targetNav.classList.add('nav-active');
+
+            if (viewId === 'vault') renderSavedPrompts();
+        }
+
+        // Streak Management
+        function initStreak() {
+            const today = new Date().toDateString();
+            let lastLogin = localStorage.getItem('whs_last_login');
+            let streak = parseInt(localStorage.getItem('whs_streak')) || 0;
+
+            if (lastLogin !== today) {
+                const yesterday = new Date(Date.now() - 86400000).toDateString();
+                if (lastLogin === yesterday) {
+                    streak++;
+                } else {
+                    streak = 1; // Reset or first time
+                }
+                localStorage.setItem('whs_last_login', today);
+                localStorage.setItem('whs_streak', streak);
+            }
+            const counter = document.getElementById('streak-counter');
+            if(counter) counter.innerText = streak;
+        }
+
+        // To-Do List Management
+        function initTodos() {
+            renderTodos();
+        }
+
+        function renderTodos() {
+            const todos = JSON.parse(localStorage.getItem('whs_todos')) || [];
+            const list = document.getElementById('todo-list');
+            if (todos.length === 0) {
+                list.innerHTML = `<li class="text-sm text-slate-400 italic text-center mt-4">No tasks added. What's the plan?</li>`;
+                return;
+            }
+            list.innerHTML = '';
+            todos.forEach((t, i) => {
+                list.innerHTML += `
+                <li class="flex justify-between items-center bg-slate-50 p-3 rounded border border-slate-200 transition ${t.done ? 'opacity-50' : ''}">
+                    <span class="text-sm ${t.done ? 'line-through text-slate-400' : 'text-slate-800 font-medium'}">${t.text}</span>
+                    <div class="flex gap-2 shrink-0">
+                        <button onclick="toggleTodo(${i})" class="text-xs font-bold px-2 py-1 rounded bg-slate-200 hover:bg-slate-300 ${t.done ? 'text-slate-600' : 'text-emerald-600'}">${t.done ? 'Undo' : 'Done ✓'}</button>
+                        <button onclick="deleteTodo(${i})" class="text-xs font-bold px-2 py-1 rounded bg-red-100 hover:bg-red-200 text-red-600">✕</button>
+                    </div>
+                </li>`;
+            });
+        }
+
+        function addTodo() {
+            const input = document.getElementById('todo-input');
+            const text = input.value.trim();
+            if (text) {
+                const todos = JSON.parse(localStorage.getItem('whs_todos')) || [];
+                todos.push({ text: text, done: false });
+                localStorage.setItem('whs_todos', JSON.stringify(todos));
+                input.value = '';
+                renderTodos();
+            }
+        }
+
+        function toggleTodo(index) {
+            const todos = JSON.parse(localStorage.getItem('whs_todos'));
+            todos[index].done = !todos[index].done;
+            localStorage.setItem('whs_todos', JSON.stringify(todos));
+            renderTodos();
+        }
+
+        function deleteTodo(index) {
+            const todos = JSON.parse(localStorage.getItem('whs_todos'));
+            todos.splice(index, 1);
+            localStorage.setItem('whs_todos', JSON.stringify(todos));
+            renderTodos();
+        }
+
+        // Pomodoro Timer Management
+        let timerInterval = null;
+        let timeLeft = 1500; // 25 mins
+        let isWorkSession = true;
+
+        function updateTimerDisplay() {
+            const m = Math.floor(timeLeft/60).toString().padStart(2, '0');
+            const s = (timeLeft%60).toString().padStart(2, '0');
+            document.getElementById('timer-display').innerText = `${m}:${s}`;
+        }
+
+        function toggleTimer() {
+            const btn = document.getElementById('timer-btn');
+            if(timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                btn.innerText = "Resume";
+                btn.classList.remove('bg-amber-500', 'hover:bg-amber-600');
+                btn.classList.add('bg-emerald-500', 'hover:bg-emerald-600');
+            } else {
+                btn.innerText = "Pause";
+                btn.classList.remove('bg-emerald-500', 'hover:bg-emerald-600', 'bg-red-500', 'hover:bg-red-600');
+                btn.classList.add('bg-amber-500', 'hover:bg-amber-600');
+                
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateTimerDisplay();
+                    if(timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        timerInterval = null;
+                        isWorkSession = !isWorkSession;
+                        timeLeft = isWorkSession ? 1500 : 300;
+                        
+                        const modeText = document.getElementById('timer-mode');
+                        if (isWorkSession) {
+                            modeText.innerText = "Work Session (25m)";
+                            modeText.classList.replace('text-emerald-500', 'text-red-500');
+                        } else {
+                            modeText.innerText = "Break Time (5m)";
+                            modeText.classList.replace('text-red-500', 'text-emerald-500');
+                        }
+                        
+                        btn.innerText = "Start";
+                        btn.classList.remove('bg-amber-500', 'hover:bg-amber-600');
+                        btn.classList.add('bg-red-500', 'hover:bg-red-600');
+                        updateTimerDisplay();
+                        alert(isWorkSession ? "Break is over! Time to focus." : "Great job! Take a 5 minute break.");
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            isWorkSession = true;
+            timeLeft = 1500;
+            updateTimerDisplay();
+            const btn = document.getElementById('timer-btn');
+            btn.innerText = "Start";
+            btn.classList.remove('bg-amber-500', 'hover:bg-amber-600', 'bg-emerald-500', 'hover:bg-emerald-600');
+            btn.classList.add('bg-red-500', 'hover:bg-red-600');
+            const modeText = document.getElementById('timer-mode');
+            modeText.innerText = "Work Session (25m)";
+            modeText.classList.replace('text-emerald-500', 'text-red-500');
+        }
+
+        // Vault Management
+        function savePromptToVault(elementId, btnElement) {
+            const textToSave = document.getElementById(elementId).innerText;
+            if (textToSave === "..." || textToSave.includes("Select a strategy")) return;
+
+            let saved = JSON.parse(localStorage.getItem('whs_saved_prompts')) || [];
+            
+            if (!saved.includes(textToSave)) {
+                saved.push(textToSave);
+                localStorage.setItem('whs_saved_prompts', JSON.stringify(saved));
+            }
+
+            const originalText = btnElement.innerText;
+            btnElement.innerText = "SAVED! ✓";
+            btnElement.classList.add("copy-btn-success");
+            setTimeout(() => {
+                btnElement.innerText = originalText;
+                btnElement.classList.remove("copy-btn-success");
+            }, 2000);
+        }
+
+        function renderSavedPrompts() {
+            const saved = JSON.parse(localStorage.getItem('whs_saved_prompts')) || [];
+            const container = document.getElementById('saved-prompts-container');
+            
+            if (saved.length === 0) {
+                container.innerHTML = `<div class="text-center text-slate-400 mt-20 italic">You haven't saved any prompts yet.<br>Click "SAVE 💾" on any prompt generator to store it here.</div>`;
+                return;
+            }
+
+            container.innerHTML = '';
+            [...saved].reverse().forEach((promptText, idx) => {
+                const actualIndex = saved.length - 1 - idx;
+                container.innerHTML += `
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 relative group shadow-sm">
+                        <p class="text-sm font-mono text-slate-700 whitespace-pre-wrap pr-16">${promptText}</p>
+                        <div class="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button onclick="copyRawText('${promptText.replace(/'/g, "\\'")}', this)" class="bg-[#002066] text-white px-2 py-1 rounded text-[10px] font-bold shadow-sm">COPY</button>
+                            <button onclick="deleteSavedPrompt(${actualIndex})" class="bg-red-100 text-red-600 px-2 py-1 rounded text-[10px] font-bold shadow-sm">DELETE</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function deleteSavedPrompt(index) {
+            let saved = JSON.parse(localStorage.getItem('whs_saved_prompts'));
+            saved.splice(index, 1);
+            localStorage.setItem('whs_saved_prompts', JSON.stringify(saved));
+            renderSavedPrompts();
+        }
+
+        function copyRawText(text, btnElement) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btnElement.innerText;
+                btnElement.innerText = "✓";
+                btnElement.classList.add("copy-btn-success");
+                setTimeout(() => {
+                    btnElement.innerText = originalText;
+                    btnElement.classList.remove("copy-btn-success");
+                }, 2000);
+            });
+        }
+
+        // Prompts Update Logic
+        function updateAllPrompts() {
+            updateRevisionPrompt();
+            updateWritingPrompt();
+            updateLitNumPrompt();
+            updateTimetablePrompt();
+            updatePanicPrompt();
+        }
+
+        function updateTimetablePrompt() {
+            const ctx = getContext();
+            const subjectsInput = document.getElementById('timetable-subjects');
+            const subjects = (subjectsInput && subjectsInput.value.trim()) ? subjectsInput.value.trim() : "[Enter subjects above]";
+            
+            let text = `"ROLE: Executive Function Coach.\nTASK: Create a 4-week NCEA study timetable for a ${ctx.year} student.\nSUBJECTS TO STUDY: ${subjects}.\n\nCONSTRAINTS:\n- Max 2 hours of study per day.\n- Mandate short breaks (e.g., Pomodoro method).\n- Use 'Spaced Repetition' and 'Interleaving' (mix the subjects up).\n\nFORMAT: Output as a clear, daily Markdown table."`;
+            
+            const box = document.getElementById('prompt-timetable');
+            if (box) box.innerText = text;
+        }
+
+        function updatePanicPrompt() {
+            let text = `"ROLE: Encouraging Academic Coach.\nTASK: I have an assignment due soon and haven't started. I am paralyzed by stress and feeling overwhelmed.\n\nCRITICAL RULE: Do NOT act as a counsellor or therapist in any form. Stick strictly to academic task management.\n\nHelp me break this assignment down into 5 microscopic, extremely easy academic steps I can do TODAY just to get momentum. Keep your response brief, highly actionable, and do not overwhelm me with text."`;
+            
+            const box = document.getElementById('prompt-panic');
+            if (box) box.innerText = text;
+        }
+
+        function setRevisionStrategy(strategy) {
+            currentRevisionStrategy = strategy;
+            
+            document.querySelectorAll('#view-revision .strategy-btn').forEach(btn => {
+                btn.classList.remove('active', 'border-[#c5a059]', 'bg-[#fffcf5]', 'border-l-4', 'border-l-blue-500', 'border-l-emerald-500', 'border-l-indigo-500');
+                btn.classList.add('border-transparent', 'bg-white');
+            });
+            
+            const btn = event.currentTarget;
+            btn.classList.remove('border-transparent', 'bg-white');
+            
+            if(strategy === 'Practice Exam') btn.classList.add('active', 'border-[#c5a059]', 'bg-[#fffcf5]', 'border-l-4', 'border-l-blue-500');
+            else if(strategy === 'STEM Problem') btn.classList.add('active', 'border-[#c5a059]', 'bg-[#fffcf5]', 'border-l-4', 'border-l-emerald-500');
+            else if(strategy === 'Extended Essay') btn.classList.add('active', 'border-[#c5a059]', 'bg-[#fffcf5]', 'border-l-4', 'border-l-indigo-500');
+            else btn.classList.add('active', 'border-[#c5a059]', 'bg-[#fffcf5]');
+
+            updateRevisionPrompt();
+        }
+
+        function updateRevisionPrompt() {
+            const ctx = getContext();
+            const isSTEM = ["Science", "Maths", "Technology"].includes(ctx.subject);
+            let text = "";
+
+            if (currentRevisionStrategy === 'Retrieval Quiz') {
+                text = `"ROLE: Strict but encouraging NCEA Teacher.\nTASK: Conduct a 10-question multiple-choice active recall quiz on ${ctx.topic} for a ${ctx.year} ${ctx.subject} student.\n\nRULES:\n1. Ask ONE multiple-choice question at a time (provide options A, B, C, D).\n2. Wait for my answer before giving feedback.\n3. Do not give me all the questions or answers upfront.\n`;
+                if (isSTEM) text += `4. Include questions that require me to identify correct formulas, units, or calculated answers.\n`;
+                text += `5. Once we finish the 10 questions, give me a score out of 10 and ask if I would like 10 more."`;
+            
+            } else if (currentRevisionStrategy === 'Flashcards') {
+                text = `"ROLE: Interactive Study Partner.\nTASK: Help me study '${ctx.topic}' using interactive flashcards suitable for a ${ctx.year} ${ctx.subject} student.\n\nRULES:\n1. Give me ONE term, concept`;
+                if (isSTEM) text += `, formula, or equation `;
+                text += `at a time.\n2. Wait for me to provide the definition or explanation.\n3. Tell me if I am correct, provide the precise NCEA-level definition, and then give me the next flashcard.\n4. Do NOT just generate a list of terms. We must do this interactively one-by-one."`;
+            
+            } else if (currentRevisionStrategy === 'ELI5') {
+                text = `"ROLE: Expert Communicator.\nTASK: Explain the core concepts of '${ctx.topic}' as if I were 10 years old.\n\nCONSTRAINTS:\n- Remove all complex jargon.\n- Use simple, everyday analogies.\n- End with a bulleted summary of 3 key takeaways that I can use for my ${ctx.year} ${ctx.subject} notes."`;
+            
+            } else if (currentRevisionStrategy === 'Analogies') {
+                text = `"TASK: Provide 3 highly relatable, real-world analogies to explain the most difficult concepts in '${ctx.topic}'.\n\nCONTEXT: I am a ${ctx.year} student in New Zealand studying ${ctx.subject}. Use local NZ contexts if applicable to make the concepts easier to visualize."`;
+            
+            } else if (currentRevisionStrategy === 'Practice Exam') {
+                text = `"ROLE: NCEA NZQA Marker.\nTASK: Generate a standard practice exam question for ${ctx.subject} (${ctx.topic}) at a ${ctx.year} level.\n\nRULES:\n1. Do NOT provide the answer.\n2. Include a guideline on how much I should write (e.g., short paragraph, detailed paragraph).\n3. List 3-4 key disciplinary vocabulary words I should aim to include in my answer.\n4. Wait for my response, then grade it using NCEA criteria (Achieved, Merit, Excellence) and provide specific 'next steps' for improvement."`;
+            
+            } else if (currentRevisionStrategy === 'STEM Problem') {
+                text = `"ROLE: NCEA Science/Maths Examiner.\nTASK: Generate a complex, multi-step calculation or derivation problem for ${ctx.topic}, suitable for an Excellence-level ${ctx.year} ${ctx.subject} exam.\n\nRULES:\n1. Provide any necessary constants or a basic formula sheet at the start of the prompt.\n2. DO NOT give me the answer or the steps. Wait for me to provide my step-by-step working.\n3. Mark my working out line-by-line, point out any mathematical errors, and hint at the correct next step."`;
+            
+            } else if (currentRevisionStrategy === 'Extended Essay') {
+                text = `"ROLE: NCEA Examiner.\nTASK: Generate a broad, thematic essay/report question for ${ctx.topic} suitable for an Excellence-level ${ctx.year} ${ctx.subject} exam.\n\nRULES:\n1. The question should require a multi-paragraph response evaluating different perspectives and synthesizing evidence.\n2. Provide 3-4 key concepts I must include.\n3. Wait for my essay. Evaluate it focusing on depth of analysis, structure, and integration of evidence."`;
+            }
+
+            document.getElementById('prompt-revision-text').innerText = text;
+        }
+
+        function setWritingStrategy(strategy) {
+            currentWritingStrategy = strategy;
+            
+            document.querySelectorAll('#view-writing .strategy-btn').forEach(btn => {
+                btn.classList.remove('active', 'border-[#c5a059]', 'bg-[#fffcf5]', 'border-l-4', 'border-l-teal-500', 'border-l-emerald-500', 'border-l-blue-500', 'border-l-indigo-500');
+                btn.classList.add('border-transparent', 'bg-white');
+            });
+            
+            const btn = event.currentTarget;
+            btn.classList.remove('border-transparent', 'bg-white');
+            
+            if (strategy === 'Science CER') btn.classList.add('active', 'border-[#c5a059]', 'bg-[#fffcf5]', 'border-l-4', 'border-l-emerald-500');
+            else if (strategy === 'Stats PPDAC') btn.classList.add('active', 'border-[#c5a059]', 'bg-[#fffcf5]', 'border-l-4', 'border-l-blue-500');
+            else if (strategy === 'Justification') btn.classList.add('active', 'border-[#c5a059]', 'bg-[#fffcf5]', 'border-l-4', 'border-l-indigo-500');
+            else btn.classList.add('active', 'border-[#c5a059]', 'bg-[#fffcf5]');
+
+            updateWritingPrompt();
+        }
+
+        function updateWritingPrompt() {
+            const ctx = getContext();
+            let text = "";
+
+            if (currentWritingStrategy === 'Feedback') {
+                text = `"ROLE: Expert Writing Coach and NCEA Assessor.\nTASK: Review my draft text below for ${ctx.subject} (${ctx.year}).\n\nRULES:\n1. DO NOT rewrite my work for me. You are a coach, not an author.\n2. Provide 'Glows and Grows' feedback (2 specific positives, 1 concrete area for improvement).\n3. Focus on clarity, argument strength, and evidence.\n\n[PASTE YOUR DRAFT HERE]"`;
+            } else if (currentWritingStrategy === 'Starters') {
+                text = `"TASK: I am experiencing writer's block. I am trying to explain [INSERT WHAT YOU WANT TO SAY HERE] for a ${ctx.year} ${ctx.subject} assignment.\n\nProvide me with 3 sophisticated academic sentence starters to begin my paragraph. RULE: Do NOT write the rest of the paragraph for me."`;
+            } else if (currentWritingStrategy === 'Structure') {
+                text = `"TASK: Help me plan an outline for this ${ctx.year} ${ctx.subject} assignment question: [INSERT QUESTION HERE].\n\nProvide a paragraph-by-paragraph structure using standard academic formats (like TEEL/PEEL). Suggest the main point and type of evidence needed for each paragraph. Do NOT write the essay."`;
+            } else if (currentWritingStrategy === 'Grammar') {
+                text = `"ROLE: Eagle-eyed Editor.\nTASK: Check my draft text below for grammar, punctuation, and run-on sentences.\n\nRULES:\n1. DO NOT rewrite the text or change my personal voice.\n2. Provide a bulleted list of specific errors and suggest how to fix them.\n3. Use New Zealand English spelling conventions.\n\n[PASTE DRAFT HERE]"`;
+            } else if (currentWritingStrategy === 'Science CER') {
+                text = `"TASK: Help me structure a science conclusion using the Claim, Evidence, and Reasoning (CER) framework for ${ctx.topic}.\n\nRULES:\n1. Do NOT write it for me.\n2. Ask me to provide my data/findings first.\n3. Guide me step-by-step to explicitly link my findings back to the core scientific theory for an NCEA ${ctx.year} level."`;
+            } else if (currentWritingStrategy === 'Stats PPDAC') {
+                text = `"TASK: I am writing an NCEA Statistical report using the PPDAC cycle (Problem, Plan, Data, Analysis, Conclusion) at a ${ctx.year} level.\n\nAsk me which stage I am currently stuck on. Then, provide the key questions I need to answer for that stage, along with the specific statistical vocabulary I must include to achieve Merit or Excellence."`;
+            } else if (currentWritingStrategy === 'Justification') {
+                text = `"TASK: Help me write a justification paragraph for my maths/science working out at a ${ctx.year} level. I will paste my calculation below.\n\nRULE: Do not write the explanation for me. Give me 3 academic sentence starters and a list of key vocabulary I should use to explain *why* my method works to reach Merit/Excellence level."`;
+            }
+
+            document.getElementById('prompt-writing-text').innerText = text;
+        }
+
+        function setLitNumStrategy(strategy) {
+            currentLitNumStrategy = strategy;
+            
+            document.querySelectorAll('#view-litnum .strategy-btn').forEach(btn => {
+                btn.classList.remove('active', 'border-[#c5a059]', 'bg-[#fffcf5]');
+                btn.classList.add('border-transparent', 'bg-white');
+            });
+            event.currentTarget.classList.remove('border-transparent', 'bg-white');
+            event.currentTarget.classList.add('active', 'border-[#c5a059]', 'bg-[#fffcf5]');
+
+            updateLitNumPrompt();
+        }
+
+        function updateLitNumPrompt() {
+            const ctx = getContext();
+            let text = "";
+
+            if (currentLitNumStrategy === 'Vocab Decoder') {
+                text = `"TASK: Generate a high-level reading text (around 150 words) about ${ctx.topic} containing complex, subject-specific vocabulary appropriate for ${ctx.year}.\n\nAfter the text, generate a Markdown table where you extract the 5 hardest words, define them simply, and give a short example sentence for each."`;
+            } else if (currentLitNumStrategy === 'Reading Comp') {
+                text = `"TASK: Generate an engaging reading passage (about 200-250 words) about ${ctx.topic} for a ${ctx.year} student.\n\nAfter providing the text, generate 3 comprehension questions for me to answer:\n1. Literal (finding a fact directly in the text).\n2. Inferential (reading between the lines).\n3. Evaluative (asking me to judge or apply the info).\n\nRULE: Do NOT give me the answers. Wait for my reply to check my understanding."`;
+            } else if (currentLitNumStrategy === 'Word Problem') {
+                text = `"TASK: Generate a challenging math word problem related to ${ctx.topic} appropriate for ${ctx.year}.\n\nCRITICAL RULE: DO NOT solve the problem. Act as a tutor and help me 'set up' the problem by asking me:\n- What are the key numbers I need to extract?\n- What information is irrelevant?\n- What mathematical operations or formulas do I need to use?"`;
+            } else if (currentLitNumStrategy === 'Data Graph') {
+                text = `"TASK: Generate a realistic Markdown data table or a set of statistics related to ${ctx.topic}.\n\nAfter providing the data, ask me 3 key questions to test my ability to analyze it (e.g., identifying trends, anomalies, or doing a quick calculation). RULE: Do NOT give me the answers. Wait for my reply to check my analysis."`;
+            }
+
+            document.getElementById('prompt-litnum-text').innerText = text;
+        }
+
+        function copyText(elementId, btnElement) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = btnElement.innerText;
+                btnElement.innerText = "COPIED! ✓";
+                btnElement.classList.add("copy-btn-success");
+                setTimeout(() => {
+                    btnElement.innerText = originalText;
+                    btnElement.classList.remove("copy-btn-success");
+                }, 2000);
+            });
+        }
+
+        // Initialize on load
+        window.onload = () => {
+            initStreak();
+            initTodos();
+            updateAllPrompts();
+        };
+    </script>
+</body>
+</html>
