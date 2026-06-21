@@ -307,6 +307,21 @@
                 <p class="text-sm md:text-base text-slate-600">Get feedback on your drafts, unstick writer's block, or check grammar. <strong class="text-red-600">Never ask the AI to write your essay.</strong></p>
             </div>
 
+            <!-- Writing Tutor Gem Banner -->
+            <div class="max-w-6xl mx-auto bg-gradient-to-r from-teal-50 to-teal-100/50 p-6 rounded-2xl border border-teal-200 shadow-sm flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
+                <div>
+                    <h3 class="text-lg font-bold text-teal-900 mb-1 flex items-center gap-2"><span>✍️</span> Pre-built WHS Writing Tutor Gem</h3>
+                    <p class="text-sm text-teal-800">Skip the copy-pasting! Click here to open our ready-to-use custom Writing Tutor in Gemini. Just paste your draft to get started.</p>
+                </div>
+                <a href="https://gemini.google.com/gem/1OpFxgqID46DAGNjJvWWIzeVxEMDN98I7?usp=sharing" target="_blank" class="shrink-0 bg-teal-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-teal-700 transition shadow-md whitespace-nowrap flex items-center gap-2">
+                    Open Writing Tutor ↗
+                </a>
+            </div>
+
+            <div class="text-center mt-2 mb-6">
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">— OR GENERATE A CUSTOM PROMPT BELOW —</span>
+            </div>
+
             <div class="grid lg:grid-cols-12 gap-8 max-w-6xl mx-auto">
                 <div class="lg:col-span-4 space-y-3 flex flex-col h-auto lg:h-[550px] overflow-y-auto custom-scrollbar pr-2">
                     
@@ -671,7 +686,7 @@
                         <p class="text-sm text-slate-600 mb-4">Copy this into the AI when you have a massive assignment due and don't know where to start.</p>
                         
                         <div class="bg-slate-50 p-4 rounded-xl text-sm font-mono text-slate-700 border border-slate-200 relative group flex-grow shadow-inner">
-                            <span id="prompt-panic">"I have an assignment due soon and haven't started. I am paralyzed by stress and overwhelmed. CRITICAL RULE: Do NOT act as a counsellor. Act STRICTLY as an encouraging tutor. Break this down into 5 microscopic, extremely easy steps I can do TODAY just to get momentum. Do not overwhelm me with text."</span>
+                            <span id="prompt-panic">...</span>
                             <button onclick="copyText('prompt-panic', this)" class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 bg-white border border-slate-300 px-2 py-1 rounded text-[10px] font-bold text-rose-600 shadow-sm transition">COPY</button>
                         </div>
                     </div>
@@ -711,7 +726,6 @@
             gain.connect(ctx.destination);
             
             if(type === 'ding') {
-                // UI Interaction / Todo
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(800, ctx.currentTime);
                 osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.1);
@@ -720,7 +734,6 @@
                 osc.start(ctx.currentTime);
                 osc.stop(ctx.currentTime + 0.3);
             } else if (type === 'alarm') {
-                // Pomodoro Finish
                 osc.type = 'square';
                 osc.frequency.setValueAtTime(400, ctx.currentTime);
                 osc.frequency.setValueAtTime(600, ctx.currentTime + 0.2);
@@ -740,7 +753,7 @@
         let xp = parseInt(localStorage.getItem('whs_xp')) || 0;
 
         function updateXPDisplay() {
-            let level = Math.floor(Math.sqrt(xp / 10)) + 1; // Level scaling formula
+            let level = Math.floor(Math.sqrt(xp / 10)) + 1;
             document.getElementById('xp-display').innerText = xp;
             document.getElementById('level-display').innerText = level;
         }
@@ -754,7 +767,6 @@
             updateXPDisplay();
             playBeep('ding');
 
-            // Level up animation
             if (newLevel > oldLevel) {
                 const container = document.getElementById('xp-container');
                 container.classList.add('level-up');
@@ -764,7 +776,6 @@
 
         // View Management
         function showView(viewId) {
-            // Context bar visibility
             if (viewId === 'tools' || viewId === 'vault' || viewId === 'wellbeing') {
                 document.getElementById('global-context').classList.add('hidden');
             } else {
@@ -807,7 +818,6 @@
             const subject = document.getElementById('global-subject').value;
             const isSTEM = ["Science", "Maths", "Technology"].includes(subject);
 
-            // Toggle CSS classes on elements
             document.querySelectorAll('.subject-stem').forEach(el => {
                 el.style.display = isSTEM ? 'block' : 'none';
             });
@@ -815,7 +825,6 @@
                 el.style.display = isSTEM ? 'none' : 'block';
             });
 
-            // Adjust Cheat Sheet titles
             const cheatTitle = document.getElementById('cheat-sheet-title');
             if(cheatTitle) {
                 cheatTitle.innerText = isSTEM ? "📋 Formulas & Rules" : "📋 Essay Structures";
@@ -856,7 +865,6 @@
                 document.getElementById('exam-days-display').innerText = `${diffDays} Days`;
                 container.classList.remove('hidden');
 
-                // populate inputs in vault
                 const nameInput = document.getElementById('vault-exam-name');
                 const dateInput = document.getElementById('vault-exam-date');
                 if(nameInput) nameInput.value = examName;
@@ -938,7 +946,7 @@
             renderTodos();
         }
 
-        // Pomodoro Timer Management & Focus Tracking
+        // Pomodoro Timer Management
         let timerInterval = null;
         let timeLeft = 1500; // 25 mins
         let isWorkSession = true;
@@ -1020,13 +1028,12 @@
             modeText.classList.replace('text-emerald-500', 'text-red-500');
         }
 
-        // Vault Management & Data Export
+        // Vault Management
         function savePromptToVault(elementId, btnElement) {
             const textToSave = document.getElementById(elementId).innerText;
             if (textToSave === "..." || textToSave.includes("Select a strategy")) return;
 
             let saved = JSON.parse(localStorage.getItem('whs_saved_prompts')) || [];
-            
             if (!saved.includes(textToSave)) {
                 saved.push(textToSave);
                 localStorage.setItem('whs_saved_prompts', JSON.stringify(saved));
@@ -1112,9 +1119,29 @@
             updateWritingPrompt();
             updateLitNumPrompt();
             updateTimetablePrompt();
+            updatePanicPrompt();
         }
 
         // --- Prompt Builders ---
+        
+        function updateTimetablePrompt() {
+            const ctx = getContext();
+            const subjectsInput = document.getElementById('timetable-subjects');
+            const subjects = (subjectsInput && subjectsInput.value.trim()) ? subjectsInput.value.trim() : "[Enter subjects above]";
+            
+            let text = `"ROLE: Executive Function Coach.\nTASK: Create a 4-week NCEA study timetable for a ${ctx.year} student studying: ${subjects}.\n\nRULES:\n1. First, ask me what time of day I feel most focused (Morning, Afternoon, Night).\n2. Map my highest-friction subjects to my peak energy windows.\n3. Ensure no subject is studied in block isolation for more than 45 minutes to enforce interleaved practice.\n4. Limit active work blocks to a 2-hour maximum per day with Pomodoro breaks.\n5. Output the 4-week matrix layout using a clear Markdown table."`;
+            
+            const box = document.getElementById('prompt-timetable');
+            if (box) box.innerText = text;
+        }
+
+        function updatePanicPrompt() {
+            let text = `"ROLE: Encouraging Academic Task Manager.\nTASK: I have an assignment due soon and haven't started. I am paralyzed by stress and feeling overwhelmed.\n\nCRITICAL RULE: Do NOT act as a counsellor or therapist in any form. Stick strictly to academic task management.\n\nACTION:\nBreak the overarching assignment down into 5 microscopic, friction-free operations. \nIdentify Step 1 as a '2-Minute Micro-Win'. Instruct me to complete only that 2-minute task, close the laptop, and step away for 5 minutes to immediately break the task paralysis loop. Keep your response brief and highly actionable."`;
+            
+            const box = document.getElementById('prompt-panic');
+            if (box) box.innerText = text;
+        }
+
         function setRevisionStrategy(strategy) {
             currentRevisionStrategy = strategy;
             document.querySelectorAll('#view-revision .strategy-btn').forEach(btn => {
@@ -1137,23 +1164,30 @@
             let text = "";
 
             if (currentRevisionStrategy === 'Retrieval Quiz') {
-                text = `"ROLE: Strict but encouraging NCEA Teacher.\nTASK: Conduct a 10-question multiple-choice active recall quiz on ${ctx.topic} for a ${ctx.year} ${ctx.subject} student.\n\nRULES:\n1. Ask ONE multiple-choice question at a time (provide options A, B, C, D).\n2. Wait for my answer before giving feedback.\n3. Do not give me all the questions or answers upfront.\n`;
-                if (isSTEM) text += `4. Include questions that require me to identify correct formulas, units, or calculated answers.\n`;
-                text += `5. Once we finish the 10 questions, give me a score out of 10 and ask if I would like 10 more."`;
+                text = `"ROLE: Strict but encouraging Teacher.\nTASK: Conduct an adaptive 10-question multiple-choice active recall quiz on ${ctx.topic} for a ${ctx.year} ${ctx.subject} student.\n\nRULES:\n1. Ask ONE question at a time with options A, B, C, and D. Wait for my response.\n2. If correct, increase the cognitive complexity of the next question.\n3. If incorrect, do not immediately provide the answer. Offer a small hint or isolate the misconception, and ask me to try again. Only reveal the correct answer after the second attempt.\n`;
+                if(isSTEM) text += `4. Include questions testing formulas, units, or small calculations.\n`;
+                text += `Conclude with a total score out of 10 and offer an additional round."`;
+
             } else if (currentRevisionStrategy === 'Flashcards') {
-                text = `"ROLE: Interactive Study Partner.\nTASK: Help me study '${ctx.topic}' using interactive flashcards suitable for a ${ctx.year} ${ctx.subject} student.\n\nRULES:\n1. Give me ONE term, concept`;
-                if (isSTEM) text += `, formula, or equation `;
-                text += `at a time.\n2. Wait for me to provide the definition or explanation.\n3. Tell me if I am correct, provide the precise NCEA-level definition, and then give me the next flashcard.\n4. Do NOT just generate a list of terms. We must do this interactively one-by-one."`;
+                text = `"ROLE: Interactive Study Partner.\nTASK: Administer spaced-repetition active-recall flashcards for '${ctx.topic}' at a ${ctx.year} ${ctx.subject} level.\n\nRULES:\n1. Present exactly ONE `;
+                if(isSTEM) text += `concept, term, formula, or equation`;
+                else text += `concept or term`;
+                text += ` at a time. Wait for my definition.\n2. Evaluate my response and output the official NCEA-level template definition.\n3. Immediately ask me to rate my confidence on that specific term from 1 to 5.\n4. If I rate it 3 or lower, flag it to re-test exactly two turns later.\n5. Flat lists are strictly forbidden."`;
+
             } else if (currentRevisionStrategy === 'ELI5') {
-                text = `"ROLE: Expert Communicator.\nTASK: Explain the core concepts of '${ctx.topic}' as if I were 10 years old.\n\nCONSTRAINTS:\n- Remove all complex jargon.\n- Use simple, everyday analogies.\n- End with a bulleted summary of 3 key takeaways that I can use for my ${ctx.year} ${ctx.subject} notes."`;
+                text = `"ROLE: Expert Communicator.\nTASK: Demystify '${ctx.topic}' using plain English and the Feynman Technique.\n\nRULES:\n1. Strip all overwhelming academic jargon and break concepts down into simple mental models for a 10-year-old.\n2. After the explanation, prompt me to 'teach it back' in a single sentence to prove comprehension.\n3. Conclude with a punchy, 3-bullet core summary for my study notebook."`;
+
             } else if (currentRevisionStrategy === 'Analogies') {
-                text = `"TASK: Provide 3 highly relatable, real-world analogies to explain the most difficult concepts in '${ctx.topic}'.\n\nCONTEXT: I am a ${ctx.year} student in New Zealand studying ${ctx.subject}. Use local NZ contexts if applicable to make the concepts easier to visualize."`;
+                text = `"TASK: Generate 3 distinct, real-world analogies mapping out the most abstract concepts in '${ctx.topic}'.\n\nRULES:\nTailor the language and narrative to a ${ctx.year} high school student. Ground comparisons in familiar, modern, or local New Zealand paradigms to boost conceptual mapping."`;
+
             } else if (currentRevisionStrategy === 'Practice Exam') {
-                text = `"ROLE: NCEA NZQA Marker.\nTASK: Generate a standard practice exam question for ${ctx.subject} (${ctx.topic}) at a ${ctx.year} level.\n\nRULES:\n1. Do NOT provide the answer.\n2. Include a guideline on how much I should write (e.g., short paragraph, detailed paragraph).\n3. List 3-4 key disciplinary vocabulary words I should aim to include in my answer.\n4. Wait for my response, then grade it using NCEA criteria (Achieved, Merit, Excellence) and provide specific 'next steps' for improvement."`;
+                text = `"ROLE: NZQA NCEA Marker.\nTASK: Draft a high-yield exam question for ${ctx.subject} (${ctx.topic}) at a ${ctx.year} level.\n\nRULES:\n1. Exclude answers completely from the first response.\n2. Provide clear writing parameters and outline 3-4 subject-specific structural keywords that must be integrated.\n3. Wait for my input.\n4. When providing feedback, output a simulated NCEA Marking Schedule table (Achieved, Merit, Excellence criteria) and explicitly highlight exactly which phrase or structural choice moved me from one grade band to the next."`;
+
             } else if (currentRevisionStrategy === 'STEM Problem') {
-                text = `"ROLE: NCEA Science/Maths Examiner.\nTASK: Generate a complex, multi-step calculation or derivation problem for ${ctx.topic}, suitable for an Excellence-level ${ctx.year} ${ctx.subject} exam.\n\nRULES:\n1. Provide any necessary constants or a basic formula sheet at the start of the prompt.\n2. DO NOT give me the answer or the steps. Wait for me to provide my step-by-step working.\n3. Mark my working out line-by-line, point out any mathematical errors, and hint at the correct next step."`;
+                text = `"ROLE: NCEA Science/Maths Examiner.\nTASK: Engineer a complex, multi-step calculation targeting Excellence-level criteria for ${ctx.topic} (${ctx.year} ${ctx.subject}).\n\nRULES:\n1. Attach required scientific constants or a core mini-formula snippet at the top.\n2. Maintain total silence on the resolution steps. Wait for my line-by-line workspace.\n3. Audit my equations for algebraic/conceptual errors.\n4. Output a simulated Marking Schedule explicitly detailing which calculation steps satisfy Achieved, Merit, and Excellence thresholds."`;
+
             } else if (currentRevisionStrategy === 'Extended Essay') {
-                text = `"ROLE: NCEA Examiner.\nTASK: Generate a broad, thematic essay/report question for ${ctx.topic} suitable for an Excellence-level ${ctx.year} ${ctx.subject} exam.\n\nRULES:\n1. The question should require a multi-paragraph response evaluating different perspectives and synthesizing evidence.\n2. Provide 3-4 key concepts I must include.\n3. Wait for my essay. Evaluate it focusing on depth of analysis, structure, and integration of evidence."`;
+                text = `"ROLE: Senior NCEA Humanities Examiner.\nTASK: Formulate a broad, high-level evaluative question for ${ctx.topic} (${ctx.year} ${ctx.subject}) requiring a multi-paragraph, evidence-backed synthetic answer.\n\nRULES:\n1. Frame the prompt to demand source integration or conflicting viewpoints.\n2. Detail 3-4 advanced concepts that must be explored.\n3. Wait for my document, then evaluate it using strict marking standards, prioritizing analytical depth and evidence placement over basic summarization."`;
             }
             document.getElementById('prompt-revision-text').innerText = text;
         }
@@ -1177,20 +1211,27 @@
         function updateWritingPrompt() {
             const ctx = getContext();
             let text = "";
+
             if (currentWritingStrategy === 'Feedback') {
-                text = `"ROLE: Expert Writing Coach and NCEA Assessor.\nTASK: Review my draft text below for ${ctx.subject} (${ctx.year}).\n\nRULES:\n1. DO NOT rewrite my work for me. You are a coach, not an author.\n2. Provide 'Glows and Grows' feedback (2 specific positives, 1 concrete area for improvement).\n3. Focus on clarity, argument strength, and evidence.\n\n[PASTE YOUR DRAFT HERE]"`;
+                text = `"ROLE: Writing Coach and NCEA Assessor.\nTASK: Conduct an educational review of my ${ctx.subject} (${ctx.year}) draft using guided pre-reflection.\n\nRULES:\n1. Before providing feedback, ask me: 'What specific part of this draft are you least confident about?'\n2. Tailor the critique to address my self-identified weakness first.\n3. Structure the main feedback strictly under the 'Glows and Grows' framework (2 highly specific technical wins, 1 actionable structural point to develop).\n4. Explicitly banned from rewriting the text for me.\n\n[PASTE YOUR DRAFT HERE]"`;
+
             } else if (currentWritingStrategy === 'Starters') {
-                text = `"TASK: I am experiencing writer's block. I am trying to explain [INSERT WHAT YOU WANT TO SAY HERE] for a ${ctx.year} ${ctx.subject} assignment.\n\nProvide me with 3 sophisticated academic sentence starters to begin my paragraph. RULE: Do NOT write the rest of the paragraph for me."`;
+                text = `"TASK: Unstick writer's block for a concept I am trying to vocalize for my ${ctx.year} ${ctx.subject} assignment.\n\nRULES:\nCreate 3 distinct, structurally advanced academic sentence starters tailored for my specific subject. You are strictly prohibited from generating the actual paragraph or completing the conceptual thought.\n\n[INSERT WHAT YOU WANT TO SAY HERE]"`;
+
             } else if (currentWritingStrategy === 'Structure') {
-                text = `"TASK: Help me plan an outline for this ${ctx.year} ${ctx.subject} assignment question: [INSERT QUESTION HERE].\n\nProvide a paragraph-by-paragraph structure using standard academic formats (like TEEL/PEEL). Suggest the main point and type of evidence needed for each paragraph. Do NOT write the essay."`;
+                text = `"TASK: Build a blueprint layout mapping out a multi-paragraph paper for my ${ctx.year} ${ctx.subject} assessment: [INSERT QUESTION HERE].\n\nRULES:\nMap out a thesis-to-conclusion paragraph schedule using academic frameworks (TEEL or PEEL). Define exactly what thematic assertion, technical data, or source quotes are required for each step. Restricted from writing the actual copy."`;
+
             } else if (currentWritingStrategy === 'Grammar') {
-                text = `"ROLE: Eagle-eyed Editor.\nTASK: Check my draft text below for grammar, punctuation, and run-on sentences.\n\nRULES:\n1. DO NOT rewrite the text or change my personal voice.\n2. Provide a bulleted list of specific errors and suggest how to fix them.\n3. Use New Zealand English spelling conventions.\n\n[PASTE DRAFT HERE]"`;
+                text = `"ROLE: Guided Correction Coach.\nTASK: Audit my draft for punctuation flaws, syntax errors, or structural run-ons.\n\nRULES:\n1. Banned from executing the fixes or altering my authentic voice.\n2. Extract the flawed sentence, highlight the error zone using **bold text**, explain the mechanical rule being broken, and ask me to provide the corrected version.\n3. Enforce New Zealand English dictionaries.\n\n[PASTE DRAFT HERE]"`;
+
             } else if (currentWritingStrategy === 'Science CER') {
-                text = `"TASK: Help me structure a science conclusion using the Claim, Evidence, and Reasoning (CER) framework for ${ctx.topic}.\n\nRULES:\n1. Do NOT write it for me.\n2. Ask me to provide my data/findings first.\n3. Guide me step-by-step to explicitly link my findings back to the core scientific theory for an NCEA ${ctx.year} level."`;
+                text = `"TASK: Guide the development of a structural science report conclusion using Claim, Evidence, and Reasoning methodology for ${ctx.topic}.\n\nRULES:\nMust refuse to draft the answer. Instruct me to provide my exact experiment results or data trends first, then walk me hand-in-hand through connecting those specific values to established textbook laws."`;
+
             } else if (currentWritingStrategy === 'Stats PPDAC') {
-                text = `"TASK: I am writing an NCEA Statistical report using the PPDAC cycle (Problem, Plan, Data, Analysis, Conclusion) at a ${ctx.year} level.\n\nAsk me which stage I am currently stuck on. Then, provide the key questions I need to answer for that stage, along with the specific statistical vocabulary I must include to achieve Merit or Excellence."`;
+                text = `"TASK: Scaffold an internal assessment report following the Problem, Plan, Data, Analysis, Conclusion (PPDAC) pipeline for ${ctx.year} Statistics.\n\nRULES:\nAsk me which exact checkpoint I am facing. Provide the exact methodological target questions for that phase and output a list of statistical descriptors needed to climb to Merit or Excellence."`;
+
             } else if (currentWritingStrategy === 'Justification') {
-                text = `"TASK: Help me write a justification paragraph for my maths/science working out at a ${ctx.year} level. I will paste my calculation below.\n\nRULE: Do not write the explanation for me. Give me 3 academic sentence starters and a list of key vocabulary I should use to explain *why* my method works to reach Merit/Excellence level."`;
+                text = `"TASK: Assist me in translating mathematical equations into high-level justifications for ${ctx.year} ${ctx.subject}, while building error-analysis skills.\n\nRULES:\n1. Analyze my pasted numeric working out. Generate 3 unique transitional frame starters to help me explain why the mathematical process holds true.\n2. Occasionally present me with a highly realistic 'mock' student answer containing a subtle misconception, and ask me to act as the marker to spot and correct the flaw.\n\n[PASTE CALCULATION HERE]"`;
             }
             document.getElementById('prompt-writing-text').innerText = text;
         }
@@ -1209,14 +1250,18 @@
         function updateLitNumPrompt() {
             const ctx = getContext();
             let text = "";
+
             if (currentLitNumStrategy === 'Vocab Decoder') {
-                text = `"TASK: Generate a high-level reading text (around 150 words) about ${ctx.topic} containing complex, subject-specific vocabulary appropriate for ${ctx.year}.\n\nAfter the text, generate a Markdown table where you extract the 5 hardest words, define them simply, and give a short example sentence for each."`;
+                text = `"TASK: Contextual literacy builder for ${ctx.topic} (${ctx.year}).\n\nACTION:\nFabricate a complex, high-tier 150-word subject-matter passage tailored to my Year Level. Follow up by building a layout table detailing the 5 most dense vocabulary blocks inside the text, including contextual definitions and practical secondary sentence models."`;
+
             } else if (currentLitNumStrategy === 'Reading Comp') {
-                text = `"TASK: Generate an engaging reading passage (about 200-250 words) about ${ctx.topic} for a ${ctx.year} student.\n\nAfter providing the text, generate 3 comprehension questions for me to answer:\n1. Literal (finding a fact directly in the text).\n2. Inferential (reading between the lines).\n3. Evaluative (asking me to judge or apply the info).\n\nRULE: Do NOT give me the answers. Wait for my reply to check my understanding."`;
+                text = `"TASK: Multi-tiered text comprehension and constraint-based summarization engine for ${ctx.topic} (${ctx.year}).\n\nACTION:\nCreate an advanced reading passage (200-250 words) exploring the active topic. Prompt me with 3 structural review questions: 1 Literal, 1 Inferential, and 1 Evaluative. Hold back the solution keys until I attempt them. As a final comprehension check, challenge me to summarize the core argument using exactly 12 words—no more, no less."`;
+
             } else if (currentLitNumStrategy === 'Word Problem') {
-                text = `"TASK: Generate a challenging math word problem related to ${ctx.topic} appropriate for ${ctx.year}.\n\nCRITICAL RULE: DO NOT solve the problem. Act as a tutor and help me 'set up' the problem by asking me:\n- What are the key numbers I need to extract?\n- What information is irrelevant?\n- What mathematical operations or formulas do I need to use?"`;
+                text = `"TASK: Quantitative text parsing and variable mapping coach for ${ctx.topic} (${ctx.year}).\n\nACTION:\nGenerate a complex, situational word problem matching the topic.\nRULES:\nStrictly bound to skip the computation. Force me to handle the mechanics by asking me to establish a 'Knowns vs. Unknowns' list before touching any mathematical operators. I must explicitly state what the final unit of measurement will be, identify the red-herring distracting metrics, and list the operators needed to map the system."`;
+
             } else if (currentLitNumStrategy === 'Data Graph') {
-                text = `"TASK: Generate a realistic Markdown data table or a set of statistics related to ${ctx.topic}.\n\nAfter providing the data, ask me 3 key questions to test my ability to analyze it (e.g., identifying trends, anomalies, or doing a quick calculation). RULE: Do NOT give me the answers. Wait for my reply to check my analysis."`;
+                text = `"TASK: Analytical visualization interpreter for ${ctx.topic} (${ctx.year}).\n\nACTION:\nOutput a simulated data set matrix or statistic block based on the topic. Prompt me with 3-5 structural questions demanding data trend spotting, axis relationship checking, outlier identifying, or quick data manipulation."`;
             }
             document.getElementById('prompt-litnum-text').innerText = text;
         }
