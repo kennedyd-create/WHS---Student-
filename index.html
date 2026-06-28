@@ -30,6 +30,7 @@
         body {
             font-family: 'Manrope', sans-serif;
             line-height: 1.6;
+            background-color: #f1f5f9; /* slate-100 */
         }
 
         .font-mono { font-family: 'JetBrains Mono', monospace; }
@@ -47,12 +48,19 @@
         }
 
         .nav-btn {
-            padding: 0.75rem 1rem;
+            padding: 0.75rem 0.5rem;
             color: #64748b;
-            font-weight: 600;
+            font-weight: 700;
             border-bottom: 3px solid transparent;
             transition: all 0.2s;
             white-space: nowrap;
+            font-size: 0.875rem;
+        }
+        @media (min-width: 768px) {
+            .nav-btn {
+                padding: 1rem 1rem;
+                font-size: 1rem;
+            }
         }
 
         .nav-btn:hover {
@@ -126,12 +134,12 @@
         .level-up { animation: levelUpAnim 1s ease-out; }
     </style>
 </head>
-<body class="p-2 md:p-8 bg-slate-100 pb-24 md:pb-8 transition-colors duration-300">
+<body class="p-2 md:p-8 pb-24 md:pb-8">
 
     <div class="max-w-[1400px] mx-auto relative">
         
         <!-- Header -->
-        <header class="whs-gradient-bg rounded-lg p-6 md:p-10 text-white mb-8 shadow-md relative overflow-hidden flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6">
+        <header class="whs-gradient-bg rounded-lg p-6 md:p-10 text-white mb-6 shadow-md relative overflow-hidden flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6">
             <div class="relative z-10 flex items-center gap-4 md:gap-6">
                 <div class="border-2 border-white rounded-full px-2 py-1 md:px-4 md:py-1 inline-block bg-[#d1e6f6] shadow-sm flex items-center justify-center h-12 w-12 md:h-20 md:w-20 shrink-0">
                     <span class="font-extrabold text-sm md:text-2xl tracking-widest text-[#002066]">WHS</span>
@@ -177,24 +185,17 @@
             </svg>
         </header>
 
-        <!-- Desktop Navigation (Hidden on Mobile) -->
-        <nav class="hidden md:flex w-full justify-between items-center border-b-2 border-slate-300 mb-6 pb-1">
-            <button onclick="showView('revision')" id="nav-revision" class="nav-btn nav-active flex-1 text-center rounded-t-md">Revision</button>
-            <button onclick="showView('writing')" id="nav-writing" class="nav-btn flex-1 text-center rounded-t-md">Writing</button>
-            <button onclick="showView('litnum')" id="nav-litnum" class="nav-btn flex-1 text-center rounded-t-md">Lit & Num</button>
-            <div class="w-px h-8 bg-slate-300 self-center mx-2 shrink-0"></div>
-            <button onclick="showView('tools')" id="nav-tools" class="nav-btn flex-1 flex items-center justify-center gap-2 rounded-t-md">⏱️ Tools</button>
-            <button onclick="showView('vault')" id="nav-vault" class="nav-btn flex-1 flex items-center justify-center gap-2 rounded-t-md">🗄️ Vault</button>
-            <button onclick="showView('wellbeing')" id="nav-wellbeing" class="nav-btn flex-1 flex items-center justify-center gap-2 text-rose-600 hover:bg-rose-50 rounded-t-md">💚 Wellbeing</button>
-        </nav>
-
-        <!-- Mobile Sticky Bottom Navigation -->
-        <nav class="md:hidden fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 z-50 flex justify-around items-center p-2 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] text-[10px] font-bold pb-6">
-            <button onclick="showView('revision')" id="nav-mob-revision" class="flex flex-col items-center p-2 text-slate-500 active-mob-nav"><span class="text-xl mb-1">🧠</span>Revise</button>
-            <button onclick="showView('writing')" id="nav-mob-writing" class="flex flex-col items-center p-2 text-slate-500"><span class="text-xl mb-1">✍️</span>Write</button>
-            <button onclick="showView('litnum')" id="nav-mob-litnum" class="flex flex-col items-center p-2 text-slate-500"><span class="text-xl mb-1">📚</span>Lit/Num</button>
-            <button onclick="showView('tools')" id="nav-mob-tools" class="flex flex-col items-center p-2 text-slate-500"><span class="text-xl mb-1">⏱️</span>Tools</button>
-            <button onclick="showView('vault')" id="nav-mob-vault" class="flex flex-col items-center p-2 text-slate-500"><span class="text-xl mb-1">🗄️</span>Vault</button>
+        <!-- Navigation (Evenly Distributed) -->
+        <nav class="flex w-full justify-between items-center border-b-2 border-slate-300 mb-6 overflow-x-auto pb-1 hide-scrollbar gap-1 md:gap-2">
+            <button onclick="showView('revision')" id="nav-revision" class="nav-btn nav-active flex-1 text-center flex justify-center min-w-max rounded-t-md">Revision</button>
+            <button onclick="showView('writing')" id="nav-writing" class="nav-btn flex-1 text-center flex justify-center min-w-max rounded-t-md">Writing</button>
+            <button onclick="showView('litnum')" id="nav-litnum" class="nav-btn flex-1 text-center flex justify-center min-w-max rounded-t-md">Lit & Num</button>
+            
+            <div class="w-px h-8 bg-slate-300 self-center hidden md:block mx-1 shrink-0"></div>
+            
+            <button onclick="showView('tools')" id="nav-tools" class="nav-btn flex items-center justify-center gap-2 flex-1 min-w-max rounded-t-md">⏱️ Tools</button>
+            <button onclick="showView('vault')" id="nav-vault" class="nav-btn flex items-center justify-center gap-2 flex-1 min-w-max rounded-t-md">🗄️ NCEA Vault</button>
+            <button onclick="showView('wellbeing')" id="nav-wellbeing" class="nav-btn flex items-center justify-center gap-2 text-rose-600 hover:bg-rose-50 flex-1 min-w-max rounded-t-md">💚 Wellbeing</button>
         </nav>
 
         <!-- Global Context Bar (Appears on Prompt builder views) -->
@@ -239,32 +240,32 @@
                 <p class="text-sm md:text-base text-slate-600">Based on proven cognitive science methods to help you encode information into long-term memory.</p>
             </div>
 
-            <div class="grid lg:grid-cols-12 gap-8 max-w-6xl mx-auto">
+            <div class="grid lg:grid-cols-12 gap-6 lg:gap-8 max-w-6xl mx-auto">
                 <!-- Buttons Panel -->
                 <div class="lg:col-span-4 space-y-3 flex flex-col h-auto lg:h-[550px] overflow-y-auto custom-scrollbar pr-2">
                     
                     <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 mt-2">Core Foundations</h3>
                     <button onclick="setRevisionStrategy('Retrieval Quiz')" id="btn-rev-1" class="strategy-btn active border-whs-gold bg-[#fffcf5]">
                         <span class="block font-bold text-whs-darkblue mb-1">🧠 Quick Retrieval Quiz</span>
-                        <span class="text-xs text-slate-600 block">Test what you know right now with fast questions.</span>
+                        <span class="text-xs text-slate-600 block">Adaptive 10-question MCQ active recall test.</span>
                     </button>
                     <button onclick="setRevisionStrategy('Flashcards')" id="btn-rev-4" class="strategy-btn">
                         <span class="block font-bold text-whs-darkblue mb-1">🗂️ Interactive Flashcards</span>
-                        <span class="text-xs text-slate-600 block">AI tests you one-by-one on key vocabulary.</span>
+                        <span class="text-xs text-slate-600 block">Spaced-repetition term & formula drilling.</span>
                     </button>
                     <button onclick="setRevisionStrategy('ELI5')" id="btn-rev-2" class="strategy-btn subject-hum">
                         <span class="block font-bold text-whs-darkblue mb-1">👶 Explain it Simply (ELI5)</span>
-                        <span class="text-xs text-slate-600 block">Break down complex jargon into plain English.</span>
+                        <span class="text-xs text-slate-600 block">Demystify jargon using the Feynman Technique.</span>
                     </button>
                     <button onclick="setRevisionStrategy('Analogies')" id="btn-rev-3" class="strategy-btn subject-hum">
                         <span class="block font-bold text-whs-darkblue mb-1">🔗 Create an Analogy</span>
-                        <span class="text-xs text-slate-600 block">Compare difficult concepts to everyday things.</span>
+                        <span class="text-xs text-slate-600 block">Compare difficult abstract concepts to everyday things.</span>
                     </button>
 
                     <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 mt-4">Advanced Deep-Dive</h3>
                     <button onclick="setRevisionStrategy('Practice Exam')" id="btn-rev-5" class="strategy-btn border-l-4 border-l-blue-500">
                         <span class="block font-bold text-whs-darkblue mb-1">📝 Standard NCEA Question</span>
-                        <span class="text-xs text-slate-600 block">Generate a typical exam question and mark schedule.</span>
+                        <span class="text-xs text-slate-600 block">Generate typical exam questions and mark schedules.</span>
                     </button>
                     <!-- STEM Only -->
                     <button onclick="setRevisionStrategy('STEM Problem')" id="btn-rev-6" class="strategy-btn subject-stem border-l-4 border-l-emerald-500">
@@ -281,18 +282,18 @@
 
                 <!-- Output Panel -->
                 <div class="lg:col-span-8">
-                    <div class="bg-amber-50 p-4 md:p-8 rounded-2xl border border-amber-200 h-full flex flex-col">
-                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
-                            <h4 class="text-sm font-black uppercase text-amber-900 tracking-widest">Your Generated Prompt</h4>
-                            <div class="flex gap-2 w-full sm:w-auto">
-                                <button onclick="savePromptToVault('prompt-revision-text', this)" class="flex-1 sm:flex-none bg-white border border-amber-300 px-3 py-2 rounded-lg transition text-xs font-black tracking-wider text-amber-800 hover:bg-amber-100 shadow-sm">SAVE 💾</button>
-                                <button onclick="copyText('prompt-revision-text', this)" class="flex-1 sm:flex-none bg-whs-gold border border-whs-gold px-4 py-2 rounded-lg transition text-xs font-black tracking-wider text-white hover:bg-amber-600 shadow-sm">COPY PROMPT</button>
+                    <div class="bg-amber-50 p-6 md:p-8 rounded-2xl border border-amber-200 h-full flex flex-col shadow-sm">
+                        <!-- Toolbar -->
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 w-full">
+                            <h4 class="text-sm font-black uppercase tracking-widest text-slate-900">Your Generated Prompt</h4>
+                            <div class="flex flex-wrap sm:flex-nowrap gap-2 w-full sm:w-auto">
+                                <button onclick="savePromptToVault('prompt-revision-text', this)" class="bg-white border border-slate-300 px-3 py-2 rounded-lg text-xs font-bold transition shadow-sm hover:bg-slate-100 text-slate-700">SAVE 💾</button>
+                                <button onclick="copyText('prompt-revision-text', this)" class="bg-[#002066] text-white px-4 py-2 rounded-lg text-xs font-bold transition shadow-sm hover:bg-opacity-90">COPY PROMPT</button>
+                                <a href="https://gemini.google.com/app" target="_blank" class="bg-amber-500 text-white px-3 py-2 rounded-lg text-xs font-bold transition shadow-sm hover:bg-amber-600 flex items-center gap-1">Open Gemini ↗</a>
                             </div>
                         </div>
-                        <div class="bg-white p-4 md:p-6 rounded-xl text-sm md:text-base font-mono text-slate-800 border border-amber-300 mb-6 flex-grow shadow-inner whitespace-pre-wrap overflow-y-auto" id="prompt-revision-text">...</div>
-                        <a href="https://gemini.google.com/app" target="_blank" class="w-full text-center py-4 bg-whs-gold text-white rounded-xl font-bold text-lg hover:bg-amber-600 transition shadow-md">
-                            Open Google Gemini ↗
-                        </a>
+                        <!-- Content -->
+                        <div class="bg-white p-4 md:p-6 rounded-xl text-sm md:text-base font-mono text-slate-800 border border-slate-200 mb-4 flex-grow shadow-inner whitespace-pre-wrap overflow-y-auto leading-relaxed" id="prompt-revision-text">...</div>
                     </div>
                 </div>
             </div>
@@ -307,40 +308,25 @@
                 <p class="text-sm md:text-base text-slate-600">Get feedback on your drafts, unstick writer's block, or check grammar. <strong class="text-red-600">Never ask the AI to write your essay.</strong></p>
             </div>
 
-            <!-- Writing Tutor Gem Banner -->
-            <div class="max-w-6xl mx-auto bg-gradient-to-r from-teal-50 to-teal-100/50 p-6 rounded-2xl border border-teal-200 shadow-sm flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
-                <div>
-                    <h3 class="text-lg font-bold text-teal-900 mb-1 flex items-center gap-2"><span>✍️</span> Pre-built WHS Writing Tutor Gem</h3>
-                    <p class="text-sm text-teal-800">Skip the copy-pasting! Click here to open our ready-to-use custom Writing Tutor in Gemini. Just paste your draft to get started.</p>
-                </div>
-                <a href="https://gemini.google.com/gem/1OpFxgqID46DAGNjJvWWIzeVxEMDN98I7?usp=sharing" target="_blank" class="shrink-0 bg-teal-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-teal-700 transition shadow-md whitespace-nowrap flex items-center gap-2">
-                    Open Writing Tutor ↗
-                </a>
-            </div>
-
-            <div class="text-center mt-2 mb-6">
-                <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">— OR GENERATE A CUSTOM PROMPT BELOW —</span>
-            </div>
-
             <div class="grid lg:grid-cols-12 gap-8 max-w-6xl mx-auto">
                 <div class="lg:col-span-4 space-y-3 flex flex-col h-auto lg:h-[550px] overflow-y-auto custom-scrollbar pr-2">
                     
                     <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 mt-2">General Academic</h3>
                     <button onclick="setWritingStrategy('Feedback')" id="btn-writ-1" class="strategy-btn active border-whs-gold bg-[#fffcf5]">
                         <span class="block font-bold text-whs-darkblue mb-1">👀 Critique My Draft</span>
-                        <span class="text-xs text-slate-600 block">Get 'Glows and Grows' on what you've written so far.</span>
+                        <span class="text-xs text-slate-600 block">Get guided 'Glows and Grows' on what you've written.</span>
                     </button>
                     <button onclick="setWritingStrategy('Starters')" id="btn-writ-2" class="strategy-btn">
                         <span class="block font-bold text-whs-darkblue mb-1">🚀 Sentence Starters</span>
                         <span class="text-xs text-slate-600 block">Stuck? Get 3 academic ways to start your paragraph.</span>
                     </button>
-                    <button onclick="setWritingStrategy('Grammar')" id="btn-writ-4" class="strategy-btn">
-                        <span class="block font-bold text-whs-darkblue mb-1">✍️ Grammar Check</span>
-                        <span class="text-xs text-slate-600 block">Identify run-on sentences and confusing wording.</span>
-                    </button>
                     <button onclick="setWritingStrategy('Structure')" id="btn-writ-3" class="strategy-btn subject-hum">
                         <span class="block font-bold text-whs-darkblue mb-1">🏗️ Outline an Essay</span>
                         <span class="text-xs text-slate-600 block">Help plan the structure of your argument (e.g., TEEL).</span>
+                    </button>
+                    <button onclick="setWritingStrategy('Grammar')" id="btn-writ-4" class="strategy-btn">
+                        <span class="block font-bold text-whs-darkblue mb-1">✍️ Grammar Check</span>
+                        <span class="text-xs text-slate-600 block">Identify run-on sentences and confusing wording.</span>
                     </button>
 
                     <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 mt-4 subject-stem">Maths & Science</h3>
@@ -354,24 +340,22 @@
                     </button>
                     <button onclick="setWritingStrategy('Justification')" id="btn-writ-7" class="strategy-btn subject-stem border-l-4 border-l-indigo-500">
                         <span class="block font-bold text-whs-darkblue mb-1">📐 Justifying Reasoning</span>
-                        <span class="text-xs text-slate-600 block">Explain the "why" behind your working.</span>
+                        <span class="text-xs text-slate-600 block">Explain the "why" behind your maths/science working.</span>
                     </button>
 
                 </div>
 
                 <div class="lg:col-span-8">
-                    <div class="bg-teal-50 p-4 md:p-8 rounded-2xl border border-teal-200 h-full flex flex-col">
-                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
-                            <h4 class="text-sm font-black uppercase text-teal-900 tracking-widest">Your Generated Prompt</h4>
-                            <div class="flex gap-2 w-full sm:w-auto">
-                                <button onclick="savePromptToVault('prompt-writing-text', this)" class="flex-1 sm:flex-none bg-white border border-teal-300 px-3 py-2 rounded-lg transition text-xs font-black tracking-wider text-teal-800 hover:bg-teal-100 shadow-sm">SAVE 💾</button>
-                                <button onclick="copyText('prompt-writing-text', this)" class="flex-1 sm:flex-none bg-teal-700 border border-teal-700 px-4 py-2 rounded-lg transition text-xs font-black tracking-wider text-white hover:bg-teal-800 shadow-sm">COPY PROMPT</button>
+                    <div class="bg-teal-50 p-6 md:p-8 rounded-2xl border border-teal-200 h-full flex flex-col shadow-sm">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 w-full">
+                            <h4 class="text-sm font-black uppercase tracking-widest text-slate-900">Your Generated Prompt</h4>
+                            <div class="flex flex-wrap sm:flex-nowrap gap-2 w-full sm:w-auto">
+                                <button onclick="savePromptToVault('prompt-writing-text', this)" class="bg-white border border-slate-300 px-3 py-2 rounded-lg text-xs font-bold transition shadow-sm hover:bg-slate-100 text-slate-700">SAVE 💾</button>
+                                <button onclick="copyText('prompt-writing-text', this)" class="bg-[#002066] text-white px-4 py-2 rounded-lg text-xs font-bold transition shadow-sm hover:bg-opacity-90">COPY PROMPT</button>
+                                <a href="https://gemini.google.com/app" target="_blank" class="bg-amber-500 text-white px-3 py-2 rounded-lg text-xs font-bold transition shadow-sm hover:bg-amber-600 flex items-center gap-1">Open Gemini ↗</a>
                             </div>
                         </div>
-                        <div class="bg-white p-4 md:p-6 rounded-xl text-sm md:text-base font-mono text-slate-800 border border-teal-300 mb-6 flex-grow shadow-inner whitespace-pre-wrap overflow-y-auto" id="prompt-writing-text">...</div>
-                        <a href="https://gemini.google.com/app" target="_blank" class="w-full text-center py-4 bg-teal-700 text-white rounded-xl font-bold text-lg hover:bg-teal-800 transition shadow-md">
-                            Open Google Gemini ↗
-                        </a>
+                        <div class="bg-white p-4 md:p-6 rounded-xl text-sm md:text-base font-mono text-slate-800 border border-slate-200 mb-4 flex-grow shadow-inner whitespace-pre-wrap overflow-y-auto leading-relaxed" id="prompt-writing-text">...</div>
                     </div>
                 </div>
             </div>
@@ -388,30 +372,30 @@
 
             <!-- Lit & Num Tutor Gem Banners (3 Columns) -->
             <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-4 md:gap-6 mb-8">
-                <div class="bg-gradient-to-r from-indigo-50 to-indigo-100/50 p-5 rounded-2xl border border-indigo-200 shadow-sm flex flex-col justify-between gap-4">
+                <div class="bg-gradient-to-br from-indigo-50 to-white p-5 rounded-2xl border border-indigo-200 shadow-sm flex flex-col justify-between gap-4 transition hover:shadow-md">
                     <div>
                         <h3 class="text-lg font-bold text-indigo-900 mb-1 flex items-center gap-2"><span>📖</span> WHS Reading Tutor</h3>
-                        <p class="text-xs text-indigo-800">Need help breaking down a difficult text? Open the dedicated Reading Tutor.</p>
+                        <p class="text-xs text-indigo-800/80">Need help breaking down a difficult text? Open the dedicated Reading Tutor.</p>
                     </div>
-                    <a href="https://gemini.google.com/gem/1icWZ0fRVbfpLGqoXYqVvqZ17cL5VGHBJ?usp=sharing" target="_blank" class="w-full text-center bg-indigo-600 text-white px-4 py-2 rounded-xl font-bold text-sm hover:bg-indigo-700 transition shadow-sm">
+                    <a href="https://gemini.google.com/gem/1icWZ0fRVbfpLGqoXYqVvqZ17cL5VGHBJ?usp=sharing" target="_blank" class="w-full text-center bg-indigo-600 text-white px-4 py-2.5 rounded-xl font-bold text-sm hover:bg-indigo-700 transition shadow-sm">
                         Open Tutor ↗
                     </a>
                 </div>
-                <div class="bg-gradient-to-r from-teal-50 to-teal-100/50 p-5 rounded-2xl border border-teal-200 shadow-sm flex flex-col justify-between gap-4">
+                <div class="bg-gradient-to-br from-teal-50 to-white p-5 rounded-2xl border border-teal-200 shadow-sm flex flex-col justify-between gap-4 transition hover:shadow-md">
                     <div>
                         <h3 class="text-lg font-bold text-teal-900 mb-1 flex items-center gap-2"><span>✍️</span> WHS Writing Tutor</h3>
-                        <p class="text-xs text-teal-800">Paste your draft to get strict 'glows and grows' feedback and structure help.</p>
+                        <p class="text-xs text-teal-800/80">Paste your draft to get strict 'glows and grows' feedback and structure help.</p>
                     </div>
-                    <a href="https://gemini.google.com/gem/1OpFxgqID46DAGNjJvWWIzeVxEMDN98I7?usp=sharing" target="_blank" class="w-full text-center bg-teal-600 text-white px-4 py-2 rounded-xl font-bold text-sm hover:bg-teal-700 transition shadow-sm">
+                    <a href="https://gemini.google.com/gem/1OpFxgqID46DAGNjJvWWIzeVxEMDN98I7?usp=sharing" target="_blank" class="w-full text-center bg-teal-600 text-white px-4 py-2.5 rounded-xl font-bold text-sm hover:bg-teal-700 transition shadow-sm">
                         Open Tutor ↗
                     </a>
                 </div>
-                <div class="bg-gradient-to-r from-emerald-50 to-emerald-100/50 p-5 rounded-2xl border border-emerald-200 shadow-sm flex flex-col justify-between gap-4">
+                <div class="bg-gradient-to-br from-emerald-50 to-white p-5 rounded-2xl border border-emerald-200 shadow-sm flex flex-col justify-between gap-4 transition hover:shadow-md">
                     <div>
                         <h3 class="text-lg font-bold text-emerald-900 mb-1 flex items-center gap-2"><span>🧮</span> WHS Numeracy Tutor</h3>
-                        <p class="text-xs text-emerald-800">Stuck on a math problem? Get help working through it step-by-step.</p>
+                        <p class="text-xs text-emerald-800/80">Stuck on a math problem? Get help working through it step-by-step.</p>
                     </div>
-                    <a href="https://gemini.google.com/gem/1BnYex-O4z_YDo3csuF25IAvo8ScKJwwL?usp=sharing" target="_blank" class="w-full text-center bg-emerald-600 text-white px-4 py-2 rounded-xl font-bold text-sm hover:bg-emerald-700 transition shadow-sm">
+                    <a href="https://gemini.google.com/gem/1BnYex-O4z_YDo3csuF25IAvo8ScKJwwL?usp=sharing" target="_blank" class="w-full text-center bg-emerald-600 text-white px-4 py-2.5 rounded-xl font-bold text-sm hover:bg-emerald-700 transition shadow-sm">
                         Open Tutor ↗
                     </a>
                 </div>
@@ -421,7 +405,7 @@
                 <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">— OR GENERATE CUSTOM PROMPTS BELOW —</span>
             </div>
 
-            <div class="grid lg:grid-cols-12 gap-8 max-w-6xl mx-auto">
+            <div class="grid lg:grid-cols-12 gap-6 lg:gap-8 max-w-6xl mx-auto">
                 <div class="lg:col-span-4 space-y-6 flex flex-col">
                     <div class="space-y-3 border-l-4 border-indigo-500 pl-4">
                         <h3 class="text-sm font-black text-indigo-800 uppercase tracking-widest mb-2">📚 Literacy Practice</h3>
@@ -449,18 +433,16 @@
                 </div>
 
                 <div class="lg:col-span-8">
-                    <div class="bg-indigo-50 p-4 md:p-8 rounded-2xl border border-indigo-200 h-full flex flex-col">
-                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
-                            <h4 class="text-sm font-black uppercase text-indigo-900 tracking-widest">Your Generated Prompt</h4>
-                            <div class="flex gap-2 w-full sm:w-auto">
-                                <button onclick="savePromptToVault('prompt-litnum-text', this)" class="flex-1 sm:flex-none bg-white border border-indigo-300 px-3 py-2 rounded-lg transition text-xs font-black tracking-wider text-indigo-800 hover:bg-indigo-100 shadow-sm">SAVE 💾</button>
-                                <button onclick="copyText('prompt-litnum-text', this)" class="flex-1 sm:flex-none bg-indigo-700 border border-indigo-700 px-4 py-2 rounded-lg transition text-xs font-black tracking-wider text-white hover:bg-indigo-800 shadow-sm">COPY PROMPT</button>
+                    <div class="bg-indigo-50 p-6 md:p-8 rounded-2xl border border-indigo-200 h-full flex flex-col shadow-sm">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 w-full">
+                            <h4 class="text-sm font-black uppercase tracking-widest text-slate-900">Your Generated Prompt</h4>
+                            <div class="flex flex-wrap sm:flex-nowrap gap-2 w-full sm:w-auto">
+                                <button onclick="savePromptToVault('prompt-litnum-text', this)" class="bg-white border border-slate-300 px-3 py-2 rounded-lg text-xs font-bold transition shadow-sm hover:bg-slate-100 text-slate-700">SAVE 💾</button>
+                                <button onclick="copyText('prompt-litnum-text', this)" class="bg-[#002066] text-white px-4 py-2 rounded-lg text-xs font-bold transition shadow-sm hover:bg-opacity-90">COPY PROMPT</button>
+                                <a href="https://gemini.google.com/app" target="_blank" class="bg-amber-500 text-white px-3 py-2 rounded-lg text-xs font-bold transition shadow-sm hover:bg-amber-600 flex items-center gap-1">Open Gemini ↗</a>
                             </div>
                         </div>
-                        <div class="bg-white p-4 md:p-6 rounded-xl text-sm md:text-base font-mono text-slate-800 border border-indigo-300 mb-6 flex-grow shadow-inner whitespace-pre-wrap overflow-y-auto" id="prompt-litnum-text">...</div>
-                        <a href="https://gemini.google.com/app" target="_blank" class="w-full text-center py-4 bg-indigo-700 text-white rounded-xl font-bold text-lg hover:bg-indigo-800 transition shadow-md">
-                            Open Google Gemini ↗
-                        </a>
+                        <div class="bg-white p-4 md:p-6 rounded-xl text-sm md:text-base font-mono text-slate-800 border border-slate-200 mb-4 flex-grow shadow-inner whitespace-pre-wrap overflow-y-auto leading-relaxed" id="prompt-litnum-text">...</div>
                     </div>
                 </div>
             </div>
@@ -530,6 +512,25 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Timetable Generator Prompt -->
+                <div class="lg:col-span-2 bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-6 items-center">
+                    <div class="w-full md:w-1/3">
+                        <h3 class="text-2xl font-bold text-[#002066] mb-2">📅 Timetable Generator</h3>
+                        <p class="text-sm text-slate-600 mb-4">Input the subjects you need to study and your exam dates. The AI will generate a realistic, spaced-repetition study calendar for you.</p>
+                        <input type="text" id="timetable-subjects" oninput="updateTimetablePrompt()" placeholder="e.g. Math (12 Nov), Bio (15 Nov)" class="w-full p-3 rounded-lg text-slate-900 border border-slate-300 focus:border-[#002066] outline-none text-sm mb-4">
+                    </div>
+                    <div class="w-full md:w-2/3 h-full flex flex-col">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 w-full">
+                            <h4 class="text-sm font-black uppercase tracking-widest text-slate-900">Your Generated Prompt</h4>
+                            <div class="flex flex-wrap sm:flex-nowrap gap-2 w-full sm:w-auto">
+                                <button onclick="copyText('prompt-timetable', this)" class="bg-[#002066] text-white px-4 py-2 rounded-lg text-xs font-bold transition shadow-sm hover:bg-opacity-90">COPY PROMPT</button>
+                                <a href="https://gemini.google.com/app" target="_blank" class="bg-amber-500 text-white px-3 py-2 rounded-lg text-xs font-bold transition shadow-sm hover:bg-amber-600 flex items-center gap-1">Open Gemini ↗</a>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl text-sm font-mono text-slate-800 border border-slate-200 whitespace-pre-wrap flex-grow overflow-y-auto custom-scrollbar" id="prompt-timetable">...</div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -539,7 +540,7 @@
         <div id="view-vault" class="hidden space-y-8 animate-in fade-in duration-500">
             <div class="text-center max-w-3xl mx-auto mb-4 px-4">
                 <h2 class="text-4xl font-black text-slate-900 mb-4">The NCEA Vault</h2>
-                <p class="text-slate-600">Quick links to official resources, cheat sheets, and your personalized library of saved AI prompts.</p>
+                <p class="text-slate-600">Quick links to official resources, tutors, cheat sheets, and your personalized library of saved AI prompts.</p>
             </div>
 
             <div class="grid lg:grid-cols-3 gap-8 max-w-[1400px] mx-auto">
@@ -567,17 +568,17 @@
 
                     <!-- Dynamic Cheat Sheet -->
                     <div class="glass-card p-6 border-l-4 border-l-whs-gold">
-                        <h3 class="text-lg font-bold text-whs-darkblue mb-4 border-b pb-2" id="cheat-sheet-title">📋 Cheat Sheets</h3>
+                        <h3 class="text-lg font-bold text-whs-darkblue mb-4 border-b pb-2" id="cheat-sheet-title">📋 Essay Structures</h3>
                         
                         <!-- Humanities Cheat Sheet -->
                         <div id="cheat-hum" class="space-y-4 text-sm text-slate-700 subject-hum">
                             <div>
                                 <a href="https://www.youtube.com/results?search_query=TEEL+paragraph+structure" target="_blank" class="font-bold text-slate-900 hover:text-blue-600 hover:underline flex items-center gap-1">TEEL (Paragraphs) ↗</a>
-                                <p class="text-xs mt-1"><strong>T</strong>opic Sentence<br><strong>E</strong>xplanation<br><strong>E</strong>vidence<br><strong>L</strong>ink</p>
+                                <p class="text-xs mt-1"><strong>T</strong>opic Sentence (Main point)<br><strong>E</strong>xplanation (What do you mean?)<br><strong>E</strong>vidence (Quotes/Data)<br><strong>L</strong>ink (Connect back to question)</p>
                             </div>
                             <div>
                                 <a href="https://www.youtube.com/results?search_query=SEXY+paragraph+structure+NCEA" target="_blank" class="font-bold text-slate-900 hover:text-blue-600 hover:underline flex items-center gap-1">SEXY (English/Lit) ↗</a>
-                                <p class="text-xs mt-1"><strong>S</strong>tatement<br><strong>E</strong>xplanation<br><strong>X</strong>-ample<br><strong>Y</strong> (Why does it matter?)</p>
+                                <p class="text-xs mt-1"><strong>S</strong>tatement (Idea)<br><strong>E</strong>xplanation<br><strong>X</strong>-ample (Quote/Technique)<br><strong>Y</strong> (Why does this matter?)</p>
                             </div>
                         </div>
 
@@ -595,11 +596,11 @@
                     </div>
                 </div>
 
-                <!-- Col 2: YouTube & Tutors -->
+                <!-- Col 2: YouTube Channels & Tutors -->
                 <div class="flex flex-col gap-6">
                     
                     <div class="glass-card p-6 border-t-4 border-t-red-500 h-[380px] flex flex-col">
-                        <h3 class="text-lg font-bold text-whs-darkblue mb-4 border-b pb-2">📺 Best YouTube Channels</h3>
+                        <h3 class="text-lg font-bold text-[#002066] mb-4 border-b pb-2">📺 Best YouTube Channels</h3>
                         <div class="flex-grow overflow-y-auto custom-scrollbar pr-2 space-y-4 text-sm">
                             <div class="subject-stem">
                                <strong class="text-slate-900 block mb-1 text-xs uppercase tracking-widest">Mathematics</strong>
@@ -628,7 +629,7 @@
                     </div>
 
                     <div class="glass-card p-6 border-t-4 border-t-emerald-500 h-[280px] flex flex-col">
-                        <h3 class="text-lg font-bold text-whs-darkblue mb-4 border-b pb-2">🎓 Tutoring Providers</h3>
+                        <h3 class="text-lg font-bold text-[#002066] mb-4 border-b pb-2">🎓 Tutoring Providers</h3>
                         <div class="flex-grow overflow-y-auto custom-scrollbar pr-2 space-y-4 text-sm">
                             <div>
                                 <a href="https://mytuition.nz" target="_blank" class="font-bold text-emerald-600 hover:underline block">MyTuition NZ ↗</a>
@@ -654,6 +655,7 @@
                     </div>
                     <div id="saved-prompts-container" class="flex-grow overflow-y-auto custom-scrollbar space-y-4 pr-2">
                         <!-- Injected via JS -->
+                        <div class="text-center text-slate-400 mt-20 italic">You haven't saved any prompts yet.<br>Click "SAVE 💾" on any prompt generator to store it here.</div>
                     </div>
                 </div>
 
@@ -666,7 +668,7 @@
         <div id="view-wellbeing" class="hidden space-y-8 animate-in fade-in duration-500">
             <div class="text-center max-w-3xl mx-auto mb-4 px-4">
                 <h2 class="text-4xl font-black text-rose-600 mb-4">Take a Breath.</h2>
-                <p class="text-slate-600">Feeling overwhelmed is completely normal. Use these tools to reset your nervous system and break down impossible tasks.</p>
+                <p class="text-slate-600">Feeling overwhelmed is completely normal. Use these tools to reset your nervous system and break down impossible tasks into tiny steps.</p>
             </div>
 
             <div class="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto items-center">
@@ -681,13 +683,20 @@
 
                 <!-- Overwhelm Coach & Links -->
                 <div class="space-y-6 h-full flex flex-col">
-                    <div class="glass-card p-8 border-l-8 border-l-rose-500 flex-grow flex flex-col">
-                        <h3 class="text-xl font-bold text-slate-900 mb-2">The "Panic Button" Prompt</h3>
-                        <p class="text-sm text-slate-600 mb-4">Copy this into the AI when you have a massive assignment due and don't know where to start.</p>
+                    <div class="glass-card p-6 md:p-8 border-l-8 border-l-rose-500 flex-grow flex flex-col">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 w-full">
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-900 mb-1">The "Panic Button" Prompt</h3>
+                                <p class="text-sm text-slate-600">Copy this when you have a massive assignment due and don't know where to start.</p>
+                            </div>
+                        </div>
                         
                         <div class="bg-slate-50 p-4 rounded-xl text-sm font-mono text-slate-700 border border-slate-200 relative group flex-grow shadow-inner">
                             <span id="prompt-panic">...</span>
-                            <button onclick="copyText('prompt-panic', this)" class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 bg-white border border-slate-300 px-2 py-1 rounded text-[10px] font-bold text-rose-600 shadow-sm transition">COPY</button>
+                            <div class="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button onclick="copyText('prompt-panic', this)" class="bg-white border border-slate-300 px-2 py-1 rounded text-[10px] font-bold text-rose-600 shadow-sm transition hover:bg-slate-100">COPY</button>
+                                <a href="https://gemini.google.com/app" target="_blank" class="bg-amber-500 border border-amber-500 px-2 py-1 rounded text-[10px] font-bold text-white shadow-sm transition hover:bg-amber-600">OPEN GEMINI ↗</a>
+                            </div>
                         </div>
                     </div>
 
@@ -1031,9 +1040,10 @@
         // Vault Management
         function savePromptToVault(elementId, btnElement) {
             const textToSave = document.getElementById(elementId).innerText;
-            if (textToSave === "..." || textToSave.includes("Select a strategy")) return;
+            if (!textToSave || textToSave === "..." || textToSave.includes("Select a strategy")) return;
 
             let saved = JSON.parse(localStorage.getItem('whs_saved_prompts')) || [];
+            
             if (!saved.includes(textToSave)) {
                 saved.push(textToSave);
                 localStorage.setItem('whs_saved_prompts', JSON.stringify(saved));
@@ -1064,8 +1074,8 @@
                     <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 relative group shadow-sm">
                         <p class="text-sm font-mono text-slate-700 whitespace-pre-wrap pr-16">${promptText}</p>
                         <div class="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button onclick="copyRawText('${promptText.replace(/'/g, "\\'")}', this)" class="bg-[#002066] text-white px-2 py-1 rounded text-[10px] font-bold shadow-sm">COPY</button>
-                            <button onclick="deleteSavedPrompt(${actualIndex})" class="bg-red-100 text-red-600 px-2 py-1 rounded text-[10px] font-bold shadow-sm">DELETE</button>
+                            <button onclick="copyRawText('${promptText.replace(/'/g, "\\'")}', this)" class="bg-[#002066] text-white px-2 py-1 rounded text-[10px] font-bold shadow-sm hover:bg-blue-800">COPY</button>
+                            <button onclick="deleteSavedPrompt(${actualIndex})" class="bg-red-100 text-red-600 px-2 py-1 rounded text-[10px] font-bold shadow-sm hover:bg-red-200">DELETE</button>
                         </div>
                     </div>
                 `;
@@ -1080,7 +1090,12 @@
         }
 
         function copyRawText(text, btnElement) {
-            navigator.clipboard.writeText(text).then(() => {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
                 const originalText = btnElement.innerText;
                 btnElement.innerText = "✓";
                 btnElement.classList.add("copy-btn-success");
@@ -1088,7 +1103,10 @@
                     btnElement.innerText = originalText;
                     btnElement.classList.remove("copy-btn-success");
                 }, 2000);
-            });
+            } catch(e) {
+                console.error("Copy failed", e);
+            }
+            document.body.removeChild(textArea);
         }
 
         function exportData() {
@@ -1100,6 +1118,31 @@
             a.download = 'WHS_StudyHub_Backup.json';
             a.click();
             URL.revokeObjectURL(url);
+        }
+
+        // Copy Text General Helper
+        function copyText(elementId, btnElement) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            if (!textToCopy || textToCopy === "..." || textToCopy.includes("Select a strategy")) return;
+
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                const originalText = btnElement.innerText;
+                btnElement.innerText = "COPIED! ✓";
+                btnElement.classList.add("copy-btn-success");
+                playBeep('ding');
+                setTimeout(() => {
+                    btnElement.innerText = originalText;
+                    btnElement.classList.remove("copy-btn-success");
+                }, 2000);
+            } catch (err) {
+                console.error('Copy failed', err);
+            }
+            document.body.removeChild(textArea);
         }
 
         // Prompts Update Logic
@@ -1122,8 +1165,6 @@
             updatePanicPrompt();
         }
 
-        // --- Prompt Builders ---
-        
         function updateTimetablePrompt() {
             const ctx = getContext();
             const subjectsInput = document.getElementById('timetable-subjects');
@@ -1144,10 +1185,12 @@
 
         function setRevisionStrategy(strategy) {
             currentRevisionStrategy = strategy;
+            
             document.querySelectorAll('#view-revision .strategy-btn').forEach(btn => {
                 btn.classList.remove('active', 'border-[#c5a059]', 'bg-[#fffcf5]', 'border-l-4', 'border-l-blue-500', 'border-l-emerald-500', 'border-l-indigo-500');
                 btn.classList.add('border-transparent', 'bg-white');
             });
+            
             const btn = event.currentTarget;
             btn.classList.remove('border-transparent', 'bg-white');
             
@@ -1155,6 +1198,7 @@
             else if(strategy === 'STEM Problem') btn.classList.add('active', 'border-[#c5a059]', 'bg-[#fffcf5]', 'border-l-4', 'border-l-emerald-500');
             else if(strategy === 'Extended Essay') btn.classList.add('active', 'border-[#c5a059]', 'bg-[#fffcf5]', 'border-l-4', 'border-l-indigo-500');
             else btn.classList.add('active', 'border-[#c5a059]', 'bg-[#fffcf5]');
+
             updateRevisionPrompt();
         }
 
@@ -1164,40 +1208,37 @@
             let text = "";
 
             if (currentRevisionStrategy === 'Retrieval Quiz') {
-                text = `"ROLE: Strict but encouraging Teacher.\nTASK: Conduct an adaptive 10-question multiple-choice active recall quiz on ${ctx.topic} for a ${ctx.year} ${ctx.subject} student.\n\nRULES:\n1. Ask ONE question at a time with options A, B, C, and D. Wait for my response.\n2. If correct, increase the cognitive complexity of the next question.\n3. If incorrect, do not immediately provide the answer. Offer a small hint or isolate the misconception, and ask me to try again. Only reveal the correct answer after the second attempt.\n`;
-                if(isSTEM) text += `4. Include questions testing formulas, units, or small calculations.\n`;
-                text += `Conclude with a total score out of 10 and offer an additional round."`;
-
+                text = `"ROLE: Strict but encouraging Teacher.\nTASK: Conduct an adaptive 10-question multiple-choice active recall quiz on ${ctx.topic} for a ${ctx.year} ${ctx.subject} student.\n\nRULES:\n1. Ask ONE multiple-choice question at a time (provide options A, B, C, D).\n2. Wait for my answer before giving feedback.\n3. Do not give me all the questions or answers upfront.\n`;
+                if(isSTEM) text += `4. Include questions that require me to identify correct formulas, units, or calculated answers.\n`;
+                text += `5. Once we finish the 10 questions, give me a score out of 10 and ask if I would like 10 more."`;
             } else if (currentRevisionStrategy === 'Flashcards') {
                 text = `"ROLE: Interactive Study Partner.\nTASK: Administer spaced-repetition active-recall flashcards for '${ctx.topic}' at a ${ctx.year} ${ctx.subject} level.\n\nRULES:\n1. Present exactly ONE `;
                 if(isSTEM) text += `concept, term, formula, or equation`;
                 else text += `concept or term`;
                 text += ` at a time. Wait for my definition.\n2. Evaluate my response and output the official NCEA-level template definition.\n3. Immediately ask me to rate my confidence on that specific term from 1 to 5.\n4. If I rate it 3 or lower, flag it to re-test exactly two turns later.\n5. Flat lists are strictly forbidden."`;
-
             } else if (currentRevisionStrategy === 'ELI5') {
                 text = `"ROLE: Expert Communicator.\nTASK: Demystify '${ctx.topic}' using plain English and the Feynman Technique.\n\nRULES:\n1. Strip all overwhelming academic jargon and break concepts down into simple mental models for a 10-year-old.\n2. After the explanation, prompt me to 'teach it back' in a single sentence to prove comprehension.\n3. Conclude with a punchy, 3-bullet core summary for my study notebook."`;
-
             } else if (currentRevisionStrategy === 'Analogies') {
                 text = `"TASK: Generate 3 distinct, real-world analogies mapping out the most abstract concepts in '${ctx.topic}'.\n\nRULES:\nTailor the language and narrative to a ${ctx.year} high school student. Ground comparisons in familiar, modern, or local New Zealand paradigms to boost conceptual mapping."`;
-
             } else if (currentRevisionStrategy === 'Practice Exam') {
                 text = `"ROLE: NZQA NCEA Marker.\nTASK: Draft a high-yield exam question for ${ctx.subject} (${ctx.topic}) at a ${ctx.year} level.\n\nRULES:\n1. Exclude answers completely from the first response.\n2. Provide clear writing parameters and outline 3-4 subject-specific structural keywords that must be integrated.\n3. Wait for my input.\n4. When providing feedback, output a simulated NCEA Marking Schedule table (Achieved, Merit, Excellence criteria) and explicitly highlight exactly which phrase or structural choice moved me from one grade band to the next."`;
-
             } else if (currentRevisionStrategy === 'STEM Problem') {
                 text = `"ROLE: NCEA Science/Maths Examiner.\nTASK: Engineer a complex, multi-step calculation targeting Excellence-level criteria for ${ctx.topic} (${ctx.year} ${ctx.subject}).\n\nRULES:\n1. Attach required scientific constants or a core mini-formula snippet at the top.\n2. Maintain total silence on the resolution steps. Wait for my line-by-line workspace.\n3. Audit my equations for algebraic/conceptual errors.\n4. Output a simulated Marking Schedule explicitly detailing which calculation steps satisfy Achieved, Merit, and Excellence thresholds."`;
-
             } else if (currentRevisionStrategy === 'Extended Essay') {
                 text = `"ROLE: Senior NCEA Humanities Examiner.\nTASK: Formulate a broad, high-level evaluative question for ${ctx.topic} (${ctx.year} ${ctx.subject}) requiring a multi-paragraph, evidence-backed synthetic answer.\n\nRULES:\n1. Frame the prompt to demand source integration or conflicting viewpoints.\n2. Detail 3-4 advanced concepts that must be explored.\n3. Wait for my document, then evaluate it using strict marking standards, prioritizing analytical depth and evidence placement over basic summarization."`;
             }
+
             document.getElementById('prompt-revision-text').innerText = text;
         }
 
         function setWritingStrategy(strategy) {
             currentWritingStrategy = strategy;
+            
             document.querySelectorAll('#view-writing .strategy-btn').forEach(btn => {
                 btn.classList.remove('active', 'border-[#c5a059]', 'bg-[#fffcf5]', 'border-l-4', 'border-l-teal-500', 'border-l-emerald-500', 'border-l-blue-500', 'border-l-indigo-500');
                 btn.classList.add('border-transparent', 'bg-white');
             });
+            
             const btn = event.currentTarget;
             btn.classList.remove('border-transparent', 'bg-white');
             
@@ -1205,6 +1246,7 @@
             else if (strategy === 'Stats PPDAC') btn.classList.add('active', 'border-[#c5a059]', 'bg-[#fffcf5]', 'border-l-4', 'border-l-blue-500');
             else if (strategy === 'Justification') btn.classList.add('active', 'border-[#c5a059]', 'bg-[#fffcf5]', 'border-l-4', 'border-l-indigo-500');
             else btn.classList.add('active', 'border-[#c5a059]', 'bg-[#fffcf5]');
+
             updateWritingPrompt();
         }
 
@@ -1214,36 +1256,33 @@
 
             if (currentWritingStrategy === 'Feedback') {
                 text = `"ROLE: Writing Coach and NCEA Assessor.\nTASK: Conduct an educational review of my ${ctx.subject} (${ctx.year}) draft using guided pre-reflection.\n\nRULES:\n1. Before providing feedback, ask me: 'What specific part of this draft are you least confident about?'\n2. Tailor the critique to address my self-identified weakness first.\n3. Structure the main feedback strictly under the 'Glows and Grows' framework (2 highly specific technical wins, 1 actionable structural point to develop).\n4. Explicitly banned from rewriting the text for me.\n\n[PASTE YOUR DRAFT HERE]"`;
-
             } else if (currentWritingStrategy === 'Starters') {
                 text = `"TASK: Unstick writer's block for a concept I am trying to vocalize for my ${ctx.year} ${ctx.subject} assignment.\n\nRULES:\nCreate 3 distinct, structurally advanced academic sentence starters tailored for my specific subject. You are strictly prohibited from generating the actual paragraph or completing the conceptual thought.\n\n[INSERT WHAT YOU WANT TO SAY HERE]"`;
-
             } else if (currentWritingStrategy === 'Structure') {
                 text = `"TASK: Build a blueprint layout mapping out a multi-paragraph paper for my ${ctx.year} ${ctx.subject} assessment: [INSERT QUESTION HERE].\n\nRULES:\nMap out a thesis-to-conclusion paragraph schedule using academic frameworks (TEEL or PEEL). Define exactly what thematic assertion, technical data, or source quotes are required for each step. Restricted from writing the actual copy."`;
-
             } else if (currentWritingStrategy === 'Grammar') {
                 text = `"ROLE: Guided Correction Coach.\nTASK: Audit my draft for punctuation flaws, syntax errors, or structural run-ons.\n\nRULES:\n1. Banned from executing the fixes or altering my authentic voice.\n2. Extract the flawed sentence, highlight the error zone using **bold text**, explain the mechanical rule being broken, and ask me to provide the corrected version.\n3. Enforce New Zealand English dictionaries.\n\n[PASTE DRAFT HERE]"`;
-
             } else if (currentWritingStrategy === 'Science CER') {
                 text = `"TASK: Guide the development of a structural science report conclusion using Claim, Evidence, and Reasoning methodology for ${ctx.topic}.\n\nRULES:\nMust refuse to draft the answer. Instruct me to provide my exact experiment results or data trends first, then walk me hand-in-hand through connecting those specific values to established textbook laws."`;
-
             } else if (currentWritingStrategy === 'Stats PPDAC') {
                 text = `"TASK: Scaffold an internal assessment report following the Problem, Plan, Data, Analysis, Conclusion (PPDAC) pipeline for ${ctx.year} Statistics.\n\nRULES:\nAsk me which exact checkpoint I am facing. Provide the exact methodological target questions for that phase and output a list of statistical descriptors needed to climb to Merit or Excellence."`;
-
             } else if (currentWritingStrategy === 'Justification') {
                 text = `"TASK: Assist me in translating mathematical equations into high-level justifications for ${ctx.year} ${ctx.subject}, while building error-analysis skills.\n\nRULES:\n1. Analyze my pasted numeric working out. Generate 3 unique transitional frame starters to help me explain why the mathematical process holds true.\n2. Occasionally present me with a highly realistic 'mock' student answer containing a subtle misconception, and ask me to act as the marker to spot and correct the flaw.\n\n[PASTE CALCULATION HERE]"`;
             }
+
             document.getElementById('prompt-writing-text').innerText = text;
         }
 
         function setLitNumStrategy(strategy) {
             currentLitNumStrategy = strategy;
+            
             document.querySelectorAll('#view-litnum .strategy-btn').forEach(btn => {
                 btn.classList.remove('active', 'border-[#c5a059]', 'bg-[#fffcf5]');
                 btn.classList.add('border-transparent', 'bg-white');
             });
             event.currentTarget.classList.remove('border-transparent', 'bg-white');
             event.currentTarget.classList.add('active', 'border-[#c5a059]', 'bg-[#fffcf5]');
+
             updateLitNumPrompt();
         }
 
@@ -1253,16 +1292,14 @@
 
             if (currentLitNumStrategy === 'Vocab Decoder') {
                 text = `"TASK: Contextual literacy builder for ${ctx.topic} (${ctx.year}).\n\nACTION:\nFabricate a complex, high-tier 150-word subject-matter passage tailored to my Year Level. Follow up by building a layout table detailing the 5 most dense vocabulary blocks inside the text, including contextual definitions and practical secondary sentence models."`;
-
             } else if (currentLitNumStrategy === 'Reading Comp') {
                 text = `"TASK: Multi-tiered text comprehension and constraint-based summarization engine for ${ctx.topic} (${ctx.year}).\n\nACTION:\nCreate an advanced reading passage (200-250 words) exploring the active topic. Prompt me with 3 structural review questions: 1 Literal, 1 Inferential, and 1 Evaluative. Hold back the solution keys until I attempt them. As a final comprehension check, challenge me to summarize the core argument using exactly 12 words—no more, no less."`;
-
             } else if (currentLitNumStrategy === 'Word Problem') {
                 text = `"TASK: Quantitative text parsing and variable mapping coach for ${ctx.topic} (${ctx.year}).\n\nACTION:\nGenerate a complex, situational word problem matching the topic.\nRULES:\nStrictly bound to skip the computation. Force me to handle the mechanics by asking me to establish a 'Knowns vs. Unknowns' list before touching any mathematical operators. I must explicitly state what the final unit of measurement will be, identify the red-herring distracting metrics, and list the operators needed to map the system."`;
-
             } else if (currentLitNumStrategy === 'Data Graph') {
                 text = `"TASK: Analytical visualization interpreter for ${ctx.topic} (${ctx.year}).\n\nACTION:\nOutput a simulated data set matrix or statistic block based on the topic. Prompt me with 3-5 structural questions demanding data trend spotting, axis relationship checking, outlier identifying, or quick data manipulation."`;
             }
+
             document.getElementById('prompt-litnum-text').innerText = text;
         }
 
