@@ -57,6 +57,7 @@
             white-space: nowrap;
             font-size: 0.875rem;
         }
+        .nav-btn:focus-visible { outline: 3px solid #c5a059; outline-offset: -2px; }
         @media (min-width: 768px) {
             .nav-btn {
                 padding: 1rem 1rem;
@@ -88,6 +89,7 @@
         }
 
         .strategy-btn:hover { transform: translateY(-2px); border-color: #d1e6f6; }
+        .strategy-btn:focus-visible { outline: 3px solid #c5a059; outline-offset: 2px; }
 
         .strategy-btn.active {
             border-color: #c5a059;
@@ -187,11 +189,32 @@
         }
         .level-up { animation: levelUpAnim 1s ease-out; }
 
+        /* Slow-flashing attention dot (e.g. pointing at the department switcher) */
+        @keyframes slowPulseDot {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+            50% { opacity: 0.35; box-shadow: 0 0 0 5px rgba(239, 68, 68, 0); }
+        }
+        .pulse-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 9999px;
+            background-color: #ef4444;
+            animation: slowPulseDot 2.2s ease-in-out infinite;
+        }
+
         /* Collapsible dropdown sections (e.g. Gemini Notebook explainer in the Vault) */
         details > summary { list-style: none; }
         details > summary::-webkit-details-marker { display: none; }
         .details-chevron { display: inline-block; transition: transform 0.2s ease; }
         details[open] .details-chevron { transform: rotate(180deg); }
+
+        /* Only apply flex centering when NOT hidden — keeps this from ever fighting
+           with the .hidden utility class in the cascade (a real footgun when both
+           classes are present on the same element at once). */
+        #welcome-tour:not(.hidden) { display: flex; align-items: center; justify-content: center; }
+        #ncea-standard-container:not(.hidden) { display: flex; }
+        #nzc-note-container:not(.hidden) { display: flex; }
     </style>
 </head>
 <body class="p-2 md:p-8 pb-24 md:pb-8">
@@ -268,12 +291,12 @@
         </div>
 
         <!-- Global Context Bar (Appears on Prompt builder views) -->
-        <div id="global-context" class="glass-card bg-purple-50 border border-purple-200 border-l-4 border-l-purple-400 p-4 md:p-6 max-w-5xl mx-auto mb-8">
+        <div id="global-context" class="glass-card border border-purple-200 border-l-4 border-l-purple-400 p-4 md:p-6 max-w-5xl mx-auto mb-8" style="background-color: #faf5ff;">
             <!-- Senior-only: specific NCEA subject + Standard Number, shown for Year 11-13.
                  Department below is broad (e.g. "Social Sciences"); this Subject field is the
                  actual NCEA subject within it (e.g. "History", "Geography", "Economics") — it
                  comes first so students narrow Department → Subject before naming the Topic. -->
-            <div id="ncea-standard-container" class="hidden mb-4 pb-4 border-b border-purple-200 flex flex-col md:flex-row gap-4">
+            <div id="ncea-standard-container" class="hidden mb-4 pb-4 border-b border-purple-200 flex-col md:flex-row gap-4">
                 <div class="w-full md:w-1/2">
                     <label class="text-[10px] md:text-xs font-black text-whs-darkblue uppercase tracking-widest block mb-2">Subject <span class="text-slate-400 font-medium normal-case">(the specific NCEA subject, e.g. History, Chemistry)</span></label>
                     <input type="text" id="global-actual-subject" oninput="updateAllPrompts()" placeholder="e.g. History, Chemistry, Economics..." class="w-full p-2 md:p-3 rounded-lg border border-purple-200 focus:border-whs-darkblue outline-none transition font-medium text-sm">
@@ -315,7 +338,7 @@
                 </div>
             </div>
             <!-- Junior-only: NZ Curriculum note, shown for Year 7-10 -->
-            <div id="nzc-note-container" class="hidden mt-4 pt-4 border-t border-purple-200 flex items-center justify-between flex-wrap gap-3">
+            <div id="nzc-note-container" class="hidden mt-4 pt-4 border-t border-purple-200 items-center justify-between flex-wrap gap-3">
                 <p class="text-xs text-slate-500">Junior prompts are aligned to the <strong class="text-whs-darkblue">NZ Curriculum — Knowledge and Practices</strong>.</p>
                 <a id="nzc-link" href="https://newzealandcurriculum.tahurangi.education.govt.nz" target="_blank" class="text-xs font-bold text-whs-darkblue hover:underline">View the curriculum page ↗</a>
             </div>
@@ -335,9 +358,9 @@
                 <div class="lg:col-span-4 space-y-3 flex flex-col h-auto lg:h-[550px] overflow-y-auto custom-scrollbar pr-2">
 
                     <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 mt-2">Getting Started</h3>
-                    <button onclick="setLearnStrategy('First Look')" id="btn-learn-1" class="strategy-btn active border-whs-gold bg-whs-goldlight">
-                        <span class="block font-bold text-whs-darkblue mb-1">🔎 First Look</span>
-                        <span class="text-xs text-slate-600 block">A clear, guided first introduction to the topic.</span>
+                    <button onclick="setLearnStrategy('Full Tutor')" id="btn-learn-1" class="strategy-btn active border-whs-gold bg-whs-goldlight">
+                        <span class="block font-bold text-whs-darkblue mb-1">🎓 Full Topic Tutor</span>
+                        <span class="text-xs text-slate-600 block">A complete, step-by-step tutor — from first principles to deep understanding.</span>
                     </button>
                     <button onclick="setLearnStrategy('Key Vocabulary')" id="btn-learn-2" class="strategy-btn">
                         <span class="block font-bold text-whs-darkblue mb-1">🔤 Key Vocabulary Primer</span>
@@ -374,6 +397,7 @@
                                 <a href="https://gemini.google.com/app" target="_blank" title="Opens Gemini in a new tab — paste your copied prompt there" class="bg-amber-500 text-white px-3 py-2 rounded-lg text-xs font-bold transition shadow-sm hover:bg-amber-600 flex items-center gap-1">Open Gemini ↗</a>
                                 <a href="https://chatgpt.com/" target="_blank" title="Opens ChatGPT in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">ChatGPT ↗</a>
                                 <a href="https://claude.ai/new" target="_blank" title="Opens Claude in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Claude ↗</a>
+                                <a href="https://myelevatetutor.com/chat" target="_blank" title="Opens Elevate Tutor in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Elevate Tutor ↗</a>
                             </div>
                         </div>
                         <!-- Content -->
@@ -384,6 +408,7 @@
                             <a href="https://gemini.google.com/app" target="_blank" title="Opens Gemini in a new tab — paste your copied prompt there" class="bg-amber-500 text-white px-3 py-2 rounded-lg text-xs font-bold transition shadow-sm hover:bg-amber-600 flex items-center gap-1">Open Gemini ↗</a>
                             <a href="https://chatgpt.com/" target="_blank" title="Opens ChatGPT in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">ChatGPT ↗</a>
                             <a href="https://claude.ai/new" target="_blank" title="Opens Claude in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Claude ↗</a>
+                            <a href="https://myelevatetutor.com/chat" target="_blank" title="Opens Elevate Tutor in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Elevate Tutor ↗</a>
                         </div>
                     </div>
                 </div>
@@ -450,6 +475,7 @@
                                 <a href="https://gemini.google.com/app" target="_blank" title="Opens Gemini in a new tab — paste your copied prompt there" class="bg-amber-500 text-white px-3 py-2 rounded-lg text-xs font-bold transition shadow-sm hover:bg-amber-600 flex items-center gap-1">Open Gemini ↗</a>
                                 <a href="https://chatgpt.com/" target="_blank" title="Opens ChatGPT in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">ChatGPT ↗</a>
                                 <a href="https://claude.ai/new" target="_blank" title="Opens Claude in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Claude ↗</a>
+                                <a href="https://myelevatetutor.com/chat" target="_blank" title="Opens Elevate Tutor in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Elevate Tutor ↗</a>
                             </div>
                         </div>
                         <!-- Content -->
@@ -460,6 +486,7 @@
                             <a href="https://gemini.google.com/app" target="_blank" title="Opens Gemini in a new tab — paste your copied prompt there" class="bg-amber-500 text-white px-3 py-2 rounded-lg text-xs font-bold transition shadow-sm hover:bg-amber-600 flex items-center gap-1">Open Gemini ↗</a>
                             <a href="https://chatgpt.com/" target="_blank" title="Opens ChatGPT in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">ChatGPT ↗</a>
                             <a href="https://claude.ai/new" target="_blank" title="Opens Claude in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Claude ↗</a>
+                            <a href="https://myelevatetutor.com/chat" target="_blank" title="Opens Elevate Tutor in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Elevate Tutor ↗</a>
                         </div>
                     </div>
                 </div>
@@ -478,10 +505,12 @@
                     <button onclick="addFlashcard()" class="bg-whs-darkblue text-white px-5 py-2.5 rounded-lg text-xs font-bold hover:bg-opacity-90 transition shrink-0">Add Card</button>
                 </div>
 
-                <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
                     <span id="fc-count" class="text-xs font-bold text-slate-500">0 cards</span>
-                    <div class="flex gap-2">
+                    <div class="flex gap-2 flex-wrap">
                         <button onclick="shuffleFlashcards()" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 transition">🔀 Shuffle</button>
+                        <button onclick="printFlashcards()" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 transition">🖨️ Print</button>
+                        <button onclick="exportFlashcardsFile()" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 transition">⬇️ Export</button>
                         <button onclick="clearFlashcards()" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition">Clear All</button>
                     </div>
                 </div>
@@ -491,7 +520,7 @@
                 <button onclick="startFlashcardStudy()" id="fc-study-btn" class="hidden w-full mb-4 bg-whs-gold text-white py-3 rounded-xl text-sm font-bold hover:bg-opacity-90 transition shadow-sm">▶ Study Mode</button>
 
                 <div id="fc-viewer" class="hidden mb-4">
-                    <div onclick="flipFlashcard()" id="fc-card" class="cursor-pointer select-none bg-whs-goldlight border-2 border-whs-gold rounded-2xl p-8 min-h-[160px] flex items-center justify-center text-center text-lg font-bold text-whs-darkblue mb-3">
+                    <div onclick="flipFlashcard()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();flipFlashcard();}" id="fc-card" tabindex="0" role="button" aria-label="Flashcard, tap or press Enter to flip" class="cursor-pointer select-none bg-whs-goldlight border-2 border-whs-gold rounded-2xl p-8 min-h-[160px] flex items-center justify-center text-center text-lg font-bold text-whs-darkblue mb-3 focus:outline-none focus:ring-4 focus:ring-whs-gold/50">
                         <span id="fc-card-text"></span>
                     </div>
                     <p class="text-center text-xs text-slate-400 mb-3">Tap the card to flip • <span id="fc-progress"></span></p>
@@ -560,6 +589,7 @@
                                 <a href="https://gemini.google.com/app" target="_blank" title="Opens Gemini in a new tab — paste your copied prompt there" class="bg-amber-500 text-white px-3 py-2 rounded-lg text-xs font-bold transition shadow-sm hover:bg-amber-600 flex items-center gap-1">Open Gemini ↗</a>
                                 <a href="https://chatgpt.com/" target="_blank" title="Opens ChatGPT in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">ChatGPT ↗</a>
                                 <a href="https://claude.ai/new" target="_blank" title="Opens Claude in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Claude ↗</a>
+                                <a href="https://myelevatetutor.com/chat" target="_blank" title="Opens Elevate Tutor in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Elevate Tutor ↗</a>
                             </div>
                         </div>
                         <div class="bg-white p-4 md:p-6 rounded-xl text-sm md:text-base font-mono text-slate-800 border border-slate-200 mb-4 flex-grow shadow-inner whitespace-pre-wrap overflow-y-auto leading-relaxed" id="prompt-writing-text">...</div>
@@ -569,6 +599,7 @@
                             <a href="https://gemini.google.com/app" target="_blank" title="Opens Gemini in a new tab — paste your copied prompt there" class="bg-amber-500 text-white px-3 py-2 rounded-lg text-xs font-bold transition shadow-sm hover:bg-amber-600 flex items-center gap-1">Open Gemini ↗</a>
                             <a href="https://chatgpt.com/" target="_blank" title="Opens ChatGPT in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">ChatGPT ↗</a>
                             <a href="https://claude.ai/new" target="_blank" title="Opens Claude in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Claude ↗</a>
+                            <a href="https://myelevatetutor.com/chat" target="_blank" title="Opens Elevate Tutor in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Elevate Tutor ↗</a>
                         </div>
                     </div>
                 </div>
@@ -660,6 +691,7 @@
                                 <a href="https://gemini.google.com/app" target="_blank" title="Opens Gemini in a new tab — paste your copied prompt there" class="bg-amber-500 text-white px-3 py-2 rounded-lg text-xs font-bold transition shadow-sm hover:bg-amber-600 flex items-center gap-1">Open Gemini ↗</a>
                                 <a href="https://chatgpt.com/" target="_blank" title="Opens ChatGPT in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">ChatGPT ↗</a>
                                 <a href="https://claude.ai/new" target="_blank" title="Opens Claude in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Claude ↗</a>
+                                <a href="https://myelevatetutor.com/chat" target="_blank" title="Opens Elevate Tutor in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Elevate Tutor ↗</a>
                             </div>
                         </div>
                         <div class="bg-white p-4 md:p-6 rounded-xl text-sm md:text-base font-mono text-slate-800 border border-slate-200 mb-4 flex-grow shadow-inner whitespace-pre-wrap overflow-y-auto leading-relaxed" id="prompt-litnum-text">...</div>
@@ -669,6 +701,7 @@
                             <a href="https://gemini.google.com/app" target="_blank" title="Opens Gemini in a new tab — paste your copied prompt there" class="bg-amber-500 text-white px-3 py-2 rounded-lg text-xs font-bold transition shadow-sm hover:bg-amber-600 flex items-center gap-1">Open Gemini ↗</a>
                             <a href="https://chatgpt.com/" target="_blank" title="Opens ChatGPT in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">ChatGPT ↗</a>
                             <a href="https://claude.ai/new" target="_blank" title="Opens Claude in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Claude ↗</a>
+                            <a href="https://myelevatetutor.com/chat" target="_blank" title="Opens Elevate Tutor in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Elevate Tutor ↗</a>
                         </div>
                     </div>
                 </div>
@@ -682,6 +715,23 @@
             <div class="text-center max-w-3xl mx-auto mb-4 px-4">
                 <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-4">Study Tools & Productivity</h2>
                 <p class="text-sm md:text-base text-slate-600">Keep yourself on track. Use the Pomodoro timer, track tasks, and take quick notes.</p>
+            </div>
+
+            <!-- My Progress + Badges: compact, combined, and here in Tools rather than the
+                 NCEA Vault since every year level (7-13) uses this tab. -->
+            <div class="glass-card p-4 md:p-5 max-w-6xl mx-auto border-t-4 border-t-whs-gold">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-sm font-bold text-whs-darkblue uppercase tracking-widest">📊 My Progress</h3>
+                </div>
+                <div id="progress-dashboard" class="grid grid-cols-4 md:grid-cols-7 gap-2 mb-4">
+                    <!-- Injected via JS: renderProgressDashboard() -->
+                </div>
+                <div class="border-t border-slate-200 pt-3">
+                    <h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">🏅 Badges</h4>
+                    <div id="badges-grid" class="grid grid-cols-4 md:grid-cols-8 gap-2">
+                        <!-- Injected via JS: renderBadges() -->
+                    </div>
+                </div>
             </div>
 
             <div class="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
@@ -698,6 +748,17 @@
                         <div class="flex gap-4">
                             <button onclick="toggleTimer()" id="timer-btn" class="bg-red-500 text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-red-600 transition shadow-md w-32">Start</button>
                             <button onclick="resetTimer()" class="bg-slate-200 text-slate-700 px-6 py-3 rounded-full font-bold text-lg hover:bg-slate-300 transition w-32">Reset</button>
+                        </div>
+
+                        <!-- Post-session reflection: optional, appears after a work session ends -->
+                        <div id="reflection-box" class="hidden w-full mt-6 pt-6 border-t border-slate-200 text-left">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest block mb-2">Quick reflection (optional)</label>
+                            <p class="text-xs text-slate-400 mb-2">What did you just work on?</p>
+                            <div class="flex gap-2">
+                                <input type="text" id="reflection-input" placeholder="e.g. Finished my Bio notes on cell division" class="flex-1 p-2 rounded-lg border border-slate-300 focus:border-whs-darkblue outline-none text-sm" onkeypress="if(event.key === 'Enter') saveReflection()">
+                                <button onclick="saveReflection()" class="bg-whs-darkblue text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-opacity-90 transition shrink-0">Save</button>
+                            </div>
+                            <p id="reflection-saved-msg" class="hidden text-xs text-emerald-600 font-bold mt-2">Saved! Nice work. 🎉</p>
                         </div>
                     </div>
 
@@ -765,6 +826,7 @@
                             <a href="https://gemini.google.com/app" target="_blank" title="Opens Gemini in a new tab — paste your copied prompt there" class="bg-amber-500 text-white px-3 py-2 rounded-lg text-xs font-bold transition shadow-sm hover:bg-amber-600 flex items-center gap-1">Open Gemini ↗</a>
                             <a href="https://chatgpt.com/" target="_blank" title="Opens ChatGPT in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">ChatGPT ↗</a>
                             <a href="https://claude.ai/new" target="_blank" title="Opens Claude in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Claude ↗</a>
+                            <a href="https://myelevatetutor.com/chat" target="_blank" title="Opens Elevate Tutor in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Elevate Tutor ↗</a>
                         </div>
                     </div>
                 </div>
@@ -778,13 +840,6 @@
             <div class="text-center max-w-3xl mx-auto mb-4 px-4">
                 <h2 class="text-4xl font-black text-slate-900 mb-4">The NCEA Vault</h2>
                 <p class="text-slate-600">Quick links to official resources, tutors, cheat sheets, and your personalized library of saved AI prompts.</p>
-            </div>
-
-            <div class="glass-card p-6 max-w-[1400px] mx-auto mb-2 border-t-4 border-t-purple-400">
-                <h3 class="text-lg font-bold text-whs-darkblue mb-4 border-b pb-2">🏅 My Badges</h3>
-                <div id="badges-grid" class="grid grid-cols-4 md:grid-cols-8 gap-3">
-                    <!-- Injected via JS -->
-                </div>
             </div>
 
             <!-- Gemini Notebook Explainer -->
@@ -870,38 +925,19 @@ Please begin with Phase 1.</span>
                         <h3 class="text-lg font-bold text-whs-darkblue mb-4 border-b pb-2">🔗 Official Quick Links</h3>
                         <ul class="space-y-4 text-sm">
                             <li><a href="https://www2.nzqa.govt.nz/ncea/student-assessment-hub/" target="_blank" class="font-bold text-blue-600 hover:underline flex items-center gap-2"><span>🎯</span> NCEA Student Assessment Hub ↗</a></li>
-                            <li><a href="https://www.nzqa.govt.nz/ncea/subjects/" target="_blank" class="font-medium text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-2"><span>📄</span> Past Papers & Exemplars ↗</a></li>
+                            <li><a href="https://www.nzqa.govt.nz/ncea/assessment/search.do?query=&view=all" target="_blank" class="font-medium text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-2"><span>📄</span> Search Past Papers by Standard ↗</a></li>
+                            <li><a href="https://www.nzqa.govt.nz/ncea/subjects/" target="_blank" class="font-medium text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-2"><span>📚</span> Browse by Subject ↗</a></li>
                             <li><a href="https://studyit.govt.nz/" target="_blank" class="font-medium text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-2"><span>💬</span> StudyIt Forums ↗</a></li>
                             <li><a id="vault-nzc-link" href="https://newzealandcurriculum.tahurangi.education.govt.nz" target="_blank" class="font-medium text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-2"><span>📘</span> NZ Curriculum (Tāhūrangi) ↗</a></li>
+                            <li><a href="https://myelevatetutor.com/chat" target="_blank" class="font-medium text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-2"><span>🎓</span> Elevate AI Tutor ↗</a></li>
                         </ul>
                     </div>
 
                     <!-- Dynamic Cheat Sheet -->
                     <div class="glass-card p-6 border-l-4 border-l-whs-gold">
-                        <h3 class="text-lg font-bold text-whs-darkblue mb-4 border-b pb-2" id="cheat-sheet-title">📋 Essay Structures</h3>
-                        
-                        <!-- Humanities Cheat Sheet -->
-                        <div id="cheat-hum" class="space-y-4 text-sm text-slate-700 subject-hum">
-                            <div>
-                                <a href="https://www.youtube.com/results?search_query=TEEL+paragraph+structure" target="_blank" class="font-bold text-slate-900 hover:text-blue-600 hover:underline flex items-center gap-1">TEEL (Paragraphs) ↗</a>
-                                <p class="text-xs mt-1"><strong>T</strong>opic Sentence (Main point)<br><strong>E</strong>xplanation (What do you mean?)<br><strong>E</strong>vidence (Quotes/Data)<br><strong>L</strong>ink (Connect back to question)</p>
-                            </div>
-                            <div>
-                                <a href="https://www.youtube.com/results?search_query=SEXY+paragraph+structure+NCEA" target="_blank" class="font-bold text-slate-900 hover:text-blue-600 hover:underline flex items-center gap-1">SEXY (English/Lit) ↗</a>
-                                <p class="text-xs mt-1"><strong>S</strong>tatement (Idea)<br><strong>E</strong>xplanation<br><strong>X</strong>-ample (Quote/Technique)<br><strong>Y</strong> (Why does this matter?)</p>
-                            </div>
-                        </div>
-
-                        <!-- STEM Cheat Sheet -->
-                        <div id="cheat-stem" class="space-y-4 text-sm text-slate-700 subject-stem hidden">
-                            <div>
-                                <strong class="font-bold text-slate-900">Basic Physics (Kinematics)</strong>
-                                <p class="text-xs mt-1 font-mono bg-slate-100 p-2 rounded">v = Δd / Δt<br>a = Δv / Δt<br>F = m × a<br>P = F / A</p>
-                            </div>
-                            <div>
-                                <strong class="font-bold text-slate-900">Trigonometry (SOH CAH TOA)</strong>
-                                <p class="text-xs mt-1 font-mono bg-slate-100 p-2 rounded">Sin(θ) = O / H<br>Cos(θ) = A / H<br>Tan(θ) = O / A</p>
-                            </div>
+                        <h3 class="text-lg font-bold text-whs-darkblue mb-4 border-b pb-2" id="cheat-sheet-title">📋 Cheat Sheet</h3>
+                        <div id="cheat-sheet-content" class="space-y-4 text-sm text-slate-700">
+                            <!-- Injected via JS: renderCheatSheet() -->
                         </div>
                     </div>
                 </div>
@@ -912,16 +948,21 @@ Please begin with Phase 1.</span>
                     <div class="glass-card p-6 border-t-4 border-t-red-500 h-[420px] flex flex-col">
                         <div class="flex justify-between items-center gap-2 mb-3 border-b pb-3 flex-wrap">
                             <h3 class="text-lg font-bold text-whs-darkblue" id="dept-resources-title">📺 Science Resources</h3>
-                            <select id="vault-dept-select" onchange="changeVaultDept(this.value)" class="p-1.5 rounded-lg border border-slate-300 text-xs font-bold text-whs-darkblue focus:border-whs-darkblue outline-none">
-                                <option value="Science">Science</option>
-                                <option value="Maths">Maths</option>
-                                <option value="Technology">Technology</option>
-                                <option value="English">English</option>
-                                <option value="Social Sciences">Social Sciences</option>
-                                <option value="Arts">Arts</option>
-                                <option value="PE & Health">PE & Health</option>
-                                <option value="Māori">Māori</option>
-                            </select>
+                            <div class="flex items-center gap-2">
+                                <span class="flex items-center gap-1.5 text-[10px] font-bold text-red-600 whitespace-nowrap">
+                                    <span class="pulse-dot" aria-hidden="true"></span> Change subject here
+                                </span>
+                                <select id="vault-dept-select" onchange="changeVaultDept(this.value)" class="p-1.5 rounded-lg border border-slate-300 text-xs font-bold text-whs-darkblue focus:border-whs-darkblue outline-none">
+                                    <option value="Science">Science</option>
+                                    <option value="Maths">Maths</option>
+                                    <option value="Technology">Technology</option>
+                                    <option value="English">English</option>
+                                    <option value="Social Sciences">Social Sciences</option>
+                                    <option value="Arts">Arts</option>
+                                    <option value="PE & Health">PE & Health</option>
+                                    <option value="Māori">Māori</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="flex-grow overflow-y-auto custom-scrollbar pr-2 space-y-1 text-sm" id="dept-resources-container">
                             <!-- Injected via JS: renderDeptResources() -->
@@ -977,7 +1018,7 @@ Please begin with Phase 1.</span>
             <div class="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
                 
                 <!-- Breathing Exercise -->
-                <div class="glass-card p-10 h-full min-h-[400px] flex flex-col items-center justify-center relative overflow-hidden bg-rose-50 border-rose-200">
+                <div class="glass-card p-10 h-full min-h-[400px] flex flex-col items-center justify-center relative overflow-hidden border-rose-200" style="background-color: #fff1f2;">
                     <h3 class="absolute top-6 text-sm font-bold uppercase tracking-widest text-rose-800">Box Breathing</h3>
                     <p class="absolute top-12 text-xs text-rose-600 text-center w-full px-8">Inhale as the circle grows (4s) • Hold (4s) • Exhale as it shrinks (4s)</p>
                     
@@ -986,7 +1027,7 @@ Please begin with Phase 1.</span>
 
                 <!-- Overwhelm Coach & Links -->
                 <div class="space-y-6 h-full flex flex-col">
-                    <div class="glass-card p-6 md:p-8 border-l-8 border-l-rose-500 flex-grow flex flex-col">
+                    <div class="glass-card p-6 md:p-8 border-l-8 border-l-rose-500 flex flex-col">
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 w-full">
                             <div>
                                 <h3 class="text-xl font-bold text-slate-900 mb-1">The "Panic Button" Prompt</h3>
@@ -997,10 +1038,11 @@ Please begin with Phase 1.</span>
                                 <a href="https://gemini.google.com/app" target="_blank" title="Opens Gemini in a new tab — paste your copied prompt there" class="bg-amber-500 border border-amber-500 px-2 py-2 rounded-lg text-[10px] font-bold text-white shadow-sm transition hover:bg-amber-600">Gemini ↗</a>
                                 <a href="https://chatgpt.com/" target="_blank" title="Opens ChatGPT in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">ChatGPT ↗</a>
                                 <a href="https://claude.ai/new" target="_blank" title="Opens Claude in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Claude ↗</a>
+                                <a href="https://myelevatetutor.com/chat" target="_blank" title="Opens Elevate Tutor in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Elevate Tutor ↗</a>
                             </div>
                         </div>
                         
-                        <div class="bg-slate-50 p-4 rounded-xl text-sm font-mono text-slate-700 border border-slate-200 flex-grow shadow-inner">
+                        <div class="bg-slate-50 p-4 rounded-xl text-sm font-mono text-slate-700 border border-slate-200 shadow-inner max-h-56 overflow-y-auto custom-scrollbar whitespace-pre-wrap">
                             <span id="prompt-panic">...</span>
                         </div>
                     </div>
@@ -1016,14 +1058,15 @@ Please begin with Phase 1.</span>
                                 <a href="https://gemini.google.com/app" target="_blank" title="Opens Gemini in a new tab — paste your copied prompt there" class="bg-amber-500 border border-amber-500 px-2 py-2 rounded-lg text-[10px] font-bold text-white shadow-sm transition hover:bg-amber-600">Gemini ↗</a>
                                 <a href="https://chatgpt.com/" target="_blank" title="Opens ChatGPT in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">ChatGPT ↗</a>
                                 <a href="https://claude.ai/new" target="_blank" title="Opens Claude in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Claude ↗</a>
+                                <a href="https://myelevatetutor.com/chat" target="_blank" title="Opens Elevate Tutor in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Elevate Tutor ↗</a>
                             </div>
                         </div>
-                        <div class="bg-slate-50 p-4 rounded-xl text-sm font-mono text-slate-700 border border-slate-200 shadow-inner">
+                        <div class="bg-slate-50 p-4 rounded-xl text-sm font-mono text-slate-700 border border-slate-200 shadow-inner max-h-56 overflow-y-auto custom-scrollbar whitespace-pre-wrap">
                             <span id="prompt-extension">...</span>
                         </div>
                     </div>
 
-                    <div class="glass-card p-6 md:p-8 bg-whs-darkblue text-white">
+                    <div class="glass-card p-6 md:p-8 text-white" style="background-color: #002066;">
                         <h3 class="text-lg font-bold mb-4">Need to talk to someone?</h3>
                         <ul class="space-y-4 text-sm">
                             <li class="flex items-center gap-3">
@@ -1044,6 +1087,34 @@ Please begin with Phase 1.</span>
             </div>
         </div>
 
+    </div>
+
+    <footer class="text-center py-6 px-4">
+        <p class="text-[11px] text-slate-400">
+            Your progress lives in this browser only.
+            <button onclick="exportData()" class="underline hover:text-slate-600 font-medium">Back up my data</button>
+            ·
+            <button onclick="triggerImport()" class="underline hover:text-slate-600 font-medium">Restore a backup</button>
+            <input type="file" id="import-file-input" accept="application/json" class="hidden" onchange="importData(this)">
+        </p>
+    </footer>
+
+    <!-- First-Time Welcome Tour: shown once (localStorage-flagged), introduces the tabs -->
+    <div id="welcome-tour" class="hidden fixed inset-0 bg-black/60 z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 md:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <h2 class="text-2xl font-black text-whs-darkblue mb-1">👋 Welcome to the WHS Study Hub</h2>
+            <p class="text-sm text-slate-600 mb-5">A quick look at what's here:</p>
+            <ul class="space-y-3 text-sm mb-6">
+                <li class="flex gap-3"><span class="shrink-0">📖</span><span><strong>Learn</strong> — meeting a topic for the first time? Start here.</span></li>
+                <li class="flex gap-3"><span class="shrink-0">🔁</span><span><strong>Revision</strong> — quizzes, real flashcards, and exam-style practice.</span></li>
+                <li class="flex gap-3"><span class="shrink-0">✍️</span><span><strong>Writing</strong> — feedback, structure help, and sentence starters.</span></li>
+                <li class="flex gap-3"><span class="shrink-0">🔢</span><span><strong>Year 10 CAA</strong> — literacy & numeracy prep for the Y10 CAAs.</span></li>
+                <li class="flex gap-3"><span class="shrink-0">🗄️</span><span><strong>NCEA Vault</strong> — your progress, badges, saved prompts, and the Gemini Notebook guide.</span></li>
+                <li class="flex gap-3"><span class="shrink-0">⏱️</span><span><strong>Tools</strong> — focus timer, to-do list, and exam countdown.</span></li>
+                <li class="flex gap-3"><span class="shrink-0">💚</span><span><strong>Wellbeing</strong> — feeling overwhelmed? Start here instead.</span></li>
+            </ul>
+            <button onclick="dismissTour()" class="w-full bg-whs-darkblue text-white py-3 rounded-xl font-bold hover:bg-opacity-90 transition">Got it, let's go!</button>
+        </div>
     </div>
 
     <!-- AUDIO GENERATOR -->
@@ -1093,6 +1164,18 @@ Please begin with Phase 1.</span>
         }
         function toggleDarkMode() {
             applyDarkMode(!document.body.classList.contains('dark-mode'));
+        }
+
+        // First-Time Welcome Tour
+        function dismissTour() {
+            localStorage.setItem('whs_tour_seen', '1');
+            const el = document.getElementById('welcome-tour');
+            if (el) el.classList.add('hidden');
+        }
+        function maybeShowTour() {
+            if (localStorage.getItem('whs_tour_seen')) return;
+            const el = document.getElementById('welcome-tour');
+            if (el) el.classList.remove('hidden');
         }
 
         function updateXPDisplay() {
@@ -1186,11 +1269,39 @@ Please begin with Phase 1.</span>
             grid.innerHTML = BADGES.map(b => {
                 const isUnlocked = unlocked.includes(b.id);
                 return `
-                <div class="flex flex-col items-center text-center p-3 rounded-xl border ${isUnlocked ? 'border-whs-gold bg-whs-goldlight' : 'border-slate-200 bg-slate-50 opacity-50 grayscale'}" title="${b.desc}">
-                    <span class="text-3xl mb-1">${b.icon}</span>
-                    <span class="text-[10px] font-bold text-slate-800 leading-tight">${b.name}</span>
+                <div class="flex flex-col items-center text-center p-1.5 rounded-lg border ${isUnlocked ? 'border-whs-gold bg-whs-goldlight' : 'border-slate-200 bg-slate-50 opacity-50 grayscale'}" title="${b.desc}">
+                    <span class="text-xl mb-0.5">${b.icon}</span>
+                    <span class="text-[8px] font-bold text-slate-800 leading-tight">${b.name}</span>
                 </div>`;
             }).join('');
+        }
+
+        // Consolidates every gamification stat (XP, streak, badges, tasks, focus
+        // sessions, flashcards) into one dashboard, since they were previously scattered
+        // across different tabs with no single "how am I doing overall" view.
+        function renderProgressDashboard() {
+            const el = document.getElementById('progress-dashboard');
+            if (!el) return;
+            const state = getBadgeState();
+            const unlocked = (JSON.parse(localStorage.getItem('whs_badges_unlocked')) || []).length;
+            const flashcardsKnown = parseInt(localStorage.getItem('whs_stat_flashcards_known')) || 0;
+
+            const tiles = [
+                { icon: '⭐', label: 'Level', value: state.level },
+                { icon: '⚡', label: 'Total XP', value: xp },
+                { icon: '🔥', label: 'Day Streak', value: state.streak },
+                { icon: '🏅', label: 'Badges', value: `${unlocked}/${BADGES.length}` },
+                { icon: '✅', label: 'Tasks Done', value: state.todosCompleted },
+                { icon: '⏱️', label: 'Focus Sessions', value: state.focusSessions },
+                { icon: '🗂️', label: 'Flashcards Known', value: flashcardsKnown },
+            ];
+
+            el.innerHTML = tiles.map(t => `
+                <div class="flex flex-col items-center text-center p-2 rounded-lg border border-slate-200 bg-slate-50">
+                    <span class="text-base mb-0.5">${t.icon}</span>
+                    <span class="text-sm font-black text-whs-darkblue leading-none">${t.value}</span>
+                    <span class="text-[8px] font-bold uppercase tracking-widest text-slate-500 mt-0.5">${t.label}</span>
+                </div>`).join('');
         }
 
         // View Management
@@ -1226,8 +1337,8 @@ Please begin with Phase 1.</span>
                 targetMobNav.classList.add('text-whs-darkblue');
             }
 
-            if (viewId === 'vault') { renderSavedPrompts(); renderBadges(); renderDeptResources(); }
-            if (viewId === 'tools') setTimeout(initFocusChart, 100);
+            if (viewId === 'vault') { renderSavedPrompts(); renderDeptResources(); }
+            if (viewId === 'tools') { renderBadges(); renderProgressDashboard(); setTimeout(initFocusChart, 100); }
         }
 
         // Toggles the left/right fade hints on the mobile nav based on scroll position
@@ -1252,12 +1363,9 @@ Please begin with Phase 1.</span>
                 el.style.display = isSTEM ? 'none' : 'block';
             });
 
-            const cheatTitle = document.getElementById('cheat-sheet-title');
-            if(cheatTitle) {
-                cheatTitle.innerText = isSTEM ? "📋 Formulas & Rules" : "📋 Essay Structures";
-            }
             updateNzcLink();
             renderDeptResources();
+            renderCheatSheet();
         }
 
         // Year Level UI: toggles the senior-only NCEA Standard Number field and the
@@ -1352,6 +1460,64 @@ Please begin with Phase 1.</span>
             const globalSelect = document.getElementById('global-subject');
             if (globalSelect) globalSelect.value = dept;
             subjectChanged();
+        }
+
+        // Genuine per-Department cheat sheets — replaces the old blunt STEM/Humanities
+        // split now that Departments have their own dedicated resource system.
+        const CHEAT_SHEETS = {
+            'Science': [
+                { title: 'Kinematics (Physics)', formula: 'v = Δd / Δt\na = Δv / Δt\nF = m × a\nP = F / A', link: 'https://www.youtube.com/results?search_query=NCEA+kinematics+physics' },
+                { title: 'Moles (Chemistry)', formula: 'n = m / M\nc = n / V\npH = -log₁₀[H⁺]', link: 'https://www.youtube.com/results?search_query=NCEA+chemistry+mole+calculations' },
+                { title: 'CER (Written Answers)', body: '<strong>C</strong>laim (what happened)<br><strong>E</strong>vidence (your data)<br><strong>R</strong>easoning (the science that links them)', link: 'https://www.youtube.com/results?search_query=Claim+Evidence+Reasoning+science+writing' },
+            ],
+            'Maths': [
+                { title: 'Trigonometry (SOH CAH TOA)', formula: 'Sin(θ) = O / H\nCos(θ) = A / H\nTan(θ) = O / A', link: 'https://www.youtube.com/results?search_query=SOH+CAH+TOA+explained' },
+                { title: 'Quadratic Formula', formula: 'x = (−b ± √(b² − 4ac)) / 2a', link: 'https://www.youtube.com/results?search_query=quadratic+formula+explained' },
+                { title: 'Straight Line', formula: 'y = mx + c\nm = (y₂ − y₁) / (x₂ − x₁)', link: 'https://www.youtube.com/results?search_query=equation+of+a+straight+line+NCEA' },
+            ],
+            'Technology': [
+                { title: 'Design Process', body: '<strong>B</strong>rief (define the problem)<br><strong>R</strong>esearch (explore existing solutions)<br><strong>D</strong>evelop (prototype & test)<br><strong>E</strong>valuate (against your brief)', link: 'https://www.youtube.com/results?search_query=technology+design+process+NCEA' },
+                { title: 'Justifying Design Decisions', body: 'State the decision → link it to a specific brief requirement or user need → explain the trade-off you considered.', link: 'https://www.youtube.com/results?search_query=justifying+design+decisions+NCEA+technology' },
+            ],
+            'English': [
+                { title: 'TEEL (Paragraphs)', link: 'https://www.youtube.com/results?search_query=TEEL+paragraph+structure', body: '<strong>T</strong>opic Sentence (main point)<br><strong>E</strong>xplanation (what do you mean?)<br><strong>E</strong>vidence (quotes)<br><strong>L</strong>ink (back to the question)' },
+                { title: 'SEXY (Close Reading)', link: 'https://www.youtube.com/results?search_query=SEXY+paragraph+structure+NCEA', body: '<strong>S</strong>tatement (idea)<br><strong>E</strong>xplanation<br><strong>X</strong>-ample (quote/technique)<br><strong>Y</strong> (why does this matter?)' },
+            ],
+            'Social Sciences': [
+                { title: 'TEEL (Paragraphs)', link: 'https://www.youtube.com/results?search_query=TEEL+paragraph+structure', body: '<strong>T</strong>opic Sentence (main point)<br><strong>E</strong>xplanation<br><strong>E</strong>vidence (source/data)<br><strong>L</strong>ink (back to the question)' },
+                { title: 'OPVL (Source Evaluation)', body: "<strong>O</strong>rigin (who/when)<br><strong>P</strong>urpose (why made)<br><strong>V</strong>alue (what it's useful for)<br><strong>L</strong>imitation (what it can't tell you)", link: 'https://www.youtube.com/results?search_query=OPVL+source+analysis' },
+            ],
+            'Arts': [
+                { title: 'FCPM (Visual Analysis)', body: '<strong>F</strong>orm (materials/technique)<br><strong>C</strong>ontent (subject matter)<br><strong>P</strong>rocess (how it was made)<br><strong>M</strong>ood (feeling it creates)', link: 'https://www.youtube.com/results?search_query=FCPM+visual+arts+analysis' },
+                { title: 'Linking Artist Models', body: 'Describe the technique you borrowed → name the artist/practitioner it came from → explain why it suits your own idea.', link: 'https://www.youtube.com/results?search_query=linking+artist+models+NCEA+art' },
+            ],
+            'PE & Health': [
+                { title: 'FITT (Training Principles)', body: '<strong>F</strong>requency (how often)<br><strong>I</strong>ntensity (how hard)<br><strong>T</strong>ime (duration)<br><strong>T</strong>ype (kind of training)', link: 'https://www.youtube.com/results?search_query=FITT+principle+training' },
+                { title: 'Bio-Psycho-Social Model', body: 'Bio (physical) + Psycho (mental/emotional) + Social (relationships/environment) — use all three angles when explaining wellbeing.', link: 'https://www.youtube.com/results?search_query=biopsychosocial+model+health+NCEA' },
+            ],
+            'Māori': [
+                { title: 'Structuring a Mihi', link: 'https://maoridictionary.co.nz/', body: 'Greeting → Maunga (mountain) → Awa (river) → Iwi/Hapū → Whānau → Your name.' },
+                { title: 'Whakataukī in Essays', body: 'Introduce the whakataukī → translate it plainly → explain the specific link to your topic — don\'t just leave it as decoration.', link: 'https://www.youtube.com/results?search_query=using+whakatauki+in+NCEA+essays' },
+            ],
+        };
+
+        function renderCheatSheet() {
+            const dept = document.getElementById('global-subject') ? document.getElementById('global-subject').value : 'Science';
+            const items = CHEAT_SHEETS[dept];
+            const container = document.getElementById('cheat-sheet-content');
+            const title = document.getElementById('cheat-sheet-title');
+            if (title) title.innerText = `📋 ${dept} Cheat Sheet`;
+            if (!container || !items) return;
+
+            container.innerHTML = items.map(item => {
+                const body = item.formula
+                    ? `<p class="text-xs mt-1 font-mono bg-slate-100 p-2 rounded whitespace-pre-line">${item.formula}</p>`
+                    : `<p class="text-xs mt-1">${item.body}</p>`;
+                const moreLink = item.link
+                    ? `<a href="${item.link}" target="_blank" class="inline-flex items-center gap-1 text-[11px] font-bold text-blue-600 hover:underline mt-1.5">Learn more ↗</a>`
+                    : '';
+                return `<div><strong class="font-bold text-slate-900 block">${item.title}</strong>${body}${moreLink}</div>`;
+            }).join('');
         }
 
         function renderDeptResources() {
@@ -1560,6 +1726,7 @@ Please begin with Phase 1.</span>
                         if(isWorkSession) {
                             addXP(50);
                             trackFocusSession();
+                            showReflectionBox();
                         }
 
                         isWorkSession = !isWorkSession;
@@ -1593,6 +1760,35 @@ Please begin with Phase 1.</span>
         function requestNotificationPermission() {
             if ('Notification' in window && Notification.permission === 'default') {
                 Notification.requestPermission();
+            }
+        }
+
+        // Post-session reflection journal: a light, optional prompt after a work
+        // session so students build a small habit of noting what they actually got done.
+        function showReflectionBox() {
+            const box = document.getElementById('reflection-box');
+            const savedMsg = document.getElementById('reflection-saved-msg');
+            const input = document.getElementById('reflection-input');
+            if (box) box.classList.remove('hidden');
+            if (savedMsg) savedMsg.classList.add('hidden');
+            if (input) input.value = '';
+        }
+
+        function saveReflection() {
+            const input = document.getElementById('reflection-input');
+            if (!input) return;
+            const text = input.value.trim();
+            if (!text) return;
+
+            const journal = JSON.parse(localStorage.getItem('whs_journal')) || [];
+            journal.push({ text, savedAt: new Date().toISOString() });
+            localStorage.setItem('whs_journal', JSON.stringify(journal));
+
+            input.value = '';
+            const savedMsg = document.getElementById('reflection-saved-msg');
+            if (savedMsg) {
+                savedMsg.classList.remove('hidden');
+                setTimeout(() => savedMsg.classList.add('hidden'), 3000);
             }
         }
 
@@ -1840,7 +2036,7 @@ Please begin with Phase 1.</span>
         }
 
         // Prompts Update Logic
-        let currentLearnStrategy = 'First Look';
+        let currentLearnStrategy = 'Full Tutor';
         let currentRevisionStrategy = 'Retrieval Quiz';
         let currentWritingStrategy = 'Feedback';
         let currentLitNumStrategy = 'Vocab Decoder';
@@ -1878,7 +2074,7 @@ Please begin with Phase 1.</span>
             const cl = contextLine(ctx);
             let text = "";
 
-            if (currentLearnStrategy === 'First Look') {
+            if (currentLearnStrategy === 'Full Tutor') {
                 const gradeLang = ctx.senior
                     ? `up to an "Excellence" level understanding (deep, connected, and applied)`
                     : `up to a deep, confident understanding you could explain to someone else`;
@@ -2179,6 +2375,40 @@ Please begin with Phase 1.</span>
             if (viewer) viewer.classList.add('hidden');
         }
 
+        // Opens a clean, print-ready page of front/back pairs — handy for students who
+        // want physical cards rather than studying on-screen.
+        function printFlashcards() {
+            if (flashcards.length === 0) return;
+            const rows = flashcards.map(c => `<tr><td style="padding:10px;border:1px solid #ccc;width:50%;">${escapeHtml(c.front)}</td><td style="padding:10px;border:1px solid #ccc;width:50%;">${escapeHtml(c.back)}</td></tr>`).join('');
+            const html = `<html><head><title>My Flashcards</title></head><body style="font-family:sans-serif;padding:24px;color:#1e293b;">
+                <h2 style="margin-bottom:4px;">My Flashcards</h2>
+                <p style="color:#64748b;font-size:13px;margin-top:0;">${flashcards.length} card${flashcards.length === 1 ? '' : 's'} — cut along the row lines if you want physical cards.</p>
+                <table style="border-collapse:collapse;width:100%;font-size:14px;">
+                    <thead><tr><th style="text-align:left;padding:10px;border:1px solid #ccc;background:#f1f5f9;">Front</th><th style="text-align:left;padding:10px;border:1px solid #ccc;background:#f1f5f9;">Back</th></tr></thead>
+                    <tbody>${rows}</tbody>
+                </table>
+            </body></html>`;
+            const win = window.open('', '_blank');
+            if (!win) { alert('Please allow pop-ups for this site to print your flashcards.'); return; }
+            win.document.write(html);
+            win.document.close();
+            win.focus();
+            win.print();
+        }
+
+        // Downloads flashcards as a simple tab-separated text file (front⇥back per line)
+        function exportFlashcardsFile() {
+            if (flashcards.length === 0) return;
+            const lines = flashcards.map(c => `${c.front}\t${c.back}`).join('\n');
+            const blob = new Blob([lines], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'my-flashcards.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
         function shuffleFlashcards() {
             for (let i = flashcards.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -2241,7 +2471,7 @@ Please begin with Phase 1.</span>
 
         function markFlashcard(knewIt) {
             if (!fcCurrent) return;
-            if (knewIt) fcStats.know++; else { fcStats.learning++; fcQueue.push(fcCurrent); }
+            if (knewIt) { fcStats.know++; incrementStat('whs_stat_flashcards_known'); } else { fcStats.learning++; fcQueue.push(fcCurrent); }
             nextFlashcard();
         }
 
@@ -2298,9 +2528,11 @@ Please begin with Phase 1.</span>
             subjectChanged();
             yearChanged();
             checkBadges();
+            renderProgressDashboard();
             renderFlashcardList();
             const nav = document.getElementById('main-nav');
             if (nav) updateNavFade(nav);
+            maybeShowTour();
         };
     </script>
 </body>
