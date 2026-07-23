@@ -49,33 +49,78 @@
         }
 
         .nav-btn {
-            padding: 0.75rem 0.5rem;
-            color: #64748b;
+            padding: 0.6rem 0.9rem;
             font-weight: 700;
-            border-bottom: 3px solid transparent;
             transition: all 0.2s;
             white-space: nowrap;
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
+            border-radius: 9999px;
+            border: 2px solid transparent;
         }
-        .nav-btn:focus-visible { outline: 3px solid #c5a059; outline-offset: -2px; }
+        .nav-btn:focus-visible { outline: 3px solid #c5a059; outline-offset: 2px; }
         @media (min-width: 768px) {
             .nav-btn {
-                padding: 1rem 1rem;
-                font-size: 1rem;
+                padding: 0.75rem 1.25rem;
+                font-size: 0.9375rem;
             }
         }
 
-        .nav-btn:hover {
-            color: #002066;
-            background-color: #f8fafc;
-        }
+        .nav-active { font-weight: 800; }
 
-        .nav-active {
-            border-bottom-color: #002066;
-            color: #002066;
-            font-weight: 800;
-            background-color: transparent;
-        }
+        /* Each tab gets its own light, curved "pill" — and its matching page background
+           (see .page-tint-* below) so clicking a tab visually carries its colour into
+           the page beneath it. */
+        .nav-btn.nav-color-sky      { background: #e0f2fe; color: #0369a1; border-color: #7dd3fc; }
+        .nav-btn.nav-color-amber    { background: #fef3c7; color: #b45309; border-color: #fcd34d; }
+        .nav-btn.nav-color-teal     { background: #ccfbf1; color: #0f766e; border-color: #5eead4; }
+        .nav-btn.nav-color-purple   { background: #f3e8ff; color: #7e22ce; border-color: #d8b4fe; }
+        .nav-btn.nav-color-indigo   { background: #e0e7ff; color: #4338ca; border-color: #a5b4fc; }
+        .nav-btn.nav-color-gold     { background: #fffcf5; color: #8a6d3b; border-color: #c5a059; }
+        .nav-btn.nav-color-rose     { background: #ffe4e6; color: #be123c; border-color: #fda4af; }
+
+        .nav-btn.nav-color-sky:hover    { background: #bae6fd; }
+        .nav-btn.nav-color-amber:hover  { background: #fde68a; }
+        .nav-btn.nav-color-teal:hover   { background: #99f6e4; }
+        .nav-btn.nav-color-purple:hover { background: #e9d5ff; }
+        .nav-btn.nav-color-indigo:hover { background: #c7d2fe; }
+        .nav-btn.nav-color-gold:hover   { background: #f5ecd2; }
+        .nav-btn.nav-color-rose:hover   { background: #fecdd3; }
+
+        .nav-btn.nav-color-sky.nav-active    { background: #7dd3fc; color: #0c4a6e; border-color: #0369a1; box-shadow: 0 2px 8px rgba(3,105,161,0.3); }
+        .nav-btn.nav-color-amber.nav-active  { background: #fcd34d; color: #78350f; border-color: #b45309; box-shadow: 0 2px 8px rgba(180,83,9,0.3); }
+        .nav-btn.nav-color-teal.nav-active   { background: #5eead4; color: #134e4a; border-color: #0f766e; box-shadow: 0 2px 8px rgba(15,118,110,0.3); }
+        .nav-btn.nav-color-purple.nav-active { background: #d8b4fe; color: #581c87; border-color: #7e22ce; box-shadow: 0 2px 8px rgba(126,34,206,0.3); }
+        .nav-btn.nav-color-indigo.nav-active { background: #a5b4fc; color: #312e81; border-color: #4338ca; box-shadow: 0 2px 8px rgba(67,56,202,0.3); }
+        .nav-btn.nav-color-gold.nav-active   { background: #c5a059; color: #ffffff; border-color: #8a6d3b; box-shadow: 0 2px 8px rgba(197,160,89,0.35); }
+        .nav-btn.nav-color-rose.nav-active   { background: #fda4af; color: #881337; border-color: #be123c; box-shadow: 0 2px 8px rgba(190,18,60,0.3); }
+
+        body.dark-mode .nav-btn.nav-color-sky    { background: rgba(14,165,233,0.15); color: #7dd3fc; border-color: rgba(125,211,252,0.4); }
+        body.dark-mode .nav-btn.nav-color-amber  { background: rgba(245,158,11,0.15); color: #fcd34d; border-color: rgba(252,211,77,0.4); }
+        body.dark-mode .nav-btn.nav-color-teal   { background: rgba(20,184,166,0.15); color: #5eead4; border-color: rgba(94,234,212,0.4); }
+        body.dark-mode .nav-btn.nav-color-purple { background: rgba(168,85,247,0.15); color: #d8b4fe; border-color: rgba(216,180,254,0.4); }
+        body.dark-mode .nav-btn.nav-color-indigo { background: rgba(99,102,241,0.15); color: #a5b4fc; border-color: rgba(165,180,252,0.4); }
+        body.dark-mode .nav-btn.nav-color-gold   { background: rgba(197,160,89,0.15); color: #e8d5ae; border-color: rgba(197,160,89,0.5); }
+        body.dark-mode .nav-btn.nav-color-rose   { background: rgba(244,63,94,0.15); color: #fda4af; border-color: rgba(253,164,175,0.4); }
+
+        body.dark-mode .nav-btn.nav-color-sky.nav-active    { background: #0369a1; color: white; }
+        body.dark-mode .nav-btn.nav-color-amber.nav-active  { background: #b45309; color: white; }
+        body.dark-mode .nav-btn.nav-color-teal.nav-active   { background: #0f766e; color: white; }
+        body.dark-mode .nav-btn.nav-color-purple.nav-active { background: #7e22ce; color: white; }
+        body.dark-mode .nav-btn.nav-color-indigo.nav-active { background: #4338ca; color: white; }
+        body.dark-mode .nav-btn.nav-color-gold.nav-active   { background: #8a6d3b; color: white; }
+        body.dark-mode .nav-btn.nav-color-rose.nav-active   { background: #be123c; color: white; }
+
+        /* Page tint: matches each tab's colour, applied to that view's own container so
+           the whole page carries the section's colour, not just the nav pill. Cards
+           inside stay white/light so text contrast is unaffected. */
+        .page-tint-sky    { background-color: #f0f9ff; }
+        .page-tint-amber  { background-color: #fffbeb; }
+        .page-tint-teal   { background-color: #f0fdfa; }
+        .page-tint-purple { background-color: #faf5ff; }
+        .page-tint-indigo { background-color: #eef2ff; }
+        .page-tint-gold   { background-color: #fffcf5; }
+        .page-tint-rose   { background-color: #fff1f2; }
+        body.dark-mode [class*="page-tint-"] { background-color: transparent !important; }
 
         .strategy-btn {
             padding: 1rem;
@@ -149,9 +194,6 @@
         body.dark-mode .strategy-btn { background: #1e293b; color: #e2e8f0; }
         body.dark-mode .strategy-btn.active { background: #3f3520 !important; }
         body.dark-mode [class*="bg-whs-goldlight"] { background-color: #3f3520 !important; }
-        body.dark-mode .nav-btn { color: #94a3b8; }
-        body.dark-mode .nav-btn:hover { color: #c5a059; background-color: #1e293b; }
-        body.dark-mode .nav-active { color: #c5a059 !important; border-bottom-color: #c5a059 !important; }
         body.dark-mode ::-webkit-scrollbar-track { background: transparent; }
         body.dark-mode ::-webkit-scrollbar-thumb { background: #475569; }
 
@@ -273,17 +315,14 @@
 
         <!-- Navigation (Evenly Distributed) -->
         <div class="relative mb-6">
-            <nav class="flex w-full justify-between items-center border-b-2 border-slate-300 overflow-x-auto pb-1 hide-scrollbar gap-1 md:gap-2" onscroll="updateNavFade(this)" id="main-nav">
-                <button onclick="showView('learn')" id="nav-learn" class="nav-btn nav-active flex-1 text-center flex justify-center min-w-max rounded-t-md">Learn</button>
-                <button onclick="showView('revision')" id="nav-revision" class="nav-btn flex-1 text-center flex justify-center min-w-max rounded-t-md">Revision</button>
-                <button onclick="showView('writing')" id="nav-writing" class="nav-btn flex-1 text-center flex justify-center min-w-max rounded-t-md">Writing</button>
-                <button onclick="showView('litnum')" id="nav-litnum" class="nav-btn flex-1 text-center flex justify-center min-w-max rounded-t-md">Year 10 CAA</button>
-
-                <div class="w-px h-8 bg-slate-300 self-center hidden md:block mx-1 shrink-0"></div>
-
-                <button onclick="showView('vault')" id="nav-vault" class="nav-btn flex items-center justify-center gap-2 flex-1 min-w-max rounded-t-md">🗄️ NCEA Vault</button>
-                <button onclick="showView('tools')" id="nav-tools" class="nav-btn flex items-center justify-center gap-2 flex-1 min-w-max rounded-t-md">⏱️ Tools</button>
-                <button onclick="showView('wellbeing')" id="nav-wellbeing" class="nav-btn flex items-center justify-center gap-2 text-rose-600 hover:bg-rose-50 flex-1 min-w-max rounded-t-md">💚 Wellbeing</button>
+            <nav class="flex w-full justify-between items-center overflow-x-auto pb-1 hide-scrollbar gap-2" onscroll="updateNavFade(this)" id="main-nav">
+                <button onclick="showView('learn')" id="nav-learn" class="nav-btn nav-color-sky nav-active flex-1 text-center flex justify-center min-w-max">Learn</button>
+                <button onclick="showView('revision')" id="nav-revision" class="nav-btn nav-color-amber flex-1 text-center flex justify-center min-w-max">Revision</button>
+                <button onclick="showView('writing')" id="nav-writing" class="nav-btn nav-color-teal flex-1 text-center flex justify-center min-w-max">Writing</button>
+                <button onclick="showView('litnum')" id="nav-litnum" class="nav-btn nav-color-purple flex-1 text-center flex justify-center min-w-max">Year 10 CAA</button>
+                <button onclick="showView('vault')" id="nav-vault" class="nav-btn nav-color-indigo flex items-center justify-center gap-2 flex-1 min-w-max">🗄️ NCEA Vault</button>
+                <button onclick="showView('tools')" id="nav-tools" class="nav-btn nav-color-gold flex items-center justify-center gap-2 flex-1 min-w-max">⏱️ Tools</button>
+                <button onclick="showView('wellbeing')" id="nav-wellbeing" class="nav-btn nav-color-rose flex items-center justify-center gap-2 flex-1 min-w-max">💚 Wellbeing</button>
             </nav>
             <!-- Scroll-fade hints: only relevant when the nav overflows, which only happens below md -->
             <div id="nav-fade-left" class="hidden pointer-events-none absolute left-0 top-0 bottom-1 w-8 bg-gradient-to-r from-slate-100 to-transparent md:hidden"></div>
@@ -347,7 +386,7 @@
         <!-- ========================================== -->
         <!-- VIEW: LEARN THE TOPIC                      -->
         <!-- ========================================== -->
-        <div id="view-learn" class="space-y-8 animate-in fade-in duration-500">
+        <div id="view-learn" class="space-y-8 animate-in fade-in duration-500 page-tint-sky rounded-3xl p-4 md:p-8">
             <div class="text-center max-w-3xl mx-auto mb-4 px-4">
                 <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-4">Learn the Topic</h2>
                 <p class="text-sm md:text-base text-slate-600">Meeting a topic for the first time? Start here to build a solid foundation before you move on to revision.</p>
@@ -417,7 +456,7 @@
         <!-- ========================================== -->
         <!-- VIEW: REVISION STRATEGIES                  -->
         <!-- ========================================== -->
-        <div id="view-revision" class="hidden space-y-8 animate-in fade-in duration-500">
+        <div id="view-revision" class="hidden space-y-8 animate-in fade-in duration-500 page-tint-amber rounded-3xl p-4 md:p-8">
             <div class="text-center max-w-3xl mx-auto mb-4 px-4">
                 <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-4">Revision Strategies</h2>
                 <p class="text-sm md:text-base text-slate-600">Based on proven cognitive science methods to help you encode information into long-term memory.</p>
@@ -535,7 +574,7 @@
         <!-- ========================================== -->
         <!-- VIEW: WRITING SCAFFOLDS                    -->
         <!-- ========================================== -->
-        <div id="view-writing" class="hidden space-y-8 animate-in fade-in duration-500">
+        <div id="view-writing" class="hidden space-y-8 animate-in fade-in duration-500 page-tint-teal rounded-3xl p-4 md:p-8">
             <div class="text-center max-w-3xl mx-auto mb-8 px-4">
                 <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-4">Writing & Assignment Help</h2>
                 <p class="text-sm md:text-base text-slate-600">Get feedback on your drafts, unstick writer's block, or check grammar. <strong class="text-red-600">Never ask the AI to write your essay.</strong></p>
@@ -606,7 +645,7 @@
         <!-- ========================================== -->
         <!-- VIEW: LITERACY & NUMERACY                  -->
         <!-- ========================================== -->
-        <div id="view-litnum" class="hidden space-y-8 animate-in fade-in duration-500">
+        <div id="view-litnum" class="hidden space-y-8 animate-in fade-in duration-500 page-tint-purple rounded-3xl p-4 md:p-8">
             <div class="text-center max-w-3xl mx-auto mb-4 px-4">
                 <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-4">Year 10 CAA</h2>
                 <p class="text-sm md:text-base text-slate-600">Everything here is focused on the Year 10 Common Assessment Activities (CAAs). Access our pre-built WHS AI Tutors directly, or generate custom practice prompts below.</p>
@@ -707,7 +746,7 @@
         <!-- ========================================== -->
         <!-- VIEW: STUDY TOOLS & PRODUCTIVITY           -->
         <!-- ========================================== -->
-        <div id="view-tools" class="hidden space-y-8 animate-in fade-in duration-500">
+        <div id="view-tools" class="hidden space-y-8 animate-in fade-in duration-500 page-tint-gold rounded-3xl p-4 md:p-8">
             <div class="text-center max-w-3xl mx-auto mb-4 px-4">
                 <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-4">Study Tools & Productivity</h2>
                 <p class="text-sm md:text-base text-slate-600">Keep yourself on track. Use the Pomodoro timer, track tasks, and take quick notes.</p>
@@ -831,7 +870,7 @@
         <!-- ========================================== -->
         <!-- VIEW: NCEA VAULT                           -->
         <!-- ========================================== -->
-        <div id="view-vault" class="hidden space-y-8 animate-in fade-in duration-500">
+        <div id="view-vault" class="hidden space-y-8 animate-in fade-in duration-500 page-tint-indigo rounded-3xl p-4 md:p-8">
             <div class="text-center max-w-3xl mx-auto mb-4 px-4">
                 <h2 class="text-4xl font-black text-slate-900 mb-4">The NCEA Vault</h2>
                 <p class="text-slate-600">Quick links to official resources, tutors, cheat sheets, and your personalized library of saved AI prompts.</p>
@@ -1004,7 +1043,7 @@ Please begin with Phase 1.</span>
         <!-- ========================================== -->
         <!-- VIEW: WELLBEING & EXAM MINDSET             -->
         <!-- ========================================== -->
-        <div id="view-wellbeing" class="hidden space-y-8 animate-in fade-in duration-500">
+        <div id="view-wellbeing" class="hidden space-y-8 animate-in fade-in duration-500 page-tint-rose rounded-3xl p-4 md:p-8">
             <div class="text-center max-w-3xl mx-auto mb-4 px-4">
                 <h2 class="text-4xl font-black text-rose-600 mb-4">Take a Breath.</h2>
                 <p class="text-slate-600">Feeling overwhelmed is completely normal. Use these tools to reset your nervous system and break down impossible tasks into tiny steps.</p>
