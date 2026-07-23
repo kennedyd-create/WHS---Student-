@@ -186,6 +186,12 @@
             100% { transform: scale(1); filter: brightness(1); }
         }
         .level-up { animation: levelUpAnim 1s ease-out; }
+
+        /* Collapsible dropdown sections (e.g. Gemini Notebook explainer in the Vault) */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        .details-chevron { display: inline-block; transition: transform 0.2s ease; }
+        details[open] .details-chevron { transform: rotate(180deg); }
     </style>
 </head>
 <body class="p-2 md:p-8 pb-24 md:pb-8">
@@ -779,6 +785,71 @@
                 <div id="badges-grid" class="grid grid-cols-4 md:grid-cols-8 gap-3">
                     <!-- Injected via JS -->
                 </div>
+            </div>
+
+            <!-- Gemini Notebook Explainer -->
+            <div class="glass-card p-6 md:p-8 max-w-[1400px] mx-auto border-t-4 border-t-blue-500">
+                <details id="gemini-notebook-details">
+                    <summary class="cursor-pointer list-none flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+                        <h3 class="text-xl font-bold text-whs-darkblue flex items-center gap-2">📓 Study Smarter with Gemini Notebook</h3>
+                        <span class="text-xs font-bold text-blue-600 flex items-center gap-1.5 shrink-0">See how it works <span class="details-chevron">▾</span></span>
+                    </summary>
+
+                    <div class="mt-5 pt-5 border-t border-slate-200">
+                        <div class="flex justify-end mb-4">
+                            <a href="https://notebooklm.google.com/" target="_blank" title="Opens Gemini Notebook in a new tab" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-xs font-bold shadow-sm hover:bg-blue-700 transition shrink-0">Open Gemini Notebook ↗</a>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-6">Gemini Notebook is different from the regular Gemini/ChatGPT/Claude chat: instead of answering from general knowledge, it only answers from documents <em>you</em> upload — and every answer links back to the exact page it came from. That makes it brilliant for revising from your own class material without it making things up.</p>
+
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <h4 class="text-xs font-black uppercase tracking-widest text-blue-700 mb-2">What to Upload</h4>
+                                <ul class="text-sm text-slate-700 space-y-2">
+                                    <li class="flex gap-2"><span class="text-blue-500 shrink-0">•</span> Class notes, slides, or worksheets your teacher has shared</li>
+                                    <li class="flex gap-2"><span class="text-blue-500 shrink-0">•</span> Textbook chapters or PDFs (photograph or scan pages if needed)</li>
+                                    <li class="flex gap-2"><span class="text-blue-500 shrink-0">•</span> Past NCEA papers, exemplars, and mark schedules for your subject</li>
+                                    <li class="flex gap-2"><span class="text-blue-500 shrink-0">•</span> Your own "Knowledge Doc" (see below) — this is the one that makes the biggest difference</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-black uppercase tracking-widest text-blue-700 mb-2">Building a "Knowledge Doc"</h4>
+                                <p class="text-sm text-slate-700 mb-2">Before you upload, spend 10 minutes making one simple doc (Google Doc is fine) that pulls together, in your own words:</p>
+                                <ul class="text-sm text-slate-700 space-y-2">
+                                    <li class="flex gap-2"><span class="text-blue-500 shrink-0">•</span> Key definitions and formulas for the topic</li>
+                                    <li class="flex gap-2"><span class="text-blue-500 shrink-0">•</span> Questions you got wrong before, plus the correction</li>
+                                    <li class="flex gap-2"><span class="text-blue-500 shrink-0">•</span> Feedback themes your teacher keeps giving you</li>
+                                </ul>
+                                <p class="text-xs text-slate-500 mt-2">Upload this alongside your class material — it tells Gemini Notebook exactly where <em>you</em> personally need the most help.</p>
+                            </div>
+                        </div>
+
+                        <h4 class="text-xs font-black uppercase tracking-widest text-blue-700 mb-2">A Prompt to Get Started</h4>
+                        <p class="text-xs text-slate-500 mb-3">Once your sources are uploaded, paste this into the Gemini Notebook chat:</p>
+                        <div class="bg-slate-50 p-4 rounded-xl text-sm font-mono text-slate-700 border border-slate-200 shadow-inner mb-3 whitespace-pre-wrap">
+                            <span id="prompt-notebooklm">System Role: You are an expert, encouraging Socratic tutor specialising in [INSERT TOPIC HERE]. Your absolute rule is to strictly use ONLY the information, facts, and examples contained in the uploaded sources. Do not bring in outside knowledge.
+
+Phase 1: The Audit & Concept Ranking
+Before we begin studying, I need an analysis of my materials. Please output a brief "Study Audit" with the following:
+
+1. Priority Gaps: Cross-reference my uploaded past exam papers against my class notes. Identify 2-3 specific topics that appear frequently in the exams but have weak, missing, or superficial coverage in my notes.
+2. Top 5 Concepts: Identify the 5 most heavily weighted or frequently recurring concepts across all sources. Rank them from 1 (highest yield) to 5.
+3. The Check-In: End your response by asking: "Review these gaps and concepts. When you are ready, type 'Start' to begin the interactive quiz."
+
+Phase 2: The Interactive Quiz Protocol
+Do not begin Phase 2 until I type "Start". Once I do, follow these strict rules for quizzing me:
+
+- One at a time: Ask me ONLY ONE question about Concept #1. Stop generating and wait for my answer.
+- Socratic Feedback: When I answer, evaluate it. If I am correct, briefly explain why based on the sources, then move to the next concept. If I am wrong or incomplete, DO NOT just give me the answer. Give me a conceptual hint, and tell me the exact document name and section/header to go re-read.
+- Source Citations: Every time you provide a fact, hint, or correction, append the specific source in brackets, e.g. [Lecture 4: Cell Mitosis, pg. 3].
+
+Please begin with Phase 1.</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2 justify-end">
+                            <button onclick="copyText('prompt-notebooklm', this)" class="btn-copy-prompt px-4 py-2 rounded-lg text-xs transition">COPY PROMPT</button>
+                            <a href="https://notebooklm.google.com/" target="_blank" title="Opens Gemini Notebook in a new tab" class="bg-blue-600 text-white px-3 py-2 rounded-lg text-xs font-bold shadow-sm transition hover:bg-blue-700">Open Gemini Notebook ↗</a>
+                        </div>
+                    </div>
+                </details>
             </div>
 
             <div class="grid lg:grid-cols-3 gap-8 max-w-[1400px] mx-auto">
