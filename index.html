@@ -397,6 +397,10 @@
                 <div class="lg:col-span-4 space-y-3 flex flex-col h-auto lg:h-[550px] overflow-y-auto custom-scrollbar pr-2">
 
                     <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 mt-2">Getting Started</h3>
+                    <button onclick="setLearnStrategy('Feynman Technique')" id="btn-learn-7" class="strategy-btn">
+                        <span class="block font-bold text-whs-darkblue mb-1">🧠 Feynman Technique</span>
+                        <span class="text-xs text-slate-600 block">Explain it back in your own words — it'll catch every gap.</span>
+                    </button>
                     <button onclick="setLearnStrategy('Full Tutor')" id="btn-learn-1" class="strategy-btn active border-whs-gold bg-whs-goldlight">
                         <span class="block font-bold text-whs-darkblue mb-1">🎓 Full Topic Tutor</span>
                         <span class="text-xs text-slate-600 block">A complete, step-by-step tutor — from first principles to deep understanding.</span>
@@ -769,6 +773,17 @@
                 </div>
             </div>
 
+            <!-- Exam Setup: moved here from the Vault since the countdown itself lives in
+                 the header and this is where students manage their own study schedule. -->
+            <div class="glass-card p-6 max-w-6xl mx-auto bg-blue-50 border-blue-200">
+                <h3 class="text-lg font-bold text-whs-darkblue mb-4 border-b border-blue-200 pb-2">🎯 Set Exam Target</h3>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <input type="text" id="vault-exam-name" placeholder="Exam Name (e.g. L1 Science)" class="flex-1 p-2 text-sm rounded border border-slate-300">
+                    <input type="date" id="vault-exam-date" class="flex-1 p-2 text-sm rounded border border-slate-300">
+                    <button onclick="saveExamDate()" class="bg-whs-darkblue text-white px-6 py-2 rounded text-sm font-bold hover:bg-blue-800 transition shrink-0">Save Date</button>
+                </div>
+            </div>
+
             <div class="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
                 
                 <!-- Col 1: Timer & Tasks -->
@@ -865,6 +880,22 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Saved Prompts: moved here from the Vault so students have one place for
+                 everything personal (progress, badges, exam target, saved prompts). -->
+            <div class="glass-card p-6 max-w-6xl mx-auto flex flex-col min-h-[500px] border-t-4 border-t-teal-400">
+                <div class="flex justify-between items-center mb-6 flex-wrap gap-3">
+                    <h3 class="text-xl font-bold text-slate-800">My Saved Prompts</h3>
+                    <div class="flex gap-2 flex-wrap justify-end">
+                        <button onclick="copyAllSavedPrompts(this)" class="btn-copy-prompt px-3 py-1.5 rounded text-[10px] transition">COPY ALL</button>
+                    </div>
+                </div>
+                <input type="text" id="vault-search" oninput="renderSavedPrompts()" placeholder="🔍 Search saved prompts..." class="w-full p-2 mb-4 rounded-lg border border-slate-300 focus:border-whs-darkblue outline-none text-sm">
+                <div id="saved-prompts-container" class="flex-grow overflow-y-auto custom-scrollbar space-y-4 pr-2">
+                    <!-- Injected via JS -->
+                    <div class="text-center text-slate-400 mt-20 italic">You haven't saved any prompts yet.<br>Click "COPY PROMPT" on any generator — it saves here automatically.</div>
+                </div>
+            </div>
         </div>
 
         <!-- ========================================== -->
@@ -941,102 +972,85 @@ Please begin with Phase 1.</span>
                 </details>
             </div>
 
-            <div class="grid lg:grid-cols-3 gap-8 max-w-[1400px] mx-auto">
-                
-                <!-- Col 1: Settings & Links -->
-                <div class="flex flex-col gap-6">
-                    <!-- Exam Setup -->
-                    <div class="glass-card p-6 bg-blue-50 border-blue-200">
-                        <h3 class="text-lg font-bold text-whs-darkblue mb-4 border-b border-blue-200 pb-2">🎯 Set Exam Target</h3>
-                        <div class="space-y-3">
-                            <input type="text" id="vault-exam-name" placeholder="Exam Name (e.g. L1 Science)" class="w-full p-2 text-sm rounded border border-slate-300">
-                            <input type="date" id="vault-exam-date" class="w-full p-2 text-sm rounded border border-slate-300">
-                            <button onclick="saveExamDate()" class="w-full bg-whs-darkblue text-white py-2 rounded text-sm font-bold hover:bg-blue-800 transition">Save Date</button>
-                        </div>
-                    </div>
-
-                    <div class="glass-card p-6 border-t-4 border-t-indigo-400">
-                        <h3 class="text-lg font-bold text-whs-darkblue mb-4 border-b pb-2">🔗 Official Quick Links</h3>
-                        <ul class="space-y-4 text-sm">
-                            <li><a href="https://www2.nzqa.govt.nz/ncea/student-assessment-hub/" target="_blank" class="font-bold text-blue-600 hover:underline flex items-center gap-2"><span>🎯</span> NCEA Student Assessment Hub ↗</a></li>
-                            <li><a href="https://www.nzqa.govt.nz/ncea/assessment/search.do?query=&view=all" target="_blank" class="font-medium text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-2"><span>📄</span> Search Past Papers by Standard ↗</a></li>
-                            <li><a href="https://www.nzqa.govt.nz/ncea/subjects/" target="_blank" class="font-medium text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-2"><span>📚</span> Browse by Subject ↗</a></li>
-                            <li><a href="https://studyit.govt.nz/" target="_blank" class="font-medium text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-2"><span>💬</span> StudyIt Forums ↗</a></li>
-                            <li><a id="vault-nzc-link" href="https://newzealandcurriculum.tahurangi.education.govt.nz" target="_blank" class="font-medium text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-2"><span>📘</span> NZ Curriculum (Tāhūrangi) ↗</a></li>
-                            <li><a href="https://myelevatetutor.com/chat" target="_blank" class="font-medium text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-2"><span>🎓</span> Elevate AI Tutor ↗</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- Dynamic Cheat Sheet -->
-                    <div class="glass-card p-6 border-l-4 border-l-whs-gold">
-                        <h3 class="text-lg font-bold text-whs-darkblue mb-4 border-b pb-2" id="cheat-sheet-title">📋 Cheat Sheet</h3>
-                        <div id="cheat-sheet-content" class="space-y-4 text-sm text-slate-700">
-                            <!-- Injected via JS: renderCheatSheet() -->
-                        </div>
-                    </div>
+            <!-- Resources & Support: two columns, each stacking related cards so Subject
+                 Resources sits directly above Tutoring Providers. Cards size to their own
+                 content now (no fixed heights) rather than being forced to match a row. -->
+            <div class="max-w-[1400px] mx-auto">
+                <div class="flex items-center justify-between flex-wrap gap-2 mb-4">
+                    <h3 class="text-xs font-black uppercase tracking-widest text-slate-500">📚 Resources & Support</h3>
+                    <span class="text-[11px] font-bold text-indigo-600 bg-indigo-50 border border-indigo-200 px-3 py-1 rounded-full">Showing resources for: <span id="vault-current-dept">Science</span></span>
                 </div>
+                <div class="grid lg:grid-cols-2 gap-6 items-start">
 
-                <!-- Col 2: YouTube Channels & Tutors -->
-                <div class="flex flex-col gap-6">
-                    
-                    <div class="glass-card p-6 border-t-4 border-t-red-500 h-[420px] flex flex-col">
-                        <div class="flex justify-between items-center gap-2 mb-3 border-b pb-3 flex-wrap">
-                            <h3 class="text-lg font-bold text-whs-darkblue" id="dept-resources-title">📺 Science Resources</h3>
-                            <div class="flex items-center gap-2">
-                                <span class="flex items-center gap-1.5 text-[10px] font-bold text-red-600 whitespace-nowrap">
-                                    <span class="pulse-dot" aria-hidden="true"></span> Change subject here
-                                </span>
-                                <select id="vault-dept-select" onchange="changeVaultDept(this.value)" class="p-1.5 rounded-lg border border-slate-300 text-xs font-bold text-whs-darkblue focus:border-whs-darkblue outline-none">
-                                    <option value="Science">Science</option>
-                                    <option value="Maths">Maths</option>
-                                    <option value="Technology">Technology</option>
-                                    <option value="English">English</option>
-                                    <option value="Social Sciences">Social Sciences</option>
-                                    <option value="Arts">Arts</option>
-                                    <option value="PE & Health">PE & Health</option>
-                                    <option value="Māori">Māori</option>
-                                </select>
+                    <!-- Column A -->
+                    <div class="flex flex-col gap-6">
+                        <div class="glass-card p-6 border-t-4 border-t-indigo-400">
+                            <h3 class="text-lg font-bold text-whs-darkblue mb-4 border-b pb-2">🔗 Official Quick Links</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <a href="https://www2.nzqa.govt.nz/ncea/student-assessment-hub/" target="_blank" class="flex items-center gap-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 px-3 py-2 rounded-lg text-xs font-bold transition"><span>🎯</span> NCEA Student Assessment Hub ↗</a>
+                                <a href="https://www.nzqa.govt.nz/ncea/assessment/search.do?query=&view=all" target="_blank" class="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-2 rounded-lg text-xs font-bold transition"><span>📄</span> Search Past Papers by Standard ↗</a>
+                                <a href="https://www.nzqa.govt.nz/ncea/subjects/" target="_blank" class="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-2 rounded-lg text-xs font-bold transition"><span>📚</span> Browse by Subject ↗</a>
+                                <a href="https://studyit.govt.nz/" target="_blank" class="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-2 rounded-lg text-xs font-bold transition"><span>💬</span> StudyIt Forums ↗</a>
+                                <a id="vault-nzc-link" href="https://newzealandcurriculum.tahurangi.education.govt.nz" target="_blank" class="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-2 rounded-lg text-xs font-bold transition"><span>📘</span> NZ Curriculum (Tāhūrangi) ↗</a>
+                                <a href="https://myelevatetutor.com/chat" target="_blank" class="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-2 rounded-lg text-xs font-bold transition"><span>🎓</span> Elevate AI Tutor ↗</a>
                             </div>
                         </div>
-                        <div class="flex-grow overflow-y-auto custom-scrollbar pr-2 space-y-1 text-sm" id="dept-resources-container">
-                            <!-- Injected via JS: renderDeptResources() -->
+
+                        <!-- Dynamic Cheat Sheet -->
+                        <div class="glass-card p-6 border-l-4 border-l-whs-gold">
+                            <h3 class="text-lg font-bold text-whs-darkblue mb-4 border-b pb-2" id="cheat-sheet-title">📋 Cheat Sheet</h3>
+                            <div id="cheat-sheet-content" class="space-y-4 text-sm text-slate-700">
+                                <!-- Injected via JS: renderCheatSheet() -->
+                            </div>
                         </div>
                     </div>
 
-                    <div class="glass-card p-6 border-t-4 border-t-emerald-500 h-[280px] flex flex-col">
-                        <h3 class="text-lg font-bold text-whs-darkblue mb-4 border-b pb-2">🎓 Tutoring Providers</h3>
-                        <div class="flex-grow overflow-y-auto custom-scrollbar pr-2 space-y-4 text-sm">
-                            <div>
-                                <a href="https://mytuition.nz" target="_blank" class="font-bold text-emerald-600 hover:underline block">MyTuition NZ ↗</a>
-                                <span class="text-xs text-slate-600">One-to-one tutoring.</span>
+                    <!-- Column B -->
+                    <div class="flex flex-col gap-6">
+                        <div class="glass-card p-6 border-t-4 border-t-red-500 flex flex-col">
+                            <div class="flex justify-between items-center gap-2 mb-3 border-b pb-3 flex-wrap">
+                                <h3 class="text-lg font-bold text-whs-darkblue" id="dept-resources-title">📺 Science Resources</h3>
+                                <div class="flex items-center gap-2">
+                                    <span class="flex items-center gap-1.5 text-[10px] font-bold text-red-600 whitespace-nowrap">
+                                        <span class="pulse-dot" aria-hidden="true"></span> Change subject here
+                                    </span>
+                                    <select id="vault-dept-select" onchange="changeVaultDept(this.value)" class="p-1.5 rounded-lg border border-slate-300 text-xs font-bold text-whs-darkblue focus:border-whs-darkblue outline-none">
+                                        <option value="Science">Science</option>
+                                        <option value="Maths">Maths</option>
+                                        <option value="Technology">Technology</option>
+                                        <option value="English">English</option>
+                                        <option value="Social Sciences">Social Sciences</option>
+                                        <option value="Arts">Arts</option>
+                                        <option value="PE & Health">PE & Health</option>
+                                        <option value="Māori">Māori</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div>
-                                <a href="https://www.google.com/search?q=NCEA+Tutor+NZ" target="_blank" class="font-bold text-emerald-600 hover:underline block">NCEA Tutor NZ ↗</a>
-                                <span class="text-xs text-slate-600">Free tutor-matching platform.</span>
+                            <div class="custom-scrollbar pr-2 space-y-1 text-sm max-h-96 overflow-y-auto" id="dept-resources-container">
+                                <!-- Injected via JS: renderDeptResources() -->
                             </div>
-                            <div>
-                                <a href="https://kiwitutoring.co.nz" target="_blank" class="font-bold text-emerald-600 hover:underline block">Kiwi Tutoring ↗</a>
-                                <span class="text-xs text-slate-600">Physics, Chemistry, Calculus.</span>
+                        </div>
+
+                        <div class="glass-card p-6 border-t-4 border-t-emerald-500 flex flex-col">
+                            <h3 class="text-lg font-bold text-whs-darkblue mb-4 border-b pb-2">🎓 Tutoring Providers</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <a href="https://mytuition.nz" target="_blank" class="bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg px-3 py-2 transition">
+                                    <span class="font-bold text-emerald-700 text-xs block">MyTuition NZ ↗</span>
+                                    <span class="text-[11px] text-slate-600">One-to-one tutoring.</span>
+                                </a>
+                                <a href="https://www.google.com/search?q=NCEA+Tutor+NZ" target="_blank" class="bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg px-3 py-2 transition">
+                                    <span class="font-bold text-emerald-700 text-xs block">NCEA Tutor NZ ↗</span>
+                                    <span class="text-[11px] text-slate-600">Free tutor-matching platform.</span>
+                                </a>
+                                <a href="https://kiwitutoring.co.nz" target="_blank" class="bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg px-3 py-2 transition">
+                                    <span class="font-bold text-emerald-700 text-xs block">Kiwi Tutoring ↗</span>
+                                    <span class="text-[11px] text-slate-600">Physics, Chemistry, Calculus.</span>
+                                </a>
                             </div>
                         </div>
                     </div>
+
                 </div>
-
-                <!-- Col 3: Saved Prompts & Data -->
-                <div class="glass-card p-6 flex flex-col h-full min-h-[600px] border-t-4 border-t-teal-400">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-xl font-bold text-slate-800">My Saved Prompts</h3>
-                        <div class="flex gap-2 flex-wrap justify-end">
-                            <button onclick="copyAllSavedPrompts(this)" class="btn-copy-prompt px-3 py-1.5 rounded text-[10px] transition">COPY ALL</button>
-                        </div>
-                    </div>
-                    <input type="text" id="vault-search" oninput="renderSavedPrompts()" placeholder="🔍 Search saved prompts..." class="w-full p-2 mb-4 rounded-lg border border-slate-300 focus:border-whs-darkblue outline-none text-sm">
-                    <div id="saved-prompts-container" class="flex-grow overflow-y-auto custom-scrollbar space-y-4 pr-2">
-                        <!-- Injected via JS -->
-                        <div class="text-center text-slate-400 mt-20 italic">You haven't saved any prompts yet.<br>Click "COPY PROMPT" on any generator — it saves here automatically.</div>
-                    </div>
-                </div>
-
             </div>
         </div>
 
@@ -1378,8 +1392,8 @@ Please begin with Phase 1.</span>
                 targetMobNav.classList.add('text-whs-darkblue');
             }
 
-            if (viewId === 'vault') { renderSavedPrompts(); renderDeptResources(); }
-            if (viewId === 'tools') { renderBadges(); renderProgressDashboard(); setTimeout(initFocusChart, 100); }
+            if (viewId === 'vault') { renderDeptResources(); }
+            if (viewId === 'tools') { renderBadges(); renderProgressDashboard(); renderSavedPrompts(); setTimeout(initFocusChart, 100); }
         }
 
         // Toggles the left/right fade hints on the mobile nav based on scroll position
@@ -1565,6 +1579,8 @@ Please begin with Phase 1.</span>
             const dept = document.getElementById('global-subject') ? document.getElementById('global-subject').value : 'Science';
             const vaultSelect = document.getElementById('vault-dept-select');
             if (vaultSelect) vaultSelect.value = dept;
+            const currentDeptLabel = document.getElementById('vault-current-dept');
+            if (currentDeptLabel) currentDeptLabel.innerText = dept;
             const data = DEPT_RESOURCES[dept];
             const container = document.getElementById('dept-resources-container');
             const title = document.getElementById('dept-resources-title');
@@ -2132,6 +2148,8 @@ Please begin with Phase 1.</span>
                 text = `"ROLE: Note-taking coach.\nTASK: Build me a structured, fill-in-the-gaps notes template for '${ctx.topic}' (${cl}).\n\nRULES:\n1. Use clear headings for each sub-topic, with blank space and guiding prompts under each for ME to fill in as I learn.\n2. Include a 'Key Terms' box and a 'Questions I still have' box at the end.\n3. Do NOT fill in the content for me — this is a scaffold I complete myself while reading, watching, or listening to material.${curriculumClause(ctx)}"`;
             } else if (currentLearnStrategy === 'Check Understanding') {
                 text = `"ROLE: Friendly checker, not a marker.\nTASK: Ask me a short series of low-stakes questions to see what's actually landed so far on '${ctx.topic}' (${cl}).\n\nRULES:\n1. Ask ONE question at a time, mixing 'explain in your own words' with short factual recall.\n2. Do not move to the next question until I've answered.\n3. Give gentle, specific feedback after each answer — what's solid, what to revisit — not just right/wrong.\n4. After 5 questions, summarise which parts are strong and which need more first-pass learning (this is not revision yet).${curriculumClause(ctx)}"`;
+            } else if (currentLearnStrategy === 'Feynman Technique') {
+                text = `"I want to understand '${ctx.topic}' deeply using the Feynman learning method, for ${cl}.\n\nAct like a patient teacher. First, explain the topic to me in simple language, as if I am 12 years old.\nUse:\n- simple words\n- real-life examples\n- analogies\n- no unnecessary jargon\n- short explanations\n\nAfter explaining, ask me to explain the topic back in my own words.\n\nThen review my explanation and do the following:\n1. Identify what I explained correctly.\n2. Find every gap, mistake, confusion, or missing idea.\n3. Re-teach only the parts I got wrong or missed.\n4. Ask me to explain it again in a cleaner way.\n5. Repeat this loop until my explanation is simple, accurate, and complete.\n\nRules:\n- Do not move forward until my explanation is clear.\n- Do not overload me with extra theory.\n- Correct me gently but clearly.\n- Use examples whenever I am confused.\n\nAt the end, give me a final clean explanation of the topic that I can save as notes.\nMake this feel like an interactive learning conversation, not a lecture.${curriculumClause(ctx)}"`;
             } else if (currentLearnStrategy === 'Resource Finder') {
                 text = `"TASK: Help me find good places to learn '${ctx.topic}' outside this app, for ${cl} in Aotearoa New Zealand.\n\nRULES:\n1. Suggest 4-5 specific, well-targeted search terms or video titles I could look up on YouTube (strong search phrases, not invented links).\n2. Recommend the type of channel or source likely to explain this well for my level.\n3. Flag anything to watch out for (e.g. content for a different curriculum, country, or year level).${curriculumClause(ctx)}"`;
             }
