@@ -431,7 +431,7 @@
 
                 <!-- Output Panel -->
                 <div class="lg:col-span-8">
-                    <div class="bg-sky-50 p-6 md:p-8 rounded-2xl border border-sky-200 h-full flex flex-col shadow-sm">
+                    <div class="bg-sky-50 p-6 md:p-8 rounded-2xl border border-sky-200 flex flex-col shadow-sm">
                         <!-- Toolbar -->
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 w-full">
                             <h4 class="text-sm font-black uppercase tracking-widest text-slate-900">Your Generated Prompt</h4>
@@ -443,7 +443,7 @@
                             </div>
                         </div>
                         <!-- Content -->
-                        <div class="bg-white p-4 md:p-6 rounded-xl text-sm md:text-base font-mono text-slate-800 border border-slate-200 mb-4 flex-grow shadow-inner whitespace-pre-wrap overflow-y-auto leading-relaxed" id="prompt-learn-text">...</div>
+                        <div class="bg-white p-4 md:p-6 rounded-xl text-sm md:text-base font-mono text-slate-800 border border-slate-200 mb-4 max-h-72 shadow-inner whitespace-pre-wrap overflow-y-auto leading-relaxed custom-scrollbar" id="prompt-learn-text">...</div>
                         <!-- Bottom toolbar: same actions repeated so you don't have to scroll back up -->
                         <div class="flex flex-wrap gap-2 w-full justify-end pt-2 border-t border-slate-200">
                             <button onclick="copyText('prompt-learn-text', this, 'Learn')" class="btn-copy-prompt px-4 py-2 rounded-lg text-xs transition">COPY PROMPT</button>
@@ -508,7 +508,7 @@
 
                 <!-- Output Panel -->
                 <div class="lg:col-span-8">
-                    <div class="bg-amber-50 p-6 md:p-8 rounded-2xl border border-amber-200 h-full flex flex-col shadow-sm">
+                    <div class="bg-amber-50 p-6 md:p-8 rounded-2xl border border-amber-200 flex flex-col shadow-sm">
                         <!-- Toolbar -->
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 w-full">
                             <h4 class="text-sm font-black uppercase tracking-widest text-slate-900">Your Generated Prompt</h4>
@@ -520,7 +520,7 @@
                             </div>
                         </div>
                         <!-- Content -->
-                        <div class="bg-white p-4 md:p-6 rounded-xl text-sm md:text-base font-mono text-slate-800 border border-slate-200 mb-4 flex-grow shadow-inner whitespace-pre-wrap overflow-y-auto leading-relaxed" id="prompt-revision-text">...</div>
+                        <div class="bg-white p-4 md:p-6 rounded-xl text-sm md:text-base font-mono text-slate-800 border border-slate-200 mb-4 max-h-72 shadow-inner whitespace-pre-wrap overflow-y-auto leading-relaxed custom-scrollbar" id="prompt-revision-text">...</div>
                         <!-- Bottom toolbar: same actions repeated so you don't have to scroll back up -->
                         <div class="flex flex-wrap gap-2 w-full justify-end pt-2 border-t border-slate-200">
                             <button onclick="copyText('prompt-revision-text', this, 'Revision')" class="btn-copy-prompt px-4 py-2 rounded-lg text-xs transition">COPY PROMPT</button>
@@ -538,7 +538,7 @@
                  flow. Shown only when the Flashcards strategy is selected above. -->
             <div id="flashcard-widget" class="hidden max-w-6xl mx-auto bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-8">
                 <h4 class="text-sm font-black uppercase tracking-widest text-slate-900 mb-1">🗂️ Build & Study Your Own Flashcards</h4>
-                <p class="text-xs text-slate-500 mb-4">These live in your browser and work without any AI — a good companion to the AI-guided drilling above.</p>
+                <p class="text-xs text-slate-500 mb-4">These live in your browser and work without any AI — a good companion to the AI-guided drilling above. Want proper spaced repetition across devices instead? Try <a href="https://apps.ankiweb.net/" target="_blank" class="font-bold text-blue-600 hover:underline">Anki ↗</a>.</p>
 
                 <div class="flex flex-col sm:flex-row gap-2 mb-4">
                     <input id="fc-front" placeholder="Front (term or question)" class="flex-1 p-2.5 rounded-lg border border-slate-300 focus:border-whs-darkblue outline-none text-sm">
@@ -622,7 +622,7 @@
                 </div>
 
                 <div class="lg:col-span-8">
-                    <div class="bg-teal-50 p-6 md:p-8 rounded-2xl border border-teal-200 h-full flex flex-col shadow-sm">
+                    <div class="bg-teal-50 p-6 md:p-8 rounded-2xl border border-teal-200 flex flex-col shadow-sm">
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 w-full">
                             <h4 class="text-sm font-black uppercase tracking-widest text-slate-900">Your Generated Prompt</h4>
                             <div class="flex flex-wrap sm:flex-nowrap gap-2 w-full sm:w-auto">
@@ -632,7 +632,7 @@
                                 <a href="https://claude.ai/new" target="_blank" title="Opens Claude in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Claude ↗</a>
                             </div>
                         </div>
-                        <div class="bg-white p-4 md:p-6 rounded-xl text-sm md:text-base font-mono text-slate-800 border border-slate-200 mb-4 flex-grow shadow-inner whitespace-pre-wrap overflow-y-auto leading-relaxed" id="prompt-writing-text">...</div>
+                        <div class="bg-white p-4 md:p-6 rounded-xl text-sm md:text-base font-mono text-slate-800 border border-slate-200 mb-4 max-h-72 shadow-inner whitespace-pre-wrap overflow-y-auto leading-relaxed custom-scrollbar" id="prompt-writing-text">...</div>
                         <!-- Bottom toolbar: same actions repeated so you don't have to scroll back up -->
                         <div class="flex flex-wrap gap-2 w-full justify-end pt-2 border-t border-slate-200">
                             <button onclick="copyText('prompt-writing-text', this, 'Writing')" class="btn-copy-prompt px-4 py-2 rounded-lg text-xs transition">COPY PROMPT</button>
@@ -686,6 +686,10 @@
                 </div>
             </div>
 
+            <div class="max-w-6xl mx-auto text-center -mt-4 mb-2">
+                <a href="https://pathwaysawarua.com/" target="_blank" class="inline-flex items-center gap-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 px-4 py-2 rounded-lg text-xs font-bold transition">🧩 Also try Pathways Awarua — free interactive numeracy & literacy practice ↗</a>
+            </div>
+
             <div class="text-center mt-2 mb-6">
                 <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">— OR GENERATE CUSTOM PROMPTS BELOW —</span>
             </div>
@@ -723,7 +727,7 @@
                 </div>
 
                 <div class="lg:col-span-8">
-                    <div class="bg-indigo-50 p-6 md:p-8 rounded-2xl border border-indigo-200 h-full flex flex-col shadow-sm">
+                    <div class="bg-indigo-50 p-6 md:p-8 rounded-2xl border border-indigo-200 flex flex-col shadow-sm">
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 w-full">
                             <h4 class="text-sm font-black uppercase tracking-widest text-slate-900">Your Generated Prompt</h4>
                             <div class="flex flex-wrap sm:flex-nowrap gap-2 w-full sm:w-auto">
@@ -733,7 +737,7 @@
                                 <a href="https://claude.ai/new" target="_blank" title="Opens Claude in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Claude ↗</a>
                             </div>
                         </div>
-                        <div class="bg-white p-4 md:p-6 rounded-xl text-sm md:text-base font-mono text-slate-800 border border-slate-200 mb-4 flex-grow shadow-inner whitespace-pre-wrap overflow-y-auto leading-relaxed" id="prompt-litnum-text">...</div>
+                        <div class="bg-white p-4 md:p-6 rounded-xl text-sm md:text-base font-mono text-slate-800 border border-slate-200 mb-4 max-h-72 shadow-inner whitespace-pre-wrap overflow-y-auto leading-relaxed custom-scrollbar" id="prompt-litnum-text">...</div>
                         <!-- Bottom toolbar: same actions repeated so you don't have to scroll back up -->
                         <div class="flex flex-wrap gap-2 w-full justify-end pt-2 border-t border-slate-200">
                             <button onclick="copyText('prompt-litnum-text', this, 'Lit & Num')" class="btn-copy-prompt px-4 py-2 rounded-lg text-xs transition">COPY PROMPT</button>
@@ -800,6 +804,8 @@
                             <button onclick="resetTimer()" class="bg-slate-200 text-slate-700 px-6 py-3 rounded-full font-bold text-lg hover:bg-slate-300 transition w-32">Reset</button>
                         </div>
 
+                        <p class="text-xs text-slate-400 mt-4">Phone distracting you? Try <a href="https://www.forestapp.cc/" target="_blank" class="font-bold text-emerald-600 hover:underline">Forest ↗</a> — it grows a tree while you stay off your phone.</p>
+
                         <!-- Post-session reflection: optional, appears after a work session ends -->
                         <div id="reflection-box" class="hidden w-full mt-6 pt-6 border-t border-slate-200 text-left">
                             <label class="text-xs font-bold text-slate-500 uppercase tracking-widest block mb-2">Quick reflection (optional)</label>
@@ -860,7 +866,7 @@
                         <button onclick="generateQuickTimetable()" class="w-full bg-white border-2 border-whs-darkblue text-whs-darkblue px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-50 transition">⚡ Instant Table (No AI)</button>
                         <div id="quick-timetable-result" class="mt-4 text-xs"></div>
                     </div>
-                    <div class="w-full md:w-2/3 h-full flex flex-col">
+                    <div class="w-full md:w-2/3 flex flex-col">
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 w-full">
                             <h4 class="text-sm font-black uppercase tracking-widest text-slate-900">Your Generated Prompt</h4>
                             <div class="flex flex-wrap sm:flex-nowrap gap-2 w-full sm:w-auto">
@@ -869,7 +875,7 @@
                                 <a href="https://chatgpt.com/" target="_blank" title="Opens ChatGPT in a new tab" class="bg-white border border-slate-300 px-2 py-2 rounded-lg text-[10px] font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">ChatGPT ↗</a>
                             </div>
                         </div>
-                        <div class="bg-slate-50 p-4 rounded-xl text-sm font-mono text-slate-800 border border-slate-200 whitespace-pre-wrap flex-grow overflow-y-auto custom-scrollbar" id="prompt-timetable">...</div>
+                        <div class="bg-slate-50 p-4 rounded-xl text-sm font-mono text-slate-800 border border-slate-200 whitespace-pre-wrap max-h-64 overflow-y-auto custom-scrollbar" id="prompt-timetable">...</div>
                         <!-- Bottom toolbar: same actions repeated so you don't have to scroll back up -->
                         <div class="flex flex-wrap gap-2 w-full justify-end pt-2 mt-2 border-t border-slate-200">
                             <button onclick="copyText('prompt-timetable', this)" class="btn-copy-prompt px-4 py-2 rounded-lg text-xs transition">COPY PROMPT</button>
@@ -971,7 +977,7 @@
                         </div>
 
                         <h4 class="text-xs font-black uppercase tracking-widest text-blue-700 mb-2">Step 4's Starter Prompt</h4>
-                        <div class="bg-slate-50 p-4 rounded-xl text-sm font-mono text-slate-700 border border-slate-200 shadow-inner mb-3 whitespace-pre-wrap">
+                        <div class="bg-slate-50 p-4 rounded-xl text-sm font-mono text-slate-700 border border-slate-200 shadow-inner mb-3 whitespace-pre-wrap max-h-64 overflow-y-auto custom-scrollbar">
                             <span id="prompt-notebooklm">System Role: You are an expert, encouraging Socratic tutor specialising in [INSERT TOPIC HERE]. Your absolute rule is to strictly use ONLY the information, facts, and examples contained in the uploaded sources. Do not bring in outside knowledge.
 
 Phase 1: The Audit & Concept Ranking
@@ -1017,6 +1023,8 @@ Please begin with Phase 1.</span>
                                 <a href="https://www.nzqa.govt.nz/ncea/assessment/search.do?query=&view=all" target="_blank" class="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-2 rounded-lg text-xs font-bold transition"><span>📄</span> Search Past Papers by Standard ↗</a>
                                 <a href="https://www.nzqa.govt.nz/ncea/subjects/" target="_blank" class="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-2 rounded-lg text-xs font-bold transition"><span>📚</span> Browse by Subject ↗</a>
                                 <a href="https://studyit.govt.nz/" target="_blank" class="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-2 rounded-lg text-xs font-bold transition"><span>💬</span> StudyIt Forums ↗</a>
+                                <a href="https://studytime.co.nz/" target="_blank" class="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-2 rounded-lg text-xs font-bold transition"><span>📖</span> StudyTime NZ ↗</a>
+                                <a href="https://learncoach.com/" target="_blank" class="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-2 rounded-lg text-xs font-bold transition"><span>🎬</span> LearnCoach ↗</a>
                                 <a id="vault-nzc-link" href="https://newzealandcurriculum.tahurangi.education.govt.nz" target="_blank" class="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-2 rounded-lg text-xs font-bold transition"><span>📘</span> NZ Curriculum (Tāhūrangi) ↗</a>
                                 <a href="https://myelevatetutor.com/chat" target="_blank" class="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-2 rounded-lg text-xs font-bold transition"><span>🎓</span> Elevate AI Tutor ↗</a>
                             </div>
@@ -1502,12 +1510,12 @@ Please begin with Phase 1.</span>
         // Vault gives genuinely subject-specific links rather than one generic STEM/Humanities split.
         const DEPT_RESOURCES = {
             'Science': {
-                tools: [{ name: 'PhET Interactive Simulations', url: 'https://phet.colorado.edu/' }, { name: 'NZ Science Learning Hub', url: 'https://www.sciencelearn.org.nz/' }],
-                channels: [{ name: 'The Organic Chemistry Tutor', url: 'https://www.youtube.com/@TheOrganicChemistryTutor' }, { name: 'Flipping Physics', url: 'https://www.youtube.com/@FlippingPhysics' }, { name: 'Amoeba Sisters (Biology)', url: 'https://www.youtube.com/@AmoebaSisters' }]
+                tools: [{ name: 'No Brain Too Small (NCEA Notes & Past Qs)', url: 'https://www.nobraintoosmall.co.nz/' }, { name: 'PhET Interactive Simulations', url: 'https://phet.colorado.edu/' }, { name: 'NZ Science Learning Hub', url: 'https://www.sciencelearn.org.nz/' }],
+                channels: [{ name: 'The Organic Chemistry Tutor', url: 'https://www.youtube.com/@TheOrganicChemistryTutor' }, { name: 'Flipping Physics', url: 'https://www.youtube.com/@FlippingPhysics' }, { name: 'Amoeba Sisters (Biology)', url: 'https://www.youtube.com/@AmoebaSisters' }, { name: 'Khan Academy', url: 'https://www.khanacademy.org/' }]
             },
             'Maths': {
                 tools: [{ name: 'Desmos Graphing Calculator', url: 'https://www.desmos.com/calculator' }, { name: 'GeoGebra', url: 'https://www.geogebra.org/' }],
-                channels: [{ name: 'Infinity Plus One (NCEA)', url: 'https://www.youtube.com/results?search_query=Infinity+Plus+One+NCEA' }, { name: 'Khan Academy', url: 'https://www.youtube.com/@khanacademy' }]
+                channels: [{ name: 'Infinity Plus One (NCEA)', url: 'https://www.youtube.com/@infinityplusone' }, { name: 'Mr Ong Maths Lessons', url: 'https://www.youtube.com/channel/UCZUYfQSWt_Fh4dowpKmBpIw' }, { name: 'Khan Academy', url: 'https://www.khanacademy.org/' }]
             },
             'Technology': {
                 tools: [{ name: 'Scratch', url: 'https://scratch.mit.edu/' }, { name: 'Tinkercad', url: 'https://www.tinkercad.com/' }],
@@ -1613,11 +1621,11 @@ Please begin with Phase 1.</span>
 
             let html = '';
             if (data.tools && data.tools.length) {
-                html += `<strong class="text-slate-900 block mb-1 text-xs uppercase tracking-widest">Tools</strong><ul class="text-emerald-600 space-y-1 text-xs font-medium mb-4">` +
+                html += `<strong class="text-slate-900 block mb-1.5 text-xs uppercase tracking-widest">Tools</strong><ul class="text-emerald-600 space-y-2 text-sm font-bold mb-4">` +
                     data.tools.map(t => `<li><a href="${t.url}" target="_blank" class="hover:underline">• ${t.name} ↗</a></li>`).join('') + `</ul>`;
             }
             if (data.channels && data.channels.length) {
-                html += `<strong class="text-slate-900 block mb-1 text-xs uppercase tracking-widest">YouTube Channels</strong><ul class="text-blue-600 space-y-1 text-xs font-medium">` +
+                html += `<strong class="text-slate-900 block mb-1.5 text-xs uppercase tracking-widest">YouTube Channels</strong><ul class="text-blue-600 space-y-2 text-sm font-bold">` +
                     data.channels.map(c => `<li><a href="${c.url}" target="_blank" class="hover:underline">• ${c.name} ↗</a></li>`).join('') + `</ul>`;
             }
             container.innerHTML = html;
