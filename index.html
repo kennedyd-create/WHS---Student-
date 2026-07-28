@@ -465,7 +465,7 @@
                             <span class="block font-bold text-whs-darkblue mb-1">✅ Check My Understanding</span>
                             <span class="text-xs text-slate-600 block">Low-stakes questions to see what's landed so far.</span>
                         </button>
-                        <button onclick="setLearnStrategy('Resource Finder')" id="btn-learn-6" class="strategy-btn" style="box-shadow: 0 0 0 2px #ef4444;">
+                        <button onclick="setLearnStrategy('Resource Finder')" id="btn-learn-6" class="strategy-btn" style="box-shadow: inset 0 0 0 2px #ef4444;">
                             <span class="block font-bold text-whs-darkblue mb-1">🎥 Find Videos & Resources</span>
                             <span class="text-xs text-slate-600 block">Get good search terms and channels to look up.</span>
                         </button>
@@ -635,44 +635,48 @@
                 <p class="text-sm md:text-base text-slate-600">Get feedback on your drafts, unstick writer's block, or check grammar. <strong class="text-red-600">Never ask the AI to write your essay.</strong></p>
             </div>
 
-            <div class="grid lg:grid-cols-12 gap-8 max-w-6xl mx-auto">
-                <div class="lg:col-span-4 space-y-3 flex flex-col h-auto lg:h-[550px] overflow-y-auto custom-scrollbar pr-2">
-                    
-                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 mt-2">General Academic</h3>
-                    <button onclick="setWritingStrategy('Feedback')" id="btn-writ-1" class="strategy-btn active border-whs-gold bg-whs-goldlight">
-                        <span class="block font-bold text-whs-darkblue mb-1">👀 Critique My Draft</span>
-                        <span class="text-xs text-slate-600 block">Get guided 'Glows and Grows' on what you've written.</span>
-                    </button>
-                    <button onclick="setWritingStrategy('Starters')" id="btn-writ-2" class="strategy-btn">
-                        <span class="block font-bold text-whs-darkblue mb-1">🚀 Sentence Starters</span>
-                        <span class="text-xs text-slate-600 block">Stuck? Get 3 academic ways to start your paragraph.</span>
-                    </button>
-                    <button onclick="setWritingStrategy('Structure')" id="btn-writ-3" class="strategy-btn subject-hum">
-                        <span class="block font-bold text-whs-darkblue mb-1">🏗️ Outline an Essay</span>
-                        <span class="text-xs text-slate-600 block">Help plan the structure of your argument (e.g., TEEL).</span>
-                    </button>
-                    <button onclick="setWritingStrategy('Grammar')" id="btn-writ-4" class="strategy-btn">
-                        <span class="block font-bold text-whs-darkblue mb-1">✍️ Grammar Check</span>
-                        <span class="text-xs text-slate-600 block">Identify run-on sentences and confusing wording.</span>
-                    </button>
+            <div class="grid lg:grid-cols-12 gap-6 lg:gap-8 max-w-6xl mx-auto">
+                <div class="lg:col-span-6 flex flex-col h-auto lg:h-[550px] overflow-y-auto custom-scrollbar pr-2">
 
-                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 mt-4 subject-stem">Maths & Science</h3>
-                    <button onclick="setWritingStrategy('Science CER')" id="btn-writ-5" class="strategy-btn subject-stem border-l-4 border-l-emerald-500">
-                        <span class="block font-bold text-whs-darkblue mb-1">🔬 Science Conclusion (CER)</span>
-                        <span class="text-xs text-slate-600 block">Claim, Evidence, Reasoning structure for experiments.</span>
-                    </button>
-                    <button onclick="setWritingStrategy('Stats PPDAC')" id="btn-writ-6" class="strategy-btn subject-stem border-l-4 border-l-blue-500">
-                        <span class="block font-bold text-whs-darkblue mb-1">📈 Stats Report (PPDAC)</span>
-                        <span class="text-xs text-slate-600 block">Step-by-step help for statistical investigations.</span>
-                    </button>
-                    <button onclick="setWritingStrategy('Justification')" id="btn-writ-7" class="strategy-btn subject-stem border-l-4 border-l-indigo-500">
-                        <span class="block font-bold text-whs-darkblue mb-1">📐 Justifying Reasoning</span>
-                        <span class="text-xs text-slate-600 block">Explain the "why" behind your maths/science working.</span>
-                    </button>
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 mt-2">General Academic</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                        <button onclick="setWritingStrategy('Feedback')" id="btn-writ-1" class="strategy-btn active border-whs-gold bg-whs-goldlight">
+                            <span class="block font-bold text-whs-darkblue mb-1">👀 Critique My Draft</span>
+                            <span class="text-xs text-slate-600 block">Get guided 'Glows and Grows' on what you've written.</span>
+                        </button>
+                        <button onclick="setWritingStrategy('Starters')" id="btn-writ-2" class="strategy-btn">
+                            <span class="block font-bold text-whs-darkblue mb-1">🚀 Sentence Starters</span>
+                            <span class="text-xs text-slate-600 block">Stuck? Get 3 academic ways to start your paragraph.</span>
+                        </button>
+                        <button onclick="setWritingStrategy('Structure')" id="btn-writ-3" class="strategy-btn subject-hum">
+                            <span class="block font-bold text-whs-darkblue mb-1">🏗️ Outline an Essay</span>
+                            <span class="text-xs text-slate-600 block">Help plan the structure of your argument (e.g., TEEL).</span>
+                        </button>
+                        <button onclick="setWritingStrategy('Grammar')" id="btn-writ-4" class="strategy-btn">
+                            <span class="block font-bold text-whs-darkblue mb-1">✍️ Grammar Check</span>
+                            <span class="text-xs text-slate-600 block">Identify run-on sentences and confusing wording.</span>
+                        </button>
+                    </div>
+
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 mt-2 subject-stem">Maths & Science</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <button onclick="setWritingStrategy('Science CER')" id="btn-writ-5" class="strategy-btn subject-stem border-l-4 border-l-emerald-500">
+                            <span class="block font-bold text-whs-darkblue mb-1">🔬 Science Conclusion (CER)</span>
+                            <span class="text-xs text-slate-600 block">Claim, Evidence, Reasoning structure for experiments.</span>
+                        </button>
+                        <button onclick="setWritingStrategy('Stats PPDAC')" id="btn-writ-6" class="strategy-btn subject-stem border-l-4 border-l-blue-500">
+                            <span class="block font-bold text-whs-darkblue mb-1">📈 Stats Report (PPDAC)</span>
+                            <span class="text-xs text-slate-600 block">Step-by-step help for statistical investigations.</span>
+                        </button>
+                        <button onclick="setWritingStrategy('Justification')" id="btn-writ-7" class="strategy-btn subject-stem border-l-4 border-l-indigo-500">
+                            <span class="block font-bold text-whs-darkblue mb-1">📐 Justifying Reasoning</span>
+                            <span class="text-xs text-slate-600 block">Explain the "why" behind your maths/science working.</span>
+                        </button>
+                    </div>
 
                 </div>
 
-                <div class="lg:col-span-8">
+                <div class="lg:col-span-6">
                     <div class="bg-teal-50 p-6 md:p-8 rounded-2xl border border-teal-200 flex flex-col shadow-sm">
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 w-full">
                             <h4 class="text-sm font-black uppercase tracking-widest text-slate-900">Your Generated Prompt</h4>
@@ -751,33 +755,45 @@
             </div>
 
             <div class="grid lg:grid-cols-12 gap-6 lg:gap-8 max-w-6xl mx-auto">
-                <div class="lg:col-span-4 space-y-6 flex flex-col">
+                <div class="lg:col-span-6 flex flex-col gap-6">
                     <div class="space-y-3 border-l-4 border-indigo-500 pl-4">
                         <h3 class="text-sm font-black text-indigo-800 uppercase tracking-widest mb-2">📚 Literacy Practice</h3>
-                        <button onclick="setLitNumStrategy('Vocab Decoder')" id="btn-ln-1" class="strategy-btn w-full active border-whs-gold bg-whs-goldlight">
-                            <span class="block font-bold text-whs-darkblue mb-1">📖 Vocab Decoder</span>
-                            <span class="text-xs text-slate-600 block">Generate a text and decode the hardest words.</span>
-                        </button>
-                        <button onclick="setLitNumStrategy('Reading Comp')" id="btn-ln-2" class="strategy-btn w-full">
-                            <span class="block font-bold text-whs-darkblue mb-1">🤔 Test My Reading</span>
-                            <span class="text-xs text-slate-600 block">Generate a reading passage and 3 questions.</span>
-                        </button>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <button onclick="setLitNumStrategy('Vocab Decoder')" id="btn-ln-1" class="strategy-btn w-full active border-whs-gold bg-whs-goldlight">
+                                <span class="block font-bold text-whs-darkblue mb-1">📖 Vocab Decoder</span>
+                                <span class="text-xs text-slate-600 block">Generate a text and decode the hardest words.</span>
+                            </button>
+                            <button onclick="setLitNumStrategy('Reading Comp')" id="btn-ln-2" class="strategy-btn w-full">
+                                <span class="block font-bold text-whs-darkblue mb-1">🤔 Test My Reading</span>
+                                <span class="text-xs text-slate-600 block">Generate a reading passage and 3 questions.</span>
+                            </button>
+                            <button onclick="setLitNumStrategy('Writing Warmup')" id="btn-ln-5" class="strategy-btn w-full">
+                                <span class="block font-bold text-whs-darkblue mb-1">✍️ Writing Warm-Up</span>
+                                <span class="text-xs text-slate-600 block">Short sentence practice with glows-and-grows feedback.</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="space-y-3 border-l-4 border-emerald-500 pl-4 mt-4">
+                    <div class="space-y-3 border-l-4 border-emerald-500 pl-4">
                         <h3 class="text-sm font-black text-emerald-800 uppercase tracking-widest mb-2">🔢 Numeracy Practice</h3>
-                        <button onclick="setLitNumStrategy('Word Problem')" id="btn-ln-3" class="strategy-btn w-full">
-                            <span class="block font-bold text-whs-darkblue mb-1">🧮 Word Problem Setup</span>
-                            <span class="text-xs text-slate-600 block">Generate a word problem and help me set it up.</span>
-                        </button>
-                        <button onclick="setLitNumStrategy('Data Graph')" id="btn-ln-4" class="strategy-btn w-full">
-                            <span class="block font-bold text-whs-darkblue mb-1">📊 Data & Graph Guide</span>
-                            <span class="text-xs text-slate-600 block">Generate a data table and testing questions.</span>
-                        </button>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <button onclick="setLitNumStrategy('Word Problem')" id="btn-ln-3" class="strategy-btn w-full">
+                                <span class="block font-bold text-whs-darkblue mb-1">🧮 Word Problem Setup</span>
+                                <span class="text-xs text-slate-600 block">Generate a word problem and help me set it up.</span>
+                            </button>
+                            <button onclick="setLitNumStrategy('Data Graph')" id="btn-ln-4" class="strategy-btn w-full">
+                                <span class="block font-bold text-whs-darkblue mb-1">📊 Data & Graph Guide</span>
+                                <span class="text-xs text-slate-600 block">Generate a data table and testing questions.</span>
+                            </button>
+                            <button onclick="setLitNumStrategy('Everyday Maths')" id="btn-ln-6" class="strategy-btn w-full">
+                                <span class="block font-bold text-whs-darkblue mb-1">🛒 Everyday Maths</span>
+                                <span class="text-xs text-slate-600 block">Real-life scenarios: money, time, measurement.</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="lg:col-span-8">
+                <div class="lg:col-span-6">
                     <div class="bg-indigo-50 p-6 md:p-8 rounded-2xl border border-indigo-200 flex flex-col shadow-sm">
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 w-full">
                             <h4 class="text-sm font-black uppercase tracking-widest text-slate-900">Your Generated Prompt</h4>
@@ -2641,7 +2657,7 @@ Off-ramps (don't force a question): they've solved it and said thanks - congratu
             } else if (currentLearnStrategy === 'Key Vocabulary') {
                 text = `"ROLE: Vocabulary coach.\nTASK: Pre-teach the essential vocabulary for '${ctx.topic}' before I start learning the content, for ${cl}.\n\nRULES:\n1. List the 6-8 most important terms, ordered from simplest to most complex.\n2. For each term, give a plain-English definition and one example sentence using it in context.\n3. Once the list is done, quiz me by describing a definition and asking me to name the term — one at a time, waiting for my answer.${curriculumClause(ctx)}"`;
             } else if (currentLearnStrategy === 'Real World Hook') {
-                text = `"TASK: Show me why '${ctx.topic}' actually matters, for ${cl}, before I get into the technical detail.\n\nRULES:\n1. Give 2-3 concrete real-world examples or applications, grounded in Aotearoa New Zealand contexts where genuinely possible.\n2. Explain each connection in plain terms — no jargon yet.\n3. End with one open question that gets me thinking about the topic before we dive into content.${curriculumClause(ctx)}"`;
+                text = `"ROLE: Enthusiastic guide who loves showing why things matter.\nTASK: Show me why '${ctx.topic}' actually matters, for ${cl}, before I get into the technical detail.\n\nRULES:\n1. Give 2-3 concrete real-world examples or applications, grounded in Aotearoa New Zealand contexts where genuinely possible.\n2. Explain each connection in plain terms — no jargon yet.\n3. End with one open question that gets me thinking about the topic. Stop and wait for my answer before continuing into any content.${curriculumClause(ctx)}"`;
             } else if (currentLearnStrategy === 'Guided Notes') {
                 text = `"ROLE: Note-taking coach.\nTASK: Build me a structured, fill-in-the-gaps notes template for '${ctx.topic}' (${cl}).\n\nRULES:\n1. Use clear headings for each sub-topic, with blank space and guiding prompts under each for ME to fill in as I learn.\n2. Include a 'Key Terms' box and a 'Questions I still have' box at the end.\n3. Do NOT fill in the content for me — this is a scaffold I complete myself while reading, watching, or listening to material.${curriculumClause(ctx)}"`;
             } else if (currentLearnStrategy === 'Check Understanding') {
@@ -2649,7 +2665,7 @@ Off-ramps (don't force a question): they've solved it and said thanks - congratu
             } else if (currentLearnStrategy === 'Feynman Technique') {
                 text = `"I want to understand '${ctx.topic}' deeply using the Feynman learning method, for ${cl}.\n\nAct like a patient teacher. First, explain the topic to me in simple language, as if I am 12 years old.\nUse:\n- simple words\n- real-life examples\n- analogies\n- no unnecessary jargon\n- short explanations\n\nAfter explaining, ask me to explain the topic back in my own words.\n\nThen review my explanation and do the following:\n1. Identify what I explained correctly.\n2. Find every gap, mistake, confusion, or missing idea.\n3. Re-teach only the parts I got wrong or missed.\n4. Ask me to explain it again in a cleaner way.\n5. Repeat this loop until my explanation is simple, accurate, and complete.\n\nRules:\n- Do not move forward until my explanation is clear.\n- Do not overload me with extra theory.\n- Correct me gently but clearly.\n- Use examples whenever I am confused.\n\nAt the end, give me a final clean explanation of the topic that I can save as notes.\nMake this feel like an interactive learning conversation, not a lecture.${curriculumClause(ctx)}"`;
             } else if (currentLearnStrategy === 'Resource Finder') {
-                text = `"TASK: Help me find good places to learn '${ctx.topic}' outside this app, for ${cl} in Aotearoa New Zealand.\n\nRULES:\n1. Suggest 4-5 specific, well-targeted search terms or video titles I could look up on YouTube (strong search phrases, not invented links).\n2. Recommend the type of channel or source likely to explain this well for my level.\n3. Flag anything to watch out for (e.g. content for a different curriculum, country, or year level).${curriculumClause(ctx)}"`;
+                text = `"ROLE: Well-connected study buddy who knows all the good channels.\nTASK: Help me find good places to learn '${ctx.topic}' outside this app, for ${cl} in Aotearoa New Zealand.\n\nRULES:\n1. Suggest 4-5 specific, well-targeted search topics for this. For EACH one, give me an actual clickable link in this exact format: https://www.youtube.com/results?search_query=YOUR+SEARCH+TERMS+HERE (replace spaces with + signs so it's a valid URL). This format is always live and safe to use. Do NOT invent a link to one specific video or channel — only ever use this search-URL format.\n2. Recommend the type of channel or source likely to explain this well for my level.\n3. Flag anything to watch out for (e.g. content for a different curriculum, country, or year level).${curriculumClause(ctx)}"`;
             }
 
             const box = document.getElementById('prompt-learn-text');
@@ -2692,7 +2708,7 @@ Off-ramps (don't force a question): they've solved it and said thanks - congratu
             const subjectsInput = document.getElementById('timetable-subjects');
             const subjects = (subjectsInput && subjectsInput.value.trim()) ? subjectsInput.value.trim() : "[Enter subjects above]";
             
-            let text = `"ROLE: Executive Function Coach.\nTASK: Create a 4-week NCEA study timetable for a ${ctx.year} student studying: ${subjects}.\n\nRULES:\n1. First, ask me what time of day I feel most focused (Morning, Afternoon, Night).\n2. Map my highest-friction subjects to my peak energy windows.\n3. Ensure no subject is studied in block isolation for more than 45 minutes to enforce interleaved practice.\n4. Limit active work blocks to a 2-hour maximum per day with Pomodoro breaks.\n5. Output the 4-week matrix layout using a clear Markdown table."`;
+            let text = `"ROLE: Executive Function Coach.\nTASK: Create a 4-week NCEA study timetable for a ${ctx.year} student studying: ${subjects}.\n\nRULES:\n1. First, ask me what time of day I feel most focused (Morning, Afternoon, Night), and which subjects feel highest-friction right now. Stop and wait for my answer before building anything.\n2. Once I answer, map my highest-friction subjects to my peak energy windows.\n3. Ensure no subject is studied in block isolation for more than 45 minutes to enforce interleaved practice.\n4. Limit active work blocks to a 2-hour maximum per day with Pomodoro breaks.\n5. Output the 4-week matrix layout using a clear Markdown table.${curriculumClause(ctx)}"`;
             
             const box = document.getElementById('prompt-timetable');
             if (box) box.innerText = text;
@@ -2807,7 +2823,7 @@ Off-ramps (don't force a question): they've solved it and said thanks - congratu
             } else if (currentRevisionStrategy === 'ELI5') {
                 text = `"ROLE: Expert communicator.\nTASK: Explain '${ctx.topic}' in plain English using the Feynman Technique (explain it simply enough that a 10-year-old could follow).\n\nRULES:\n1. Strip out jargon and build a simple mental model or everyday comparison first.\n2. Ask me to 'teach it back' to you in one sentence, to check it's actually landed.\n3. Finish with a punchy 3-bullet summary I can copy into my notes.${cc}"`;
             } else if (currentRevisionStrategy === 'Analogies') {
-                text = `"TASK: Create 3 distinct real-world analogies that map onto the most abstract ideas in '${ctx.topic}', for ${cl}.\n\nRULES:\n1. Ground each analogy in something familiar, modern, or local to Aotearoa New Zealand.\n2. After each analogy, explain exactly which part of the analogy matches which part of the concept — don't leave the connection implicit.${cc}"`;
+                text = `"ROLE: Creative explainer who loves a good comparison.\nTASK: Create 3 distinct real-world analogies that map onto the most abstract ideas in '${ctx.topic}', for ${cl}.\n\nRULES:\n1. Ground each analogy in something familiar, modern, or local to Aotearoa New Zealand.\n2. After each analogy, explain exactly which part of the analogy matches which part of the concept — don't leave the connection implicit.\n3. Once all 3 are done, ask me to pick the one that clicked best and explain why in my own words — wait for my answer.${cc}"`;
             } else if (currentRevisionStrategy === 'Practice Exam') {
                 text = `"ROLE: NZQA NCEA marker.\nTASK: Write one high-yield NCEA-style exam question on '${ctx.topic}' for ${cl}.\n\nRULES:\n1. Give me the question and 3-4 command/structural keywords I need to address — no answers yet.\n2. Wait for my written response before giving any feedback.\n3. When I submit my answer, mark it against a simulated Achieved / Merit / Excellence schedule, and tell me exactly which sentence or choice would move me up a grade band.${cc}"`;
             } else if (currentRevisionStrategy === 'STEM Problem') {
@@ -2835,17 +2851,17 @@ Off-ramps (don't force a question): they've solved it and said thanks - congratu
             if (currentWritingStrategy === 'Feedback') {
                 text = `"ROLE: Writing coach.\nTASK: Review my ${cl} draft on '${ctx.topic}'.\n\nRULES:\n1. Before giving feedback, ask me: 'What part of this draft are you least confident about?'\n2. Address that self-identified weak spot first.\n3. Structure the rest of your feedback as 'Glows and Grows': 2 specific things that work well, then 1 clear, actionable thing to improve.\n4. Do NOT rewrite any of the text for me — describe the fix, don't hand me the sentence.\n\n[PASTE YOUR DRAFT HERE]${cc}"`;
             } else if (currentWritingStrategy === 'Starters') {
-                text = `"TASK: Help me get unstuck on a specific idea I'm struggling to put into words for my ${cl} assignment on '${ctx.topic}'.\n\nRULES:\n1. Give me 3 different academic sentence starters that fit what I'm trying to say.\n2. Do NOT write the rest of the paragraph or finish the thought for me — starters only.\n\n[DESCRIBE WHAT YOU WANT TO SAY HERE]${cc}"`;
+                text = `"ROLE: Writing coach who specialises in getting students unstuck.\nTASK: Help me get unstuck on a specific idea I'm struggling to put into words for my ${cl} assignment on '${ctx.topic}'.\n\nRULES:\n1. Give me 3 different academic sentence starters that fit what I'm trying to say.\n2. Do NOT write the rest of the paragraph or finish the thought for me — starters only.\n\n[DESCRIBE WHAT YOU WANT TO SAY HERE]${cc}"`;
             } else if (currentWritingStrategy === 'Structure') {
-                text = `"TASK: Help me plan the structure of a multi-paragraph response for my ${cl} assessment on '${ctx.topic}': [PASTE YOUR QUESTION HERE].\n\nRULES:\n1. Map out a paragraph-by-paragraph plan from thesis to conclusion, using a recognised structure (e.g. TEEL or PEEL).\n2. For each paragraph, tell me what claim, evidence, or example I need — don't write the actual sentences.${cc}"`;
+                text = `"ROLE: Essay planning coach.\nTASK: Help me plan the structure of a multi-paragraph response for my ${cl} assessment on '${ctx.topic}': [PASTE YOUR QUESTION HERE].\n\nRULES:\n1. Map out a paragraph-by-paragraph plan from thesis to conclusion, using a recognised structure (e.g. TEEL or PEEL).\n2. For each paragraph, tell me what claim, evidence, or example I need — don't write the actual sentences.${cc}"`;
             } else if (currentWritingStrategy === 'Grammar') {
                 text = `"ROLE: Guided correction coach.\nTASK: Check my draft for punctuation errors, run-on sentences, or awkward syntax.\n\nRULES:\n1. Do NOT fix the errors yourself or rewrite my sentences — I need to do the fixing.\n2. Quote the flawed sentence, mark the error with **bold text**, and explain the grammar rule being broken.\n3. Ask me to write the corrected version myself before moving to the next issue.\n4. Use New Zealand English spelling throughout (e.g. 'colour', 'analyse').\n\n[PASTE YOUR DRAFT HERE]${cc}"`;
             } else if (currentWritingStrategy === 'Science CER') {
-                text = `"TASK: Help me write a science report conclusion for '${ctx.topic}' using the Claim, Evidence, Reasoning (CER) method.\n\nRULES:\n1. Do NOT write the conclusion for me. Ask for my actual experiment results or data trends first.\n2. Once I share my data, walk me through connecting those specific values to the relevant scientific law or principle, one step at a time.${cc}"`;
+                text = `"ROLE: Science writing coach.\nTASK: Help me write a science report conclusion for '${ctx.topic}' using the Claim, Evidence, Reasoning (CER) method.\n\nRULES:\n1. Do NOT write the conclusion for me. Ask for my actual experiment results or data trends first — wait for my answer.\n2. Once I share my data, walk me through connecting those specific values to the relevant scientific law or principle, one step at a time.${cc}"`;
             } else if (currentWritingStrategy === 'Stats PPDAC') {
-                text = `"TASK: Help me scaffold a statistics investigation report for ${cl} using the Problem, Plan, Data, Analysis, Conclusion (PPDAC) cycle.\n\nRULES:\n1. Ask me which exact stage I'm stuck on.\n2. Give me the specific questions I need to answer for that stage, plus the statistical language or descriptors needed to reach Merit/Excellence.${cc}"`;
+                text = `"ROLE: Statistics report coach.\nTASK: Help me scaffold a statistics investigation report for ${cl} using the Problem, Plan, Data, Analysis, Conclusion (PPDAC) cycle.\n\nRULES:\n1. Ask me which exact stage I'm stuck on — wait for my answer before continuing.\n2. Give me the specific questions I need to answer for that stage, plus the statistical language or descriptors needed to reach Merit/Excellence.${cc}"`;
             } else if (currentWritingStrategy === 'Justification') {
-                text = `"TASK: Help me explain the reasoning behind my maths/science working for ${cl}, not just the answer.\n\nRULES:\n1. I'll paste my working. Give me 3 different sentence starters I could use to justify why the process is mathematically valid.\n2. Occasionally show me a realistic 'mock' student answer with a subtle error, and ask me to play marker and find the mistake.\n\n[PASTE YOUR WORKING HERE]${cc}"`;
+                text = `"ROLE: Maths/science reasoning coach.\nTASK: Help me explain the reasoning behind my maths/science working for ${cl}, not just the answer.\n\nRULES:\n1. I'll paste my working. Give me 3 different sentence starters I could use to justify why the process is mathematically valid.\n2. Occasionally show me a realistic 'mock' student answer with a subtle error, and ask me to play marker and find the mistake — wait for my answer before revealing it.\n\n[PASTE YOUR WORKING HERE]${cc}"`;
             }
 
             document.getElementById('prompt-writing-text').innerText = text;
@@ -2873,13 +2889,17 @@ Off-ramps (don't force a question): they've solved it and said thanks - congratu
             let text = "";
 
             if (currentLitNumStrategy === 'Vocab Decoder') {
-                text = `"TASK: Build a literacy warm-up for '${ctx.topic}' at ${cl} level.\n\nACTION:\n1. Write a short (~150-word) passage about the topic, pitched at my year level.\n2. Then build a table of the 5 densest vocabulary words in that passage, each with a plain-English definition and a second example sentence.${cc}"`;
+                text = `"ROLE: Friendly literacy coach.\nTASK: Build a vocabulary decoding drill for '${ctx.topic}' at ${cl} level.\n\nACTION:\n1. Write a short (~150-word) passage about the topic, pitched at my year level.\n2. Pick the 5 densest vocabulary words in it. Show me ONE at a time — give the sentence it appears in, and ask me to guess its meaning from context before you reveal the definition. Wait for my guess.\n3. After each guess, tell me if I was right, give the correct plain-English definition, and one more example sentence.\n4. At the end, quickly re-test all 5 by describing a definition and asking me to name the word.${cc}"`;
             } else if (currentLitNumStrategy === 'Reading Comp') {
-                text = `"TASK: Build a reading comprehension check for '${ctx.topic}' at ${cl} level.\n\nACTION:\n1. Write an advanced reading passage (200-250 words) on the topic.\n2. Ask me 3 questions: one Literal, one Inferential, one Evaluative — and hold back the answers until I attempt them.\n3. As a final check, challenge me to summarise the core argument in exactly 12 words, no more, no less.${cc}"`;
+                text = `"ROLE: Reading comprehension coach.\nTASK: Build a reading comprehension check for '${ctx.topic}' at ${cl} level.\n\nACTION:\n1. Write an advanced reading passage (200-250 words) on the topic.\n2. Ask me ONE question at a time — one Literal, one Inferential, one Evaluative, in that order. Wait for my answer before revealing anything or moving to the next question.\n3. After each answer, give brief feedback: what I got right, and how to strengthen it if it's weak.\n4. As a final check, challenge me to summarise the core argument in exactly 12 words, no more, no less — then tell me how well my summary captures it.${cc}"`;
+            } else if (currentLitNumStrategy === 'Writing Warmup') {
+                text = `"ROLE: Encouraging writing coach.\nTASK: Run a short writing warm-up on '${ctx.topic}' at ${cl} level.\n\nACTION:\n1. Give me a single, clear sentence-starter or writing prompt related to the topic.\n2. Ask me to write 2-3 sentences in response, then wait for my attempt.\n3. Give quick 'glows and grows' feedback: one thing that worked, one specific thing to improve (e.g. a stronger word choice, a missing connective, a clearer structure). Do NOT rewrite my sentences for me.\n4. Give me one more prompt to try again, applying that feedback.${cc}"`;
             } else if (currentLitNumStrategy === 'Word Problem') {
-                text = `"TASK: Build a numeracy word-problem coach for '${ctx.topic}' at ${cl} level.\n\nACTION: Write a realistic, situational word problem matching the topic.\nRULES:\n1. Do not do the computation for me. First make me build a 'Knowns vs Unknowns' list before I touch any operators.\n2. Make me state the final unit of measurement, spot any red-herring numbers, and list which operations I'll need — before I start calculating.${cc}"`;
+                text = `"ROLE: Numeracy word-problem coach.\nTASK: Build a word-problem coaching session for '${ctx.topic}' at ${cl} level.\n\nACTION: Write a realistic, situational word problem matching the topic.\nRULES:\n1. Do not do the computation for me. First make me build a 'Knowns vs Unknowns' list before I touch any operators.\n2. Make me state the final unit of measurement, spot any red-herring numbers, and list which operations I'll need — before I start calculating.\n3. Once I've set it up, let me attempt the calculation. Check my working — if I'm wrong, point me to exactly which step to redo rather than giving the answer.${cc}"`;
             } else if (currentLitNumStrategy === 'Data Graph') {
-                text = `"TASK: Build a data & graph interpretation drill for '${ctx.topic}' at ${cl} level.\n\nACTION: Generate a small simulated data set or statistics block related to the topic, then ask me 3-5 questions requiring me to spot trends, check axis relationships, identify outliers, or do quick calculations from the data.${cc}"`;
+                text = `"ROLE: Data & statistics literacy coach.\nTASK: Build a data & graph interpretation drill for '${ctx.topic}' at ${cl} level.\n\nACTION: Generate a small simulated data set or statistics block related to the topic.\nRULES:\n1. Ask me ONE question at a time (3-5 total) requiring me to spot trends, check axis relationships, identify outliers, or do quick calculations from the data. Wait for my answer before giving feedback or asking the next.\n2. After each answer, tell me clearly whether I'm right, and if not, point me back to the specific part of the data I misread.${cc}"`;
+            } else if (currentLitNumStrategy === 'Everyday Maths') {
+                text = `"ROLE: Practical numeracy coach.\nTASK: Run an everyday/functional numeracy drill on '${ctx.topic}' at ${cl} level (e.g. money, time, measurement, unit conversion — whichever fits the topic).\n\nACTION:\n1. Create one realistic everyday scenario (shopping, cooking, travel time, etc.) requiring me to use this numeracy skill.\n2. Ask me to work through it step by step — wait for my answer before revealing whether I'm correct.\n3. If I'm wrong, don't give the answer — point me to the specific step that needs fixing.\n4. Once I get it right, give me a slightly harder follow-up using the same skill.${cc}"`;
             }
 
             document.getElementById('prompt-litnum-text').innerText = text;
