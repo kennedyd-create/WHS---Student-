@@ -238,8 +238,8 @@
         }
         .pulse-dot {
             display: inline-block;
-            width: 8px;
-            height: 8px;
+            width: 12px;
+            height: 12px;
             border-radius: 9999px;
             background-color: #ef4444;
             animation: slowPulseDot 2.2s ease-in-out infinite;
@@ -320,7 +320,7 @@
                 <button onclick="showView('revision')" id="nav-revision" class="nav-btn nav-color-amber flex-1 text-center flex justify-center min-w-max">Revision</button>
                 <button onclick="showView('writing')" id="nav-writing" class="nav-btn nav-color-teal flex-1 text-center flex justify-center min-w-max">Writing</button>
                 <button onclick="showView('litnum')" id="nav-litnum" class="nav-btn nav-color-purple flex-1 text-center flex justify-center min-w-max">Year 10 CAA</button>
-                <button onclick="showView('vault')" id="nav-vault" class="nav-btn nav-color-indigo flex items-center justify-center gap-2 flex-1 min-w-max">🗄️ NCEA Vault</button>
+                <button onclick="showView('vault')" id="nav-vault" class="nav-btn nav-color-indigo flex items-center justify-center gap-2 flex-1 min-w-max">🗄️ NCEA Hub</button>
                 <button onclick="showView('tools')" id="nav-tools" class="nav-btn nav-color-gold flex items-center justify-center gap-2 flex-1 min-w-max">⏱️ Tools</button>
                 <button onclick="showView('wellbeing')" id="nav-wellbeing" class="nav-btn nav-color-rose flex items-center justify-center gap-2 flex-1 min-w-max">💚 Wellbeing</button>
             </nav>
@@ -655,11 +655,6 @@
                 <p class="text-sm md:text-base text-slate-600">Everything here is focused on the Year 10 Common Assessment Activities (CAAs). Access our pre-built WHS AI Tutors directly, or generate custom practice prompts below.</p>
             </div>
 
-            <div class="max-w-3xl mx-auto w-full px-4">
-                <label class="text-[10px] md:text-xs font-black text-whs-darkblue uppercase tracking-widest block mb-2">What topic are you practising?</label>
-                <input type="text" id="litnum-topic" oninput="updateLitNumPrompt()" placeholder="e.g. Persuasive writing, Ratios, Reading non-fiction..." class="w-full p-2 md:p-3 rounded-lg border border-purple-200 bg-purple-50 focus:border-whs-darkblue outline-none transition font-medium text-sm">
-            </div>
-
             <!-- Lit & Num Tutor Gem Banners (3 Columns) -->
             <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-4 md:gap-6 mb-8">
                 <div class="bg-gradient-to-br from-indigo-50 to-white p-5 rounded-2xl border border-indigo-200 shadow-sm flex flex-col justify-between gap-4 transition hover:shadow-md">
@@ -693,6 +688,11 @@
 
             <div class="text-center mt-2 mb-6">
                 <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">— OR GENERATE CUSTOM PROMPTS BELOW —</span>
+            </div>
+
+            <div class="max-w-3xl mx-auto w-full px-4">
+                <label class="text-[10px] md:text-xs font-black text-whs-darkblue uppercase tracking-widest block mb-2">What topic are you practising?</label>
+                <input type="text" id="litnum-topic" oninput="updateLitNumPrompt()" placeholder="e.g. Persuasive writing, Ratios, Reading non-fiction..." class="w-full p-2 md:p-3 rounded-lg border border-purple-200 bg-purple-50 focus:border-whs-darkblue outline-none transition font-medium text-sm">
             </div>
 
             <div class="grid lg:grid-cols-12 gap-6 lg:gap-8 max-w-6xl mx-auto">
@@ -757,7 +757,7 @@
             </div>
 
             <!-- My Progress + Badges: compact, combined, and here in Tools rather than the
-                 NCEA Vault since every year level (7-13) uses this tab. -->
+                 NCEA Hub since every year level (7-13) uses this tab. -->
             <div class="glass-card p-4 md:p-5 max-w-6xl mx-auto border-t-4 border-t-whs-gold">
                 <div class="flex items-center justify-between mb-3">
                     <h3 class="text-sm font-bold text-whs-darkblue uppercase tracking-widest">📊 My Progress</h3>
@@ -903,12 +903,12 @@
         <!-- ========================================== -->
         <div id="view-vault" class="hidden space-y-8 animate-in fade-in duration-500 page-tint-indigo rounded-3xl p-4 md:p-8">
             <div class="text-center max-w-3xl mx-auto mb-4 px-4">
-                <h2 class="text-4xl font-black text-slate-900 mb-4">The NCEA Vault</h2>
+                <h2 class="text-4xl font-black text-slate-900 mb-4">The NCEA Hub</h2>
                 <p class="text-slate-600">Quick links to official resources, tutors, cheat sheets, and your personalized library of saved AI prompts.</p>
             </div>
 
             <!-- Gemini Notebook Explainer -->
-            <div class="glass-card p-6 md:p-8 max-w-[1400px] mx-auto border-t-4 border-t-blue-500">
+            <div class="glass-card p-6 md:p-8 max-w-[1400px] mx-auto border-t-4 border-t-blue-500" style="background-color: #f0f7ff;">
                 <details id="gemini-notebook-details">
                     <summary class="cursor-pointer list-none flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
                         <h3 class="text-xl font-bold text-whs-darkblue flex items-center gap-2">📓 Study Smarter with Gemini Notebook</h3>
@@ -916,35 +916,61 @@
                     </summary>
 
                     <div class="mt-5 pt-5 border-t border-slate-200">
-                        <div class="flex justify-end mb-4">
+                        <div class="flex flex-wrap justify-end gap-2 mb-4">
+                            <a href="https://www.youtube.com/results?search_query=how+to+use+gemini+notebook+lm+for+study" target="_blank" title="Opens a YouTube search in a new tab" class="bg-white border border-slate-300 text-slate-600 px-4 py-2 rounded-lg text-xs font-bold shadow-sm hover:bg-slate-50 transition flex items-center gap-1.5">▶️ Watch How-To Videos ↗</a>
                             <a href="https://notebooklm.google.com/" target="_blank" title="Opens Gemini Notebook in a new tab" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-xs font-bold shadow-sm hover:bg-blue-700 transition shrink-0">Open Gemini Notebook ↗</a>
                         </div>
-                        <p class="text-sm text-slate-600 mb-6">Gemini Notebook is different from the regular Gemini/ChatGPT/Claude chat: instead of answering from general knowledge, it only answers from documents <em>you</em> upload — and every answer links back to the exact page it came from. That makes it brilliant for revising from your own class material without it making things up.</p>
+                        <p class="text-sm text-slate-600 mb-6">Gemini Notebook is different from the regular Gemini/ChatGPT/Claude chat: instead of answering from general knowledge, it only answers from documents <em>you</em> upload — and every answer links back to the exact page it came from. That makes it brilliant for revising from your own class material without it making things up. Follow the steps below:</p>
 
-                        <div class="grid md:grid-cols-2 gap-6 mb-6">
-                            <div>
-                                <h4 class="text-xs font-black uppercase tracking-widest text-blue-700 mb-2">What to Upload</h4>
-                                <ul class="text-sm text-slate-700 space-y-2">
-                                    <li class="flex gap-2"><span class="text-blue-500 shrink-0">•</span> Class notes, slides, or worksheets your teacher has shared</li>
-                                    <li class="flex gap-2"><span class="text-blue-500 shrink-0">•</span> Textbook chapters or PDFs (photograph or scan pages if needed)</li>
-                                    <li class="flex gap-2"><span class="text-blue-500 shrink-0">•</span> Past NCEA papers, exemplars, and mark schedules for your subject</li>
-                                    <li class="flex gap-2"><span class="text-blue-500 shrink-0">•</span> Your own "Knowledge Doc" (see below) — this is the one that makes the biggest difference</li>
-                                </ul>
+                        <div class="space-y-5 mb-6">
+                            <div class="flex gap-4">
+                                <span class="shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white font-black flex items-center justify-center text-sm">1</span>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-sm mb-1">Open Gemini Notebook and start a new notebook</h4>
+                                    <p class="text-xs text-slate-600">Click "Open Gemini Notebook ↗" above, sign in with your school Google account, and hit "New Notebook."</p>
+                                </div>
                             </div>
-                            <div>
-                                <h4 class="text-xs font-black uppercase tracking-widest text-blue-700 mb-2">Building a "Knowledge Doc"</h4>
-                                <p class="text-sm text-slate-700 mb-2">Before you upload, spend 10 minutes making one simple doc (Google Doc is fine) that pulls together, in your own words:</p>
-                                <ul class="text-sm text-slate-700 space-y-2">
-                                    <li class="flex gap-2"><span class="text-blue-500 shrink-0">•</span> Key definitions and formulas for the topic</li>
-                                    <li class="flex gap-2"><span class="text-blue-500 shrink-0">•</span> Questions you got wrong before, plus the correction</li>
-                                    <li class="flex gap-2"><span class="text-blue-500 shrink-0">•</span> Feedback themes your teacher keeps giving you</li>
-                                </ul>
-                                <p class="text-xs text-slate-500 mt-2">Upload this alongside your class material — it tells Gemini Notebook exactly where <em>you</em> personally need the most help.</p>
+                            <div class="flex gap-4">
+                                <span class="shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white font-black flex items-center justify-center text-sm">2</span>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-sm mb-1">Upload your sources</h4>
+                                    <ul class="text-xs text-slate-600 space-y-1 mt-1">
+                                        <li>• Class notes, slides, or worksheets your teacher has shared</li>
+                                        <li>• Textbook chapters or PDFs (photograph or scan pages if needed)</li>
+                                        <li>• Past NCEA papers, exemplars, and mark schedules for your subject</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <span class="shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white font-black flex items-center justify-center text-sm">3</span>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-sm mb-1">Build and upload a "Knowledge Doc" (this makes the biggest difference)</h4>
+                                    <p class="text-xs text-slate-600 mb-1">Spend 10 minutes making one simple doc (Google Doc is fine) that pulls together, in your own words:</p>
+                                    <ul class="text-xs text-slate-600 space-y-1">
+                                        <li>• Key definitions and formulas for the topic</li>
+                                        <li>• Questions you got wrong before, plus the correction</li>
+                                        <li>• Feedback themes your teacher keeps giving you</li>
+                                    </ul>
+                                    <p class="text-xs text-slate-500 mt-1">Upload it alongside your class material — it tells Gemini Notebook exactly where <em>you</em> personally need the most help.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <span class="shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white font-black flex items-center justify-center text-sm">4</span>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-sm mb-1">Copy the starter prompt below and paste it into the Gemini Notebook chat</h4>
+                                    <p class="text-xs text-slate-600">It'll audit your sources, flag gaps, then quiz you one question at a time — see below.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <span class="shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white font-black flex items-center justify-center text-sm">5</span>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-sm mb-1">Study — and type "Start" when you're ready to be quizzed</h4>
+                                    <p class="text-xs text-slate-600">Stuck on how any of this works? Tap "Watch How-To Videos ↗" above for a walkthrough.</p>
+                                </div>
                             </div>
                         </div>
 
-                        <h4 class="text-xs font-black uppercase tracking-widest text-blue-700 mb-2">A Prompt to Get Started</h4>
-                        <p class="text-xs text-slate-500 mb-3">Once your sources are uploaded, paste this into the Gemini Notebook chat:</p>
+                        <h4 class="text-xs font-black uppercase tracking-widest text-blue-700 mb-2">Step 4's Starter Prompt</h4>
                         <div class="bg-slate-50 p-4 rounded-xl text-sm font-mono text-slate-700 border border-slate-200 shadow-inner mb-3 whitespace-pre-wrap">
                             <span id="prompt-notebooklm">System Role: You are an expert, encouraging Socratic tutor specialising in [INSERT TOPIC HERE]. Your absolute rule is to strictly use ONLY the information, facts, and examples contained in the uploaded sources. Do not bring in outside knowledge.
 
@@ -975,7 +1001,7 @@ Please begin with Phase 1.</span>
             <!-- Resources & Support: two columns, each stacking related cards so Subject
                  Resources sits directly above Tutoring Providers. Cards size to their own
                  content now (no fixed heights) rather than being forced to match a row. -->
-            <div class="max-w-[1400px] mx-auto">
+            <div class="max-w-[1400px] mx-auto bg-gradient-to-br from-indigo-50/70 via-white to-rose-50/70 rounded-3xl p-4 md:p-6 border border-slate-200">
                 <div class="flex items-center justify-between flex-wrap gap-2 mb-4">
                     <h3 class="text-xs font-black uppercase tracking-widest text-slate-500">📚 Resources & Support</h3>
                     <span class="text-[11px] font-bold text-indigo-600 bg-indigo-50 border border-indigo-200 px-3 py-1 rounded-full">Showing resources for: <span id="vault-current-dept">Science</span></span>
@@ -1008,23 +1034,21 @@ Please begin with Phase 1.</span>
                     <!-- Column B -->
                     <div class="flex flex-col gap-6">
                         <div class="glass-card p-6 border-t-4 border-t-red-500 flex flex-col">
-                            <div class="flex justify-between items-center gap-2 mb-3 border-b pb-3 flex-wrap">
-                                <h3 class="text-lg font-bold text-whs-darkblue" id="dept-resources-title">📺 Science Resources</h3>
-                                <div class="flex items-center gap-2">
-                                    <span class="flex items-center gap-1.5 text-[10px] font-bold text-red-600 whitespace-nowrap">
-                                        <span class="pulse-dot" aria-hidden="true"></span> Change subject here
-                                    </span>
-                                    <select id="vault-dept-select" onchange="changeVaultDept(this.value)" class="p-1.5 rounded-lg border border-slate-300 text-xs font-bold text-whs-darkblue focus:border-whs-darkblue outline-none">
-                                        <option value="Science">Science</option>
-                                        <option value="Maths">Maths</option>
-                                        <option value="Technology">Technology</option>
-                                        <option value="English">English</option>
-                                        <option value="Social Sciences">Social Sciences</option>
-                                        <option value="Arts">Arts</option>
-                                        <option value="PE & Health">PE & Health</option>
-                                        <option value="Māori">Māori</option>
-                                    </select>
-                                </div>
+                            <h3 class="text-lg font-bold text-whs-darkblue mb-3 border-b pb-3" id="dept-resources-title">📺 Science Resources</h3>
+                            <div class="flex items-center justify-between gap-3 mb-4 bg-red-50 border-2 border-red-300 rounded-xl px-4 py-3 flex-wrap">
+                                <span class="flex items-center gap-2 text-sm font-black text-red-700">
+                                    <span class="pulse-dot" aria-hidden="true"></span> Change subject here:
+                                </span>
+                                <select id="vault-dept-select" onchange="changeVaultDept(this.value)" class="p-2 rounded-lg border-2 border-red-300 bg-white text-sm font-bold text-whs-darkblue focus:border-red-500 outline-none">
+                                    <option value="Science">Science</option>
+                                    <option value="Maths">Maths</option>
+                                    <option value="Technology">Technology</option>
+                                    <option value="English">English</option>
+                                    <option value="Social Sciences">Social Sciences</option>
+                                    <option value="Arts">Arts</option>
+                                    <option value="PE & Health">PE & Health</option>
+                                    <option value="Māori">Māori</option>
+                                </select>
                             </div>
                             <div class="custom-scrollbar pr-2 space-y-1 text-sm max-h-96 overflow-y-auto" id="dept-resources-container">
                                 <!-- Injected via JS: renderDeptResources() -->
@@ -1157,7 +1181,7 @@ Please begin with Phase 1.</span>
                     <li><button onclick="goToSectionFromTour('revision')" class="w-full flex gap-3 items-start text-left p-2 rounded-lg hover:bg-slate-100 transition"><span class="shrink-0">🔁</span><span><strong>Revision</strong> — quizzes, real flashcards, and exam-style practice.</span></button></li>
                     <li><button onclick="goToSectionFromTour('writing')" class="w-full flex gap-3 items-start text-left p-2 rounded-lg hover:bg-slate-100 transition"><span class="shrink-0">✍️</span><span><strong>Writing</strong> — feedback, structure help, and sentence starters.</span></button></li>
                     <li><button onclick="goToSectionFromTour('litnum')" class="w-full flex gap-3 items-start text-left p-2 rounded-lg hover:bg-slate-100 transition"><span class="shrink-0">🔢</span><span><strong>Year 10 CAA</strong> — literacy & numeracy prep for the Y10 CAAs.</span></button></li>
-                    <li><button onclick="goToSectionFromTour('vault')" class="w-full flex gap-3 items-start text-left p-2 rounded-lg hover:bg-slate-100 transition"><span class="shrink-0">🗄️</span><span><strong>NCEA Vault</strong> — saved prompts, resources, and the Gemini Notebook guide.</span></button></li>
+                    <li><button onclick="goToSectionFromTour('vault')" class="w-full flex gap-3 items-start text-left p-2 rounded-lg hover:bg-slate-100 transition"><span class="shrink-0">🗄️</span><span><strong>NCEA Hub</strong> — saved prompts, resources, and the Gemini Notebook guide.</span></button></li>
                     <li><button onclick="goToSectionFromTour('tools')" class="w-full flex gap-3 items-start text-left p-2 rounded-lg hover:bg-slate-100 transition"><span class="shrink-0">⏱️</span><span><strong>Tools</strong> — your progress, badges, focus timer, to-do list, and exam countdown.</span></button></li>
                     <li><button onclick="goToSectionFromTour('wellbeing')" class="w-full flex gap-3 items-start text-left p-2 rounded-lg hover:bg-slate-100 transition"><span class="shrink-0">💚</span><span><strong>Wellbeing</strong> — feeling overwhelmed? Start here instead.</span></button></li>
                 </ul>
