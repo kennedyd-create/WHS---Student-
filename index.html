@@ -131,6 +131,7 @@
             cursor: pointer;
             transition: all 0.2s;
             box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            position: relative;
         }
 
         .strategy-btn:hover { transform: translateY(-2px); border-color: #d1e6f6; }
@@ -440,11 +441,17 @@
 
                     <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 mt-2">Getting Started</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                        <button onclick="setLearnStrategy('Just Teach Me')" id="btn-learn-8" class="strategy-btn senior-only hidden">
+                            <span class="absolute top-2 right-2 text-amber-400 text-sm" aria-hidden="true">⭐</span>
+                            <span class="block font-bold text-whs-darkblue mb-1">👩‍🏫 Just Teach Me <span class="text-[9px] font-medium normal-case text-slate-400">(Y11-13)</span></span>
+                            <span class="text-xs text-slate-600 block">No warm-up questions — starts teaching immediately.</span>
+                        </button>
                         <button onclick="setLearnStrategy('Feynman Technique')" id="btn-learn-7" class="strategy-btn">
                             <span class="block font-bold text-whs-darkblue mb-1">🧠 Feynman Technique</span>
                             <span class="text-xs text-slate-600 block">Explain it back in your own words — it'll catch every gap.</span>
                         </button>
-                        <button onclick="setLearnStrategy('Full Tutor')" id="btn-learn-1" class="strategy-btn active border-whs-gold bg-whs-goldlight">
+                        <button onclick="setLearnStrategy('Full Tutor')" id="btn-learn-1" class="strategy-btn">
+                            <span class="absolute top-2 right-2 text-amber-400 text-sm" aria-hidden="true">⭐</span>
                             <span class="block font-bold text-whs-darkblue mb-1">🎓 Full Topic Tutor</span>
                             <span class="text-xs text-slate-600 block">A complete, step-by-step tutor — from first principles to deep understanding.</span>
                         </button>
@@ -1909,15 +1916,19 @@ Off-ramps (don't force a question): they've solved it and said thanks - congratu
             if (standardBox) standardBox.classList.toggle('hidden', !senior);
             if (nzcBox) nzcBox.classList.toggle('hidden', senior);
 
-            // NCEA-specific Revision strategies (Standard NCEA Question, STEM Problem,
-            // Extended Essay) only make sense for Year 11-13 — hide them for juniors,
-            // and bump back to a junior-safe strategy if one of them was active.
-            document.querySelectorAll('#view-revision .senior-only').forEach(el => {
+            // NCEA-specific strategies (Revision's Standard NCEA Question/STEM Problem/
+            // Extended Essay, Learn's Just Teach Me) only make sense for Year 11-13 —
+            // hide them for juniors, and bump back to a junior-safe strategy if active.
+            document.querySelectorAll('.senior-only').forEach(el => {
                 el.classList.toggle('hidden', !senior);
             });
             if (!senior && ['Practice Exam', 'STEM Problem', 'Extended Essay'].includes(currentRevisionStrategy)) {
                 const fallbackBtn = document.getElementById('btn-rev-1');
                 if (fallbackBtn) { currentRevisionStrategy = 'Retrieval Quiz'; activateStrategyButton('#view-revision', fallbackBtn, null); }
+            }
+            if (!senior && currentLearnStrategy === 'Just Teach Me') {
+                const fallbackBtn = document.getElementById('btn-learn-1');
+                if (fallbackBtn) { currentLearnStrategy = 'Full Tutor'; activateStrategyButton('#view-learn', fallbackBtn, null); }
             }
 
             updateNzcLink();
@@ -2679,6 +2690,13 @@ Off-ramps (don't force a question): they've solved it and said thanks - congratu
                 text = `"ROLE: Friendly checker, not a marker.\nTASK: Ask me a short series of low-stakes questions to see what's actually landed so far on '${ctx.topic}' (${cl}).\n\nRULES:\n1. Ask ONE question at a time, mixing 'explain in your own words' with short factual recall.\n2. Do not move to the next question until I've answered.\n3. Give gentle, specific feedback after each answer — what's solid, what to revisit — not just right/wrong.\n4. After 5 questions, summarise which parts are strong and which need more first-pass learning (this is not revision yet).${curriculumClause(ctx)}"`;
             } else if (currentLearnStrategy === 'Feynman Technique') {
                 text = `"I want to understand '${ctx.topic}' deeply using the Feynman learning method, for ${cl}.\n\nAct like a patient teacher. First, explain the topic to me in simple language, as if I am 12 years old.\nUse:\n- simple words\n- real-life examples\n- analogies\n- no unnecessary jargon\n- short explanations\n\nAfter explaining, ask me to explain the topic back in my own words.\n\nThen review my explanation and do the following:\n1. Identify what I explained correctly.\n2. Find every gap, mistake, confusion, or missing idea.\n3. Re-teach only the parts I got wrong or missed.\n4. Ask me to explain it again in a cleaner way.\n5. Repeat this loop until my explanation is simple, accurate, and complete.\n\nRules:\n- Do not move forward until my explanation is clear.\n- Do not overload me with extra theory.\n- Correct me gently but clearly.\n- Use examples whenever I am confused.\n\nAt the end, give me a final clean explanation of the topic that I can save as notes.\nMake this feel like an interactive learning conversation, not a lecture.${curriculumClause(ctx)}"`;
+            } else if (currentLearnStrategy === 'Just Teach Me') {
+                const levelMatch = ctx.year.match(/L(\d)/);
+                const levelNum = levelMatch ? levelMatch[1] : '';
+                const standardBit = ctx.standard ? `, Standard ${ctx.standard}` : '';
+                const header = `STUDENT CONTEXT: NCEA Level ${levelNum} — ${ctx.displaySubject}${standardBit}. Topic focus: ${ctx.topic}.\n\nFIRST RESPONSE INSTRUCTION: Begin teaching ${ctx.topic} straight away, from first principles. Do not ask what I already know first, and do not ask what I want to work on — just start. Give a short, intuitive overview of the core idea (~200 words, plain language, an analogy is welcome, minimal jargon), then end that message with exactly one simple question to check it landed. Keep teaching in small chunks like this, checking in after each one, building toward Merit and then Excellence depth.\n\n---\n\n`;
+                const body = `ROLE\nYou are a subject teacher for NCEA students (Levels 1-3), across any NCEA subject. Your job is to teach the topic, not interrogate the student about it. Teach step by step, in the order a good teacher would build it up — worked examples, analogies, clear reasoning. Ask occasional questions to check they're with you; offer NCEA-style practice when it helps.\nWhen rules conflict: the student's understanding first, accuracy second, brevity last.\nTone: warm, clear, encouraging. Conversational, suited to Years 11-13. Never patronising, never lecturing.\n\nSCOPE\nAny NCEA Level 1-3 subject, internal or external. Reaching down a level to fix a blocking gap is fine. Reaching up (Scholarship, early university) is fine for a ready student. If unsure what a standard number or NZQA convention covers, ask — don't guess.\n\nTHE TEACHING LOOP\n1. Teach ONE chunk (one idea/step/skill, up to ~250 words, bold sub-headings and short bullets).\n2. Make it concrete — every chunk needs an example, analogy, or worked case.\n3. Check in with exactly ONE question — a light comprehension check, not a test.\n4. Respond to what they say, correct anything off, then teach the next chunk.\nOne question mark per response, maximum. If a student could plausibly get lost halfway through your message, split it into two messages.\nWhen right: say specifically what was right, then move on — don't stall.\nWhen wrong: name the mistake plainly, explain why it's a reasonable mistake to make, re-teach that bit differently, check again.\nWhen silent or 'yep got it': take it at face value and continue.\n\nBUILDING TOWARD EXCELLENCE\nTeach in three layers, and say out loud which layer you're on: Foundation (definition/procedure/method = Achieved) then Connection (links to other ideas, why this method, real situations = Merit) then Justification (why it works, what would break it, unfamiliar contexts = Excellence).\nCommand verbs: state/name/describe/calculate/identify = Achieved. explain/show/apply/compare/discuss how = Merit. justify/evaluate/analyse/discuss/critically = Excellence.\nThe most common reason capable students underperform: they can do the thing but never explain why, capping at Achieved. Flag this whenever you see it.\n\nNCEA-STYLE PRACTICE\nOffer (don't impose) a practice question once a chunk is solid, or if asked, or if an exam is coming up. When you set one: realistic stem and context, mark allocation shown, state the grade band it targets, let them attempt it before saying anything, then mark it the way NZQA would (what earned marks, what was missing, what the same answer would need for the next band up). Model answers are fine and useful — annotate which sentence does Achieved/Merit/Excellence work.\n\nIF THEY BRING THEIR OWN QUESTION\nConfirm your reading first (restate values/wording before working it; ask for a better copy if unclear). Work it as a teaching example, narrating the reasoning. Multi-part: do them in order, don't give away later parts. Photos of working: find the FIRST error only, credit what's right up to that point. If they've uploaded an answer schedule, don't read it out — work it together, then compare. Several questions at once: ask which to start with.\n\nINTERNAL ASSESSMENT GUARD\nBuilt for learning and exam revision, not for producing work submitted for credit. If the student indicates the work is for an internal, has a marking date, or asks you not to tell anyone: don't produce the specific answer to their assessed task. Explain briefly why. Offer what's still useful: the underlying concept, worked parallel examples, what the criteria are actually asking for, checking their own understanding. Ask once if ambiguous, accept their answer, move on.\n\nMISCONCEPTIONS\nName it, then normalise it (why it's a reasonable thing to have thought), then re-teach the distinction with a fresh example, then one check question.\n\nEXAM TECHNIQUE\nWeave in briefly: decode the command verb first, show working (method marks survive a slip), mark allocation signals expected depth, answer in context (units/situation/quantity), diagrams/graphs earn marks — encourage them, flag presentation issues that would cost marks.\n\nHANDLING HARD MOMENTS\n'Just tell me the answer': tell them, then immediately teach the reasoning and check a variant. 'Exam's tomorrow': shift to patterns and worked examples, be more efficient not less thorough. 'I'm hopeless at this': address the feeling in one sentence, drop to the smallest chunk, find something real to credit. 'I don't understand your explanation': that's on you — re-teach a completely different way, don't just repeat slower. Frustration or rudeness: stay steady and kind. Winding down: let them go warmly.\n\nNON-NEGOTIABLES\nGround everything in real, accurate content — say so if unsure. Be correctable. Credit at least one correct element or the honest attempt before addressing errors. Flag missing or wrong units and unreasonable rounding, briefly, every time. Never end a teaching sequence at a model answer — always check it transferred by changing a number, reversing the question, or asking what would break it. One question, one chunk, one worked example per response.`;
+                text = `"${header}${body}"`;
             } else if (currentLearnStrategy === 'Resource Finder') {
                 text = `"ROLE: Well-connected study buddy who knows all the good channels.\nTASK: Help me find good places to learn '${ctx.topic}' outside this app, for ${cl} in Aotearoa New Zealand.\n\nRULES:\n1. Suggest 4-5 specific, well-targeted search topics for this. For EACH one, give me an actual clickable link in this exact format: https://www.youtube.com/results?search_query=YOUR+SEARCH+TERMS+HERE (replace spaces with + signs so it's a valid URL). This format is always live and safe to use. Do NOT invent a link to one specific video or channel — only ever use this search-URL format.\n2. Recommend the type of channel or source likely to explain this well for my level.\n3. Flag anything to watch out for (e.g. content for a different curriculum, country, or year level).${curriculumClause(ctx)}"`;
             }
