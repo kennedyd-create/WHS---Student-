@@ -346,6 +346,9 @@
             <svg class="absolute right-0 top-0 h-full w-64 text-white/5 transform translate-x-1/4 -translate-y-1/4 scale-150 pointer-events-none" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2L2 22h20L12 2zm0 3.5l7.5 15h-15L12 5.5z"/>
             </svg>
+
+            <!-- Clear Data -->
+            <button onclick="clearAllData()" title="Clear all your saved data on this device" class="absolute bottom-2 left-1/2 -translate-x-1/2 z-20 bg-black/20 hover:bg-red-900/60 border border-white/20 px-3 py-1 rounded-full text-[10px] font-bold text-blue-100 hover:text-white transition">🗑️ Clear Data</button>
         </header>
 
         <!-- Navigation (Evenly Distributed) -->
@@ -365,29 +368,29 @@
         </div>
 
         <!-- Global Context Bar (Appears on Prompt builder views) -->
-        <div id="global-context" class="glass-card border border-purple-200 border-l-4 border-l-purple-400 p-4 md:p-6 max-w-5xl mx-auto mb-8" style="background-color: #faf5ff;">
+        <div id="global-context" class="glass-card border border-purple-200 border-l-4 border-l-purple-400 p-3 md:p-4 max-w-5xl mx-auto mb-6" style="background-color: #faf5ff;">
             <!-- Senior-only: specific NCEA subject + Standard Number, shown for Year 11-13.
                  Department below is broad (e.g. "Social Sciences"); this Subject field is the
                  actual NCEA subject within it (e.g. "History", "Geography", "Economics") — it
                  comes first so students narrow Department → Subject before naming the Topic. -->
-            <div id="ncea-standard-container" class="hidden mb-4 pb-4 border-b border-purple-200 flex-col md:flex-row gap-4">
+            <div id="ncea-standard-container" class="hidden mb-3 pb-3 border-b border-purple-200 flex-col md:flex-row gap-3">
                 <div class="w-full md:w-1/2">
-                    <label class="text-[10px] md:text-xs font-black text-whs-darkblue uppercase tracking-widest block mb-2">Subject <span class="text-slate-400 font-medium normal-case">(the specific NCEA subject, e.g. History, Chemistry)</span></label>
-                    <input type="text" id="global-actual-subject" oninput="updateAllPrompts(); saveContext();" placeholder="e.g. History, Chemistry, Economics..." class="w-full p-2 md:p-3 rounded-lg border border-purple-200 focus:border-whs-darkblue outline-none transition font-medium text-sm">
+                    <label class="text-[9px] md:text-[11px] font-black text-whs-darkblue uppercase tracking-widest block mb-1">Subject <span class="text-slate-400 font-medium normal-case">(the specific NCEA subject, e.g. History, Chemistry)</span></label>
+                    <input type="text" id="global-actual-subject" oninput="updateAllPrompts(); saveContext();" placeholder="e.g. History, Chemistry, Economics..." class="w-full p-1.5 md:p-2 rounded-lg border border-purple-200 focus:border-whs-darkblue outline-none transition font-medium text-xs md:text-sm">
                 </div>
                 <div class="w-full md:w-1/2">
-                    <label class="text-[10px] md:text-xs font-black text-whs-darkblue uppercase tracking-widest block mb-2">NCEA Standard Number <span class="text-slate-400 font-medium normal-case">(optional, e.g. AS91192)</span></label>
-                    <input type="text" id="global-standard" oninput="updateAllPrompts(); saveContext();" placeholder="e.g. AS91192" class="w-full p-2 md:p-3 rounded-lg border border-purple-200 focus:border-whs-darkblue outline-none transition font-medium text-sm">
+                    <label class="text-[9px] md:text-[11px] font-black text-whs-darkblue uppercase tracking-widest block mb-1">NCEA Standard Number <span class="text-slate-400 font-medium normal-case">(optional, e.g. AS91192)</span></label>
+                    <input type="text" id="global-standard" oninput="updateAllPrompts(); saveContext();" placeholder="e.g. AS91192" class="w-full p-1.5 md:p-2 rounded-lg border border-purple-200 focus:border-whs-darkblue outline-none transition font-medium text-xs md:text-sm">
                 </div>
             </div>
-            <div class="flex flex-col md:flex-row items-center gap-4">
+            <div class="flex flex-col md:flex-row items-center gap-3">
                 <div class="w-full md:w-1/2">
-                    <label class="text-[10px] md:text-xs font-black text-whs-darkblue uppercase tracking-widest block mb-2">What topic are you studying?</label>
-                    <input type="text" id="global-topic" oninput="updateAllPrompts(); saveContext();" placeholder="e.g. Newton's Laws, The Cold War..." class="w-full p-2 md:p-3 rounded-lg border border-purple-200 focus:border-whs-darkblue outline-none transition font-medium text-sm">
+                    <label class="text-[9px] md:text-[11px] font-black text-whs-darkblue uppercase tracking-widest block mb-1">What topic are you studying?</label>
+                    <input type="text" id="global-topic" oninput="updateAllPrompts(); saveContext();" placeholder="e.g. Newton's Laws, The Cold War..." class="w-full p-1.5 md:p-2 rounded-lg border border-purple-200 focus:border-whs-darkblue outline-none transition font-medium text-xs md:text-sm">
                 </div>
                 <div class="w-full md:w-1/4">
-                    <label class="text-[10px] md:text-xs font-black text-whs-darkblue uppercase tracking-widest block mb-2">Year Level</label>
-                    <select id="global-year" onchange="yearChanged(); saveContext();" class="w-full p-2 md:p-3 rounded-lg border border-purple-200 focus:border-whs-darkblue outline-none transition font-medium text-sm">
+                    <label class="text-[9px] md:text-[11px] font-black text-whs-darkblue uppercase tracking-widest block mb-1">Year Level</label>
+                    <select id="global-year" onchange="yearChanged(); saveContext();" class="w-full p-1.5 md:p-2 rounded-lg border border-purple-200 focus:border-whs-darkblue outline-none transition font-medium text-xs md:text-sm">
                         <option value="Year 7">Year 7</option>
                         <option value="Year 8">Year 8</option>
                         <option value="Year 9">Year 9</option>
@@ -398,8 +401,8 @@
                     </select>
                 </div>
                 <div class="w-full md:w-1/4">
-                    <label class="text-[10px] md:text-xs font-black text-whs-darkblue uppercase tracking-widest block mb-2">Department</label>
-                    <select id="global-subject" onchange="subjectChanged(); saveContext();" class="w-full p-2 md:p-3 rounded-lg border border-purple-200 focus:border-whs-darkblue outline-none transition font-medium text-sm">
+                    <label class="text-[9px] md:text-[11px] font-black text-whs-darkblue uppercase tracking-widest block mb-1">Department</label>
+                    <select id="global-subject" onchange="subjectChanged(); saveContext();" class="w-full p-1.5 md:p-2 rounded-lg border border-purple-200 focus:border-whs-darkblue outline-none transition font-medium text-xs md:text-sm">
                         <option value="Science" selected>Science</option>
                         <option value="Maths">Maths</option>
                         <option value="Technology">Technology</option>
@@ -412,7 +415,7 @@
                 </div>
             </div>
             <!-- Junior-only: NZ Curriculum note, shown for Year 7-10 -->
-            <div id="nzc-note-container" class="hidden mt-4 pt-4 border-t border-purple-200 items-center justify-between flex-wrap gap-3">
+            <div id="nzc-note-container" class="hidden mt-3 pt-3 border-t border-purple-200 items-center justify-between flex-wrap gap-3">
                 <p class="text-xs text-slate-500">Junior prompts are aligned to the <strong class="text-whs-darkblue">NZ Curriculum — Knowledge and Practices</strong>.</p>
                 <a id="nzc-link" href="https://newzealandcurriculum.tahurangi.education.govt.nz" target="_blank" class="text-xs font-bold text-whs-darkblue hover:underline">View the curriculum page ↗</a>
             </div>
@@ -423,8 +426,8 @@
         <!-- ========================================== -->
         <div id="view-learn" class="space-y-8 animate-in fade-in duration-500 page-tint-sky rounded-3xl p-4 md:p-8">
             <div class="text-center max-w-3xl mx-auto mb-4 px-4">
-                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-4">Learn the Topic</h2>
-                <p class="text-sm md:text-base text-slate-600">Meeting a topic for the first time? Start here to build a solid foundation before you move on to revision.</p>
+                <h2 class="text-2xl md:text-3xl font-black text-slate-900 mb-3">Learn the Topic</h2>
+                <p class="text-xs md:text-sm text-slate-600">Meeting a topic for the first time? Start here to build a solid foundation before you move on to revision.</p>
             </div>
 
             <div id="stem-tutor-banner-learn" class="hidden max-w-3xl mx-auto -mt-2 text-center">
@@ -505,8 +508,8 @@
         <!-- ========================================== -->
         <div id="view-revision" class="hidden space-y-8 animate-in fade-in duration-500 page-tint-amber rounded-3xl p-4 md:p-8">
             <div class="text-center max-w-3xl mx-auto mb-4 px-4">
-                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-4">Revision Strategies</h2>
-                <p class="text-sm md:text-base text-slate-600">Based on proven cognitive science methods to help you encode information into long-term memory.</p>
+                <h2 class="text-2xl md:text-3xl font-black text-slate-900 mb-3">Revision Strategies</h2>
+                <p class="text-xs md:text-sm text-slate-600">Based on proven cognitive science methods to help you encode information into long-term memory.</p>
             </div>
 
             <div id="stem-tutor-banner-revision" class="hidden max-w-3xl mx-auto -mt-2 text-center">
@@ -631,8 +634,8 @@
         <!-- ========================================== -->
         <div id="view-writing" class="hidden space-y-8 animate-in fade-in duration-500 page-tint-teal rounded-3xl p-4 md:p-8">
             <div class="text-center max-w-3xl mx-auto mb-8 px-4">
-                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-4">Writing & Assignment Help</h2>
-                <p class="text-sm md:text-base text-slate-600">Get feedback on your drafts, unstick writer's block, or check grammar. <strong class="text-red-600">Never ask the AI to write your essay.</strong></p>
+                <h2 class="text-2xl md:text-3xl font-black text-slate-900 mb-3">Writing & Assignment Help</h2>
+                <p class="text-xs md:text-sm text-slate-600">Get feedback on your drafts, unstick writer's block, or check grammar. <strong class="text-red-600">Never ask the AI to write your essay.</strong></p>
             </div>
 
             <div class="grid lg:grid-cols-12 gap-6 lg:gap-8 max-w-6xl mx-auto">
@@ -706,8 +709,8 @@
         <!-- ========================================== -->
         <div id="view-litnum" class="hidden space-y-8 animate-in fade-in duration-500 page-tint-purple rounded-3xl p-4 md:p-8">
             <div class="text-center max-w-3xl mx-auto mb-4 px-4">
-                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-4">Year 10 CAA</h2>
-                <p class="text-sm md:text-base text-slate-600">Everything here is focused on the Year 10 Common Assessment Activities (CAAs). Access our pre-built WHS AI Tutors directly, or generate custom practice prompts below.</p>
+                <h2 class="text-2xl md:text-3xl font-black text-slate-900 mb-3">Year 10 CAA</h2>
+                <p class="text-xs md:text-sm text-slate-600">Everything here is focused on the Year 10 Common Assessment Activities (CAAs). Access our pre-built WHS AI Tutors directly, or generate custom practice prompts below.</p>
             </div>
 
             <!-- Lit & Num Tutor Gem Banners (3 Columns) -->
@@ -823,8 +826,8 @@
         <!-- ========================================== -->
         <div id="view-tools" class="hidden space-y-8 animate-in fade-in duration-500 page-tint-gold rounded-3xl p-4 md:p-8">
             <div class="text-center max-w-3xl mx-auto mb-4 px-4">
-                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-4">Study Tools & Productivity</h2>
-                <p class="text-sm md:text-base text-slate-600">Keep yourself on track. Use the Pomodoro timer, track tasks, and take quick notes.</p>
+                <h2 class="text-2xl md:text-3xl font-black text-slate-900 mb-3">Study Tools & Productivity</h2>
+                <p class="text-xs md:text-sm text-slate-600">Keep yourself on track. Use the Pomodoro timer, track tasks, and take quick notes.</p>
             </div>
 
             <!-- My Progress + Badges: compact, combined, and here in Tools rather than the
@@ -976,8 +979,8 @@
         <!-- ========================================== -->
         <div id="view-vault" class="hidden space-y-8 animate-in fade-in duration-500 page-tint-indigo rounded-3xl p-4 md:p-8">
             <div class="text-center max-w-3xl mx-auto mb-4 px-4">
-                <h2 class="text-4xl font-black text-slate-900 mb-4">The NCEA Hub</h2>
-                <p class="text-slate-600">Quick links to official resources, tutors, cheat sheets, and your personalized library of saved AI prompts.</p>
+                <h2 class="text-3xl font-black text-slate-900 mb-3">The NCEA Hub</h2>
+                <p class="text-sm text-slate-600">Quick links to official resources, tutors, cheat sheets, and your personalized library of saved AI prompts.</p>
             </div>
 
             <!-- Gemini Notebook + STEM Tutor: side-by-side (half width each) when collapsed,
@@ -1231,8 +1234,8 @@ Please begin with Phase 1.</span>
         <!-- ========================================== -->
         <div id="view-wellbeing" class="hidden space-y-8 animate-in fade-in duration-500 page-tint-rose rounded-3xl p-4 md:p-8">
             <div class="text-center max-w-3xl mx-auto mb-4 px-4">
-                <h2 class="text-4xl font-black text-rose-600 mb-4">Take a Breath.</h2>
-                <p class="text-slate-600">Feeling overwhelmed is completely normal. Use these tools to reset your nervous system and break down impossible tasks into tiny steps.</p>
+                <h2 class="text-3xl font-black text-rose-600 mb-3">Take a Breath.</h2>
+                <p class="text-sm text-slate-600">Feeling overwhelmed is completely normal. Use these tools to reset your nervous system and break down impossible tasks into tiny steps.</p>
             </div>
 
             <div class="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
@@ -2003,6 +2006,18 @@ Off-ramps (don't force a question): they've solved it and said thanks - congratu
             if (!el) return;
             if (window.innerWidth >= 768) el.setAttribute('open', '');
             else el.removeAttribute('open');
+        }
+
+        // Wipes everything this app has stored on this device (XP, streak, badges, todos,
+        // flashcards, saved prompts, context, exam date, dark mode preference — all of it).
+        function clearAllData() {
+            const confirmed = confirm(
+                "This will permanently delete ALL your saved data on this device — XP, streak, badges, to-do list, flashcards, saved prompts, exam date, and settings.\n\nThis cannot be undone. Consider using 'Back up my data' first (bottom of the page).\n\nAre you sure you want to clear everything?"
+            );
+            if (!confirmed) return;
+            localStorage.clear();
+            alert("All data cleared. The page will now reload.");
+            location.reload();
         }
 
         function reportBrokenLink() {
