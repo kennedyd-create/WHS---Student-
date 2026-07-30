@@ -142,6 +142,15 @@
             background: #fffcf5;
         }
 
+        /* Trad Study's buttons sit on a white panel and were hard to distinguish in light
+           mode — give them their own subtle gold shading, distinct from the stronger
+           active-state tint above (higher specificity here wins correctly either way). */
+        #view-tradstudy .strategy-btn { background-color: #ffffff; border-color: #e5d9b8; }
+        #view-tradstudy .strategy-btn:hover { background-color: #fffdf7; }
+        #view-tradstudy .strategy-btn.active { background-color: #fffcf5; border-color: #c5a059; }
+        body.dark-mode #view-tradstudy .strategy-btn { background-color: #1e293b; border-color: #334155; }
+        body.dark-mode #view-tradstudy .strategy-btn.active { background-color: #3f3520; border-color: #c5a059; }
+
         .copy-btn-success {
             background-color: #16a34a !important;
             color: white !important;
@@ -266,6 +275,17 @@
             animation: slowPulseDot 2.2s ease-in-out infinite;
         }
 
+        /* Pulsating ring around the Tools button, so it stands out below the main nav */
+        @keyframes toolsPulse {
+            0% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0.55); }
+            70% { box-shadow: 0 0 0 10px rgba(197, 160, 89, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0); }
+        }
+        .tools-pulse-btn { animation: toolsPulse 2.5s infinite; }
+        @media (prefers-reduced-motion: reduce) {
+            .tools-pulse-btn { animation: none; }
+        }
+
         /* STEM Specialist Tutor: Subject/Level selector tabs */
         .stem-tab { background: white; border-color: #d1fae5; color: #047857; }
         .stem-tab:hover { background: #ecfdf5; }
@@ -353,19 +373,25 @@
         </header>
 
         <!-- Navigation (Evenly Distributed) -->
-        <div class="relative mb-6">
+        <div class="relative mb-2">
             <nav class="flex w-full justify-between items-center overflow-x-auto pb-1 hide-scrollbar gap-2" onscroll="updateNavFade(this)" id="main-nav">
                 <button onclick="showView('learn')" id="nav-learn" class="nav-btn nav-color-sky nav-active flex-1 text-center flex justify-center min-w-max">Learn</button>
                 <button onclick="showView('revision')" id="nav-revision" class="nav-btn nav-color-amber flex-1 text-center flex justify-center min-w-max">Revision</button>
                 <button onclick="showView('writing')" id="nav-writing" class="nav-btn nav-color-teal flex-1 text-center flex justify-center min-w-max">Writing</button>
                 <button onclick="showView('litnum')" id="nav-litnum" class="nav-btn nav-color-purple flex-1 text-center flex justify-center min-w-max">Year 10 CAA</button>
                 <button onclick="showView('vault')" id="nav-vault" class="nav-btn nav-color-indigo flex items-center justify-center gap-2 flex-1 min-w-max">🗄️ NCEA Hub</button>
-                <button onclick="showView('tools')" id="nav-tools" class="nav-btn nav-color-gold flex items-center justify-center gap-2 flex-1 min-w-max">⏱️ Tools</button>
+                <button onclick="showView('tradstudy')" id="nav-tradstudy" class="nav-btn nav-color-gold flex items-center justify-center gap-2 flex-1 min-w-max">📚 Trad Study</button>
                 <button onclick="showView('wellbeing')" id="nav-wellbeing" class="nav-btn nav-color-rose flex items-center justify-center gap-2 flex-1 min-w-max">💚 Wellbeing</button>
             </nav>
             <!-- Scroll-fade hints: only relevant when the nav overflows, which only happens below md -->
             <div id="nav-fade-left" class="hidden pointer-events-none absolute left-0 top-0 bottom-1 w-8 bg-gradient-to-r from-slate-100 to-transparent md:hidden"></div>
             <div id="nav-fade-right" class="pointer-events-none absolute right-0 top-0 bottom-1 w-8 bg-gradient-to-l from-slate-100 to-transparent md:hidden"></div>
+        </div>
+
+        <!-- Tools: demoted to a small secondary link below the main tabs (still the same
+             full Tools page once opened — just a smaller front door, not a full tab). -->
+        <div class="flex justify-center mb-6">
+            <button onclick="showView('tools')" id="nav-tools" class="tools-pulse-btn bg-whs-goldlight border border-whs-gold hover:bg-amber-100 text-whs-darkblue px-4 py-1.5 rounded-full text-xs font-bold shadow-sm transition flex items-center gap-1.5">⏱️ Tools <span class="text-whs-gold">·</span> Progress, Timer, To-Do</button>
         </div>
 
         <!-- Global Context Bar (Appears on Prompt builder views) -->
@@ -1284,6 +1310,275 @@ Please begin with Phase 1.</span>
         </div>
 
         <!-- ========================================== -->
+        <!-- VIEW: TRAD STUDY (non-AI study skills)     -->
+        <!-- ========================================== -->
+        <div id="view-tradstudy" class="hidden space-y-8 animate-in fade-in duration-500 page-tint-gold rounded-3xl p-4 md:p-8">
+            <div class="text-center max-w-3xl mx-auto mb-4 px-4">
+                <h2 class="text-2xl md:text-3xl font-black text-slate-900 mb-3">Trad Study</h2>
+                <p class="text-xs md:text-sm text-slate-600">No AI here — just study techniques backed by cognitive science research (Dunlosky et al., 2013 and others). Rereading and highlighting <em>feel</em> productive, but research consistently shows they barely help you remember anything. These do.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-6 lg:gap-8 max-w-6xl mx-auto">
+                <!-- Buttons Panel -->
+                <div class="lg:col-span-6 flex flex-col h-auto lg:h-[600px] overflow-y-auto custom-scrollbar pr-2">
+
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 mt-2">🔥 Do These First (High-Utility)</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                        <button onclick="setTradStudy('practice-testing')" id="btn-ts-1" class="strategy-btn active border-whs-gold bg-whs-goldlight">
+                            <span class="block font-bold text-whs-darkblue mb-1">🎯 Practice Testing</span>
+                            <span class="text-xs text-slate-600 block">Test yourself instead of rereading.</span>
+                        </button>
+                        <button onclick="setTradStudy('spaced-repetition')" id="btn-ts-2" class="strategy-btn">
+                            <span class="block font-bold text-whs-darkblue mb-1">📦 Spaced Repetition</span>
+                            <span class="text-xs text-slate-600 block">The Leitner Box system — try it below.</span>
+                        </button>
+                        <button onclick="setTradStudy('teach-it')" id="btn-ts-3" class="strategy-btn">
+                            <span class="block font-bold text-whs-darkblue mb-1">🗣️ Teach It</span>
+                            <span class="text-xs text-slate-600 block">Explain it to someone (or a rubber duck).</span>
+                        </button>
+                    </div>
+
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 mt-2">➕ Also Worth Knowing</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <button onclick="setTradStudy('why-questions')" id="btn-ts-4" class="strategy-btn">
+                            <span class="block font-bold text-whs-darkblue mb-1">🤔 Ask "Why?"</span>
+                            <span class="text-xs text-slate-600 block">Elaborative interrogation & self-explanation.</span>
+                        </button>
+                        <button onclick="setTradStudy('interleaving')" id="btn-ts-5" class="strategy-btn">
+                            <span class="block font-bold text-whs-darkblue mb-1">🔀 Mix It Up</span>
+                            <span class="text-xs text-slate-600 block">Interleaved practice, not one type at a time.</span>
+                        </button>
+                        <button onclick="setTradStudy('blurting')" id="btn-ts-6" class="strategy-btn">
+                            <span class="block font-bold text-whs-darkblue mb-1">💭 Blurting</span>
+                            <span class="text-xs text-slate-600 block">Dump everything you know, then check gaps.</span>
+                        </button>
+                        <button onclick="setTradStudy('fix-habits')" id="btn-ts-7" class="strategy-btn">
+                            <span class="block font-bold text-whs-darkblue mb-1">🚫 Fix Your Habits</span>
+                            <span class="text-xs text-slate-600 block">Turn highlighting/rereading into something useful.</span>
+                        </button>
+                        <button onclick="setTradStudy('weekly-routine')" id="btn-ts-8" class="strategy-btn sm:col-span-2">
+                            <span class="block font-bold text-whs-darkblue mb-1">📅 7-Day Study Routine</span>
+                            <span class="text-xs text-slate-600 block">How to combine all of this into one week.</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Content Panel -->
+                <div class="lg:col-span-6">
+                    <div class="bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
+
+                        <!-- Practice Testing -->
+                        <div id="ts-panel-practice-testing" class="ts-panel">
+                            <h3 class="text-lg font-bold text-whs-darkblue mb-2">🎯 Practice Testing</h3>
+                            <span class="inline-block text-[10px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full mb-3">High utility</span>
+                            <p class="text-sm text-slate-700 mb-3">Rereading your notes feels like it's working because the material starts to look familiar — but that familiarity is a trap. Recognising a page isn't the same as being able to produce the answer from memory, and exams need the second one. Actively trying to recall something, even when you get it wrong, does far more to lock it into long-term memory than reading it again ever will.</p>
+                            <h4 class="text-xs font-black uppercase tracking-widest text-slate-500 mb-2">How to do it</h4>
+                            <ol class="text-sm text-slate-700 space-y-1.5 list-decimal list-inside mb-3">
+                                <li>After a lesson, pull out the key facts, definitions, and processes and turn each into a question on a flashcard or in a notebook.</li>
+                                <li>Keep each question to one idea only — split up anything with several parts.</li>
+                                <li>Answer fully from memory before you check — give it a real 10-15 seconds of effort, don't peek early.</li>
+                                <li>Check your answer against your notes and fix anything you got wrong or missed.</li>
+                                <li>Sort your questions by how well you knew them, so you know what needs more work.</li>
+                            </ol>
+                            <div class="bg-amber-50 border border-amber-200 border-l-4 border-l-whs-gold rounded-lg p-3 mb-2">
+                                <p class="text-xs font-bold text-amber-700 uppercase tracking-widest mb-1">Example — Biology</p>
+                                <p class="text-sm text-slate-700">After a lesson on mitosis, write "What are the four phases of mitosis, and what happens in each one?" on a card. Say the full answer out loud before flipping it over — not just "prophase, metaphase..." but what's actually happening at each stage.</p>
+                            </div>
+                            <div class="bg-amber-50 border border-amber-200 border-l-4 border-l-whs-gold rounded-lg p-3">
+                                <p class="text-xs font-bold text-amber-700 uppercase tracking-widest mb-1">Example — History</p>
+                                <p class="text-sm text-slate-700">After a lesson on the Treaty of Waitangi, write "What were the key differences between the English and Te Reo Māori versions of the Treaty, and why did they matter?" Answer it fully from memory before checking your notes.</p>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-3">Want a ready-made way to do this? Our <button onclick="showView('revision')" class="underline font-bold text-whs-darkblue">Revision tab</button> has a real flashcard tool built in.</p>
+                        </div>
+
+                        <!-- Spaced Repetition / Leitner Box -->
+                        <div id="ts-panel-spaced-repetition" class="ts-panel hidden">
+                            <h3 class="text-lg font-bold text-whs-darkblue mb-2">📦 Spaced Repetition — The Leitner Box</h3>
+                            <span class="inline-block text-[10px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full mb-3">High utility</span>
+                            <p class="text-sm text-slate-700 mb-3">Cramming everything the night before means your brain treats none of it as important. Spacing your reviews out — with a bit of forgetting in between — forces your brain to work harder to retrieve it, which is exactly what makes the memory stick. The Leitner Box is a simple physical (or digital) system for deciding what to review and when, based on how well you actually know it.</p>
+                            <h4 class="text-xs font-black uppercase tracking-widest text-slate-500 mb-2">The 5 boxes</h4>
+                            <ul class="text-sm text-slate-700 space-y-1 mb-3">
+                                <li><strong>Box 1</strong> — review every day</li>
+                                <li><strong>Box 2</strong> — every 2-3 days</li>
+                                <li><strong>Box 3</strong> — once a week</li>
+                                <li><strong>Box 4</strong> — every 2 weeks</li>
+                                <li><strong>Box 5</strong> — once a month, or right before the exam</li>
+                            </ul>
+                            <p class="text-sm text-slate-700 mb-4">Get a card right and it moves up a box (a longer wait until you see it again). Get it wrong at <em>any</em> box — even Box 5 — and it goes all the way back to Box 1. That's the whole point: forgotten information gets hammered with review until it's actually secure again.</p>
+                            <div class="bg-amber-50 border border-amber-200 border-l-4 border-l-whs-gold rounded-lg p-3 mb-2">
+                                <p class="text-xs font-bold text-amber-700 uppercase tracking-widest mb-1">Example — Chemistry</p>
+                                <p class="text-sm text-slate-700">You get a formula wrong, so it sits in Box 1 and you see it every day. Nail it three days running and it graduates to Box 2, then Box 3 the next time you get it right — but one slip at any point sends it straight back to Box 1, no matter how far it had climbed.</p>
+                            </div>
+                            <div class="bg-amber-50 border border-amber-200 border-l-4 border-l-whs-gold rounded-lg p-3 mb-4">
+                                <p class="text-xs font-bold text-amber-700 uppercase tracking-widest mb-1">Example — French</p>
+                                <p class="text-sm text-slate-700">New vocab words start in Box 1 and get reviewed daily. Words you consistently get right climb through the boxes and only need a monthly check-in — but any word you slip up on drops straight back to daily review until it's solid again.</p>
+                            </div>
+                            <button onclick="toggleLeitnerWidget()" id="leitner-toggle-btn" class="w-full py-2.5 rounded-xl text-sm font-bold transition" style="background-color: #002066; color: #ffffff;">🗃️ Try a Digital Leitner Box</button>
+                            <div id="leitner-widget" class="hidden mt-4 border-t border-slate-200 pt-4">
+                                <div class="flex flex-col sm:flex-row gap-2 mb-3">
+                                    <input type="text" id="leitner-front" placeholder="Front (question)" class="flex-1 p-2 rounded-lg border border-slate-300 text-sm">
+                                    <input type="text" id="leitner-back" placeholder="Back (answer)" class="flex-1 p-2 rounded-lg border border-slate-300 text-sm" onkeypress="if(event.key === 'Enter') addLeitnerCard()">
+                                    <button onclick="addLeitnerCard()" class="bg-whs-darkblue text-white px-4 py-2 rounded-lg text-xs font-bold shrink-0">Add Card</button>
+                                </div>
+                                <div id="leitner-boxes-summary" class="grid grid-cols-5 gap-1.5 mb-4 text-center"></div>
+                                <div id="leitner-empty" class="text-center text-slate-400 text-sm italic py-4">Add a card above to get started.</div>
+                                <div id="leitner-review-area" class="hidden">
+                                    <div class="bg-whs-goldlight border-2 border-whs-gold rounded-xl p-6 min-h-[100px] flex items-center justify-center text-center font-bold text-whs-darkblue mb-3 cursor-pointer" onclick="flipLeitnerCard()" id="leitner-card">
+                                        <span id="leitner-card-text"></span>
+                                    </div>
+                                    <p class="text-center text-xs text-slate-400 mb-3">Tap to flip — <span id="leitner-progress"></span></p>
+                                    <div class="flex justify-center gap-3">
+                                        <button onclick="answerLeitnerCard(false)" class="bg-red-100 text-red-700 px-4 py-2 rounded-lg text-xs font-bold">Got it Wrong ↺ Box 1</button>
+                                        <button onclick="answerLeitnerCard(true)" class="bg-emerald-100 text-emerald-700 px-4 py-2 rounded-lg text-xs font-bold">Got it Right ✓ Next Box</button>
+                                    </div>
+                                </div>
+                                <div id="leitner-cards-list" class="mt-4 space-y-1 max-h-32 overflow-y-auto custom-scrollbar"></div>
+                            </div>
+                        </div>
+
+                        <!-- Teach It / Protégé Effect -->
+                        <div id="ts-panel-teach-it" class="ts-panel hidden">
+                            <h3 class="text-lg font-bold text-whs-darkblue mb-2">🗣️ Teach It (The Protégé Effect)</h3>
+                            <span class="inline-block text-[10px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full mb-3">High utility</span>
+                            <p class="text-sm text-slate-700 mb-3">When you know you're about to explain something to someone else, your brain automatically starts organising the material differently — picking out what actually matters, building it into a logical order, and connecting it to things you already know. You do this preparation even before you open your mouth. Explaining out loud to a real person works best, because their confused face or follow-up question exposes gaps that silent studying never would.</p>
+                            <h4 class="text-xs font-black uppercase tracking-widest text-slate-500 mb-2">How to do it</h4>
+                            <ol class="text-sm text-slate-700 space-y-1.5 list-decimal list-inside mb-3">
+                                <li>Go in with the mindset: "I need to explain this to someone with zero background knowledge."</li>
+                                <li>Write a one-page outline in plain language — swap jargon for everyday analogies.</li>
+                                <li>Explain it out loud, face to face, without looking at your notes.</li>
+                                <li>Ask your listener to interrupt whenever something's unclear, and to repeat the idea back in their own words.</li>
+                                <li>Afterwards, note exactly where you hesitated or used jargon instead of a real explanation — go fix those specific gaps straight away.</li>
+                            </ol>
+                            <div class="bg-amber-50 border border-amber-200 border-l-4 border-l-whs-gold rounded-lg p-3 mb-2">
+                                <p class="text-xs font-bold text-amber-700 uppercase tracking-widest mb-1">Example — Science</p>
+                                <p class="text-sm text-slate-700">Explain photosynthesis to a younger sibling without using the word "chlorophyll" until you've already explained what that green stuff actually does.</p>
+                            </div>
+                            <div class="bg-amber-50 border border-amber-200 border-l-4 border-l-whs-gold rounded-lg p-3">
+                                <p class="text-xs font-bold text-amber-700 uppercase tracking-widest mb-1">Example — Economics</p>
+                                <p class="text-sm text-slate-700">Explain supply and demand to a parent using something they actually buy — like why petrol prices jump right before a long weekend — instead of just defining the terms.</p>
+                            </div>
+                            <p class="text-sm text-slate-700 mt-3">No one around to listen? The "Rubber Duck" version still works — explain it out loud to literally anything on your desk. Saying it out loud forces your brain to turn vague half-thoughts into real, structured sentences, which is most of the benefit even without an audience.</p>
+                        </div>
+
+                        <!-- Why Questions -->
+                        <div id="ts-panel-why-questions" class="ts-panel hidden">
+                            <h3 class="text-lg font-bold text-whs-darkblue mb-2">🤔 Ask "Why?" (Elaborative Interrogation & Self-Explanation)</h3>
+                            <span class="inline-block text-[10px] font-black uppercase tracking-widest bg-amber-100 text-amber-700 px-2 py-1 rounded-full mb-3">Moderate utility</span>
+                            <p class="text-sm text-slate-700 mb-3">Instead of just accepting a fact as true, stop and ask yourself why it's true — this forces your brain to connect it to things you already understand, rather than storing it as an isolated, easily-forgotten detail. Self-explanation is the same idea applied to problem-solving: narrate your reasoning out loud as you work, rather than solving in silence.</p>
+                            <div class="bg-amber-50 border border-amber-200 border-l-4 border-l-whs-gold rounded-lg p-3 mb-2">
+                                <p class="text-xs font-bold text-amber-700 uppercase tracking-widest mb-1">Example — Biology</p>
+                                <p class="text-sm text-slate-700">Instead of just memorising "veins have one-way valves, arteries don't," ask: "why would a low-pressure vessel need valves when a high-pressure one doesn't?" Working that out yourself makes the fact far stickier than just reading it.</p>
+                            </div>
+                            <div class="bg-amber-50 border border-amber-200 border-l-4 border-l-whs-gold rounded-lg p-3 mb-3">
+                                <p class="text-xs font-bold text-amber-700 uppercase tracking-widest mb-1">Example — Geography</p>
+                                <p class="text-sm text-slate-700">Instead of just noting "cities near rivers grow faster," ask: "why would being near a river actually help a city grow — what does it provide that a city further away doesn't get?"</p>
+                            </div>
+                            <p class="text-sm text-slate-700">Try this at the end of every section: ask yourself "why does this happen?" and "how does this connect to what I learned last week?" — and during maths or science problems, say your reasoning for each step out loud before you write it down.</p>
+                        </div>
+
+                        <!-- Interleaving -->
+                        <div id="ts-panel-interleaving" class="ts-panel hidden">
+                            <h3 class="text-lg font-bold text-whs-darkblue mb-2">🔀 Mix It Up (Interleaved Practice)</h3>
+                            <span class="inline-block text-[10px] font-black uppercase tracking-widest bg-amber-100 text-amber-700 px-2 py-1 rounded-full mb-3">Moderate utility</span>
+                            <p class="text-sm text-slate-700 mb-3">Doing 10 of the same question type in a row (blocked practice) feels easy and builds false confidence, because you already know which method to use before you've even read the question. Mixing different topics or problem types together (interleaved practice) feels harder and slower at first — but it's the only way to actually practise <em>choosing</em> the right method, which is the skill exams really test.</p>
+                            <div class="bg-amber-50 border border-amber-200 border-l-4 border-l-whs-gold rounded-lg p-3 mb-2">
+                                <p class="text-xs font-bold text-amber-700 uppercase tracking-widest mb-1">Example — Maths</p>
+                                <p class="text-sm text-slate-700">Instead of doing 10 quadratic equations, then 10 trig problems, then 10 simultaneous equations, build one set that mixes all three types together in a random order — the way they'll actually appear in an exam.</p>
+                            </div>
+                            <div class="bg-amber-50 border border-amber-200 border-l-4 border-l-whs-gold rounded-lg p-3">
+                                <p class="text-xs font-bold text-amber-700 uppercase tracking-widest mb-1">Example — English</p>
+                                <p class="text-sm text-slate-700">Instead of practising essay planning for one text at a time, mix planning questions from all three of your English texts into a single practice session so you're used to switching between them quickly.</p>
+                            </div>
+                        </div>
+
+                        <!-- Blurting -->
+                        <div id="ts-panel-blurting" class="ts-panel hidden">
+                            <h3 class="text-lg font-bold text-whs-darkblue mb-2">💭 The Blurting Method</h3>
+                            <span class="inline-block text-[10px] font-black uppercase tracking-widest bg-amber-100 text-amber-700 px-2 py-1 rounded-full mb-3">Diagnostic tool</span>
+                            <p class="text-sm text-slate-700 mb-3">A quick way to see exactly what you do and don't know about a whole topic, without needing an app or pre-made questions.</p>
+                            <ol class="text-sm text-slate-700 space-y-1.5 list-decimal list-inside mb-4">
+                                <li>Spend 10-15 minutes properly reading one topic section.</li>
+                                <li>Close every notebook, textbook, and slide.</li>
+                                <li>Set a timer for 5-10 minutes and "blurt" — write or draw everything you remember about it, non-stop, no editing.</li>
+                                <li>Reopen your notes and, using a different coloured pen, add anything you missed and fix anything wrong.</li>
+                            </ol>
+                            <p class="text-sm text-slate-700 mb-4">The different-coloured additions are a direct map of your gaps — turn those straight into flashcards for Box 1 of your Leitner system.</p>
+                            <div class="bg-amber-50 border border-amber-200 border-l-4 border-l-whs-gold rounded-lg p-3 mb-2">
+                                <p class="text-xs font-bold text-amber-700 uppercase tracking-widest mb-1">Example — Physics</p>
+                                <p class="text-sm text-slate-700">After reading about forces and motion, close the book and blurt out every formula, diagram, and worked example you can remember for 5 minutes — then check what you missed on Newton's Third Law specifically.</p>
+                            </div>
+                            <div class="bg-amber-50 border border-amber-200 border-l-4 border-l-whs-gold rounded-lg p-3 mb-4">
+                                <p class="text-xs font-bold text-amber-700 uppercase tracking-widest mb-1">Example — Social Studies</p>
+                                <p class="text-sm text-slate-700">After a unit on a social issue, blurt out every cause, effect, and perspective you can recall — the gaps that show up usually reveal which viewpoint you understood the least.</p>
+                            </div>
+                            <button onclick="toggleBlurtWidget()" id="blurt-toggle-btn" class="w-full py-2.5 rounded-xl text-sm font-bold transition" style="background-color: #002066; color: #ffffff;">✏️ Start a Blurting Session</button>
+                            <div id="blurt-widget" class="hidden mt-4 border-t border-slate-200 pt-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-sm font-bold text-slate-700">Time left:</span>
+                                    <span id="blurt-timer-display" class="text-2xl font-black text-whs-darkblue tabular-nums">07:00</span>
+                                </div>
+                                <div class="flex gap-2 mb-3">
+                                    <button onclick="startBlurtTimer(5)" class="flex-1 bg-slate-100 hover:bg-slate-200 text-xs font-bold py-1.5 rounded-lg">5 min</button>
+                                    <button onclick="startBlurtTimer(7)" class="flex-1 bg-slate-100 hover:bg-slate-200 text-xs font-bold py-1.5 rounded-lg">7 min</button>
+                                    <button onclick="startBlurtTimer(10)" class="flex-1 bg-slate-100 hover:bg-slate-200 text-xs font-bold py-1.5 rounded-lg">10 min</button>
+                                    <button onclick="stopBlurtTimer()" class="flex-1 bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold py-1.5 rounded-lg">Reset</button>
+                                </div>
+                                <textarea id="blurt-textarea" placeholder="Close your notes, then write everything you remember here, non-stop..." class="w-full h-40 p-3 rounded-lg border border-slate-300 text-sm font-mono resize-none"></textarea>
+                                <p class="text-xs text-slate-400 mt-2">When the timer ends, reopen your notes and edit this in a different colour mentally — note what you missed.</p>
+                            </div>
+                        </div>
+
+                        <!-- Fix Habits -->
+                        <div id="ts-panel-fix-habits" class="ts-panel hidden">
+                            <h3 class="text-lg font-bold text-whs-darkblue mb-2">🚫 Fix Your Bad Habits</h3>
+                            <span class="inline-block text-[10px] font-black uppercase tracking-widest bg-blue-100 text-blue-700 px-2 py-1 rounded-full mb-3">Low utility → fixable</span>
+                            <p class="text-sm text-slate-700 mb-4">These habits aren't useless because you're doing them wrong — they're just naturally passive. Small changes turn them into something that actually builds memory.</p>
+                            <div class="space-y-3">
+                                <div class="bg-sky-50 border border-sky-200 border-l-4 border-l-sky-400 rounded-lg p-3">
+                                    <p class="font-bold text-sm text-slate-800 mb-1">✏️ Highlighting</p>
+                                    <p class="text-xs text-slate-600">Instead of: colouring half the page. Try: highlight one phrase per page max, then immediately turn it into a flashcard where you explain it in your own words.</p>
+                                </div>
+                                <div class="bg-sky-50 border border-sky-200 border-l-4 border-l-sky-400 rounded-lg p-3">
+                                    <p class="font-bold text-sm text-slate-800 mb-1">📖 Rereading</p>
+                                    <p class="text-xs text-slate-600">Instead of: reading it a third time. Try: read it once, close the book, and say the main argument out loud from memory before you're allowed to reopen it.</p>
+                                </div>
+                                <div class="bg-sky-50 border border-sky-200 border-l-4 border-l-sky-400 rounded-lg p-3">
+                                    <p class="font-bold text-sm text-slate-800 mb-1">📝 Copying Out Summaries</p>
+                                    <p class="text-xs text-slate-600">Instead of: copying sentences almost word for word. Try: write your summary completely closed-book first, then open the text only to check accuracy and fill gaps.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Weekly Routine -->
+                        <div id="ts-panel-weekly-routine" class="ts-panel hidden">
+                            <h3 class="text-lg font-bold text-whs-darkblue mb-2">📅 A 7-Day Study Routine</h3>
+                            <p class="text-sm text-slate-700 mb-4">No single technique above is enough on its own — real results come from combining them across a week rather than picking one and cramming it.</p>
+                            <div class="space-y-2">
+                                <div class="flex gap-3 items-start bg-whs-goldlight border border-amber-200 border-l-4 border-l-whs-gold rounded-lg p-3">
+                                    <span class="font-black text-whs-darkblue shrink-0">Days 1-2</span>
+                                    <div><p class="text-sm font-bold text-slate-800">Acquisition</p><p class="text-xs text-slate-600">Read the material, ask "Why?" questions as you go, and turn key facts into flashcards for Box 1.</p></div>
+                                </div>
+                                <div class="flex gap-3 items-start bg-whs-goldlight border border-amber-200 border-l-4 border-l-whs-gold rounded-lg p-3">
+                                    <span class="font-black text-whs-darkblue shrink-0">Days 3-4</span>
+                                    <div><p class="text-sm font-bold text-slate-800">Spaced Retrieval</p><p class="text-xs text-slate-600">Review your Leitner boxes, and run a Blurting session on anything dense.</p></div>
+                                </div>
+                                <div class="flex gap-3 items-start bg-whs-goldlight border border-amber-200 border-l-4 border-l-whs-gold rounded-lg p-3">
+                                    <span class="font-black text-whs-darkblue shrink-0">Day 5</span>
+                                    <div><p class="text-sm font-bold text-slate-800">Teach It</p><p class="text-xs text-slate-600">Explain the week's core ideas to a parent or friend, face-to-face, without notes.</p></div>
+                                </div>
+                                <div class="flex gap-3 items-start bg-whs-goldlight border border-amber-200 border-l-4 border-l-whs-gold rounded-lg p-3">
+                                    <span class="font-black text-whs-darkblue shrink-0">Days 6-7</span>
+                                    <div><p class="text-sm font-bold text-slate-800">Mix It Up</p><p class="text-xs text-slate-600">Do interleaved practice sets mixing this week's topics with older ones, and advance any Leitner cards you've mastered.</p></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
         <!-- VIEW: WELLBEING & EXAM MINDSET             -->
         <!-- ========================================== -->
         <div id="view-wellbeing" class="hidden space-y-8 animate-in fade-in duration-500 page-tint-rose rounded-3xl p-4 md:p-8">
@@ -1387,6 +1682,7 @@ Please begin with Phase 1.</span>
                     <li><button onclick="goToSectionFromTour('writing')" class="w-full flex gap-3 items-start text-left p-2 rounded-lg hover:bg-slate-100 transition"><span class="shrink-0">✍️</span><span><strong>Writing</strong> — feedback, structure help, and sentence starters.</span></button></li>
                     <li><button onclick="goToSectionFromTour('litnum')" class="w-full flex gap-3 items-start text-left p-2 rounded-lg hover:bg-slate-100 transition"><span class="shrink-0">🔢</span><span><strong>Year 10 CAA</strong> — literacy & numeracy prep for the Y10 CAAs.</span></button></li>
                     <li><button onclick="goToSectionFromTour('vault')" class="w-full flex gap-3 items-start text-left p-2 rounded-lg hover:bg-slate-100 transition"><span class="shrink-0">🗄️</span><span><strong>NCEA Hub</strong> — saved prompts, resources, and the Gemini Notebook guide.</span></button></li>
+                    <li><button onclick="goToSectionFromTour('tradstudy')" class="w-full flex gap-3 items-start text-left p-2 rounded-lg hover:bg-slate-100 transition"><span class="shrink-0">📚</span><span><strong>Trad Study</strong> — no AI, just study techniques backed by real research.</span></button></li>
                     <li><button onclick="goToSectionFromTour('tools')" class="w-full flex gap-3 items-start text-left p-2 rounded-lg hover:bg-slate-100 transition"><span class="shrink-0">⏱️</span><span><strong>Tools</strong> — your progress, badges, focus timer, to-do list, and exam countdown.</span></button></li>
                     <li><button onclick="goToSectionFromTour('wellbeing')" class="w-full flex gap-3 items-start text-left p-2 rounded-lg hover:bg-slate-100 transition"><span class="shrink-0">💚</span><span><strong>Wellbeing</strong> — feeling overwhelmed? Start here instead.</span></button></li>
                 </ul>
@@ -1742,6 +2038,173 @@ Off-ramps (don't force a question): they've solved it and said thanks - congratu
             setJustTeachLevel('Level 1');
         }
 
+        // ---------------------------------------------
+        // Trad Study: panel switching
+        // ---------------------------------------------
+        function setTradStudy(id) {
+            document.querySelectorAll('.ts-panel').forEach(p => p.classList.add('hidden'));
+            const panel = document.getElementById(`ts-panel-${id}`);
+            if (panel) panel.classList.remove('hidden');
+
+            const idToBtn = {
+                'practice-testing': 'btn-ts-1', 'spaced-repetition': 'btn-ts-2', 'teach-it': 'btn-ts-3',
+                'why-questions': 'btn-ts-4', 'interleaving': 'btn-ts-5', 'blurting': 'btn-ts-6',
+                'fix-habits': 'btn-ts-7', 'weekly-routine': 'btn-ts-8',
+            };
+            const btn = document.getElementById(idToBtn[id]);
+            if (btn) activateStrategyButton('#view-tradstudy', btn, null);
+        }
+
+        // ---------------------------------------------
+        // Digital Leitner Box (Spaced Repetition widget)
+        // ---------------------------------------------
+        let leitnerCards = JSON.parse(localStorage.getItem('whs_leitner_cards')) || [];
+        let leitnerReviewQueue = [];
+        let leitnerCurrentCard = null;
+        let leitnerFlipped = false;
+
+        function toggleLeitnerWidget() {
+            const widget = document.getElementById('leitner-widget');
+            if (!widget) return;
+            widget.classList.toggle('hidden');
+            if (!widget.classList.contains('hidden')) renderLeitnerBoxes();
+        }
+
+        function saveLeitnerCards() { localStorage.setItem('whs_leitner_cards', JSON.stringify(leitnerCards)); }
+
+        function addLeitnerCard() {
+            const frontEl = document.getElementById('leitner-front');
+            const backEl = document.getElementById('leitner-back');
+            const front = frontEl.value.trim();
+            const back = backEl.value.trim();
+            if (!front || !back) return;
+            leitnerCards.push({ id: Date.now() + Math.random(), front, back, box: 1 });
+            saveLeitnerCards();
+            frontEl.value = ''; backEl.value = ''; frontEl.focus();
+            renderLeitnerBoxes();
+        }
+
+        function deleteLeitnerCard(id) {
+            leitnerCards = leitnerCards.filter(c => c.id !== id);
+            saveLeitnerCards();
+            renderLeitnerBoxes();
+        }
+
+        function renderLeitnerBoxes() {
+            const summary = document.getElementById('leitner-boxes-summary');
+            const listEl = document.getElementById('leitner-cards-list');
+            const emptyEl = document.getElementById('leitner-empty');
+            if (!summary) return;
+
+            const counts = [1,2,3,4,5].map(n => leitnerCards.filter(c => c.box === n).length);
+            summary.innerHTML = counts.map((c, i) => `
+                <div class="bg-slate-50 border border-slate-200 rounded-lg py-2">
+                    <div class="text-lg font-black text-whs-darkblue">${c}</div>
+                    <div class="text-[9px] font-bold text-slate-500 uppercase">Box ${i + 1}</div>
+                </div>`).join('');
+
+            if (listEl) {
+                listEl.innerHTML = leitnerCards.map(c => `
+                    <div class="flex justify-between items-center bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs">
+                        <span class="truncate pr-2">Box ${c.box} — <strong>${escapeHtml(c.front)}</strong></span>
+                        <button onclick="deleteLeitnerCard(${c.id})" aria-label="Delete card" class="text-red-500 hover:text-red-700 font-bold shrink-0">✕</button>
+                    </div>`).join('');
+            }
+
+            const hasCards = leitnerCards.length > 0;
+            if (emptyEl) emptyEl.classList.toggle('hidden', hasCards);
+
+            const startBtnHtml = hasCards ? `<button onclick="startLeitnerReview()" class="w-full bg-whs-gold text-white py-2.5 rounded-xl text-sm font-bold mb-3">▶ Review Due Cards</button>` : '';
+            const existingStart = document.getElementById('leitner-start-btn-wrap');
+            if (existingStart) existingStart.remove();
+            if (hasCards && summary.parentElement) {
+                const wrap = document.createElement('div');
+                wrap.id = 'leitner-start-btn-wrap';
+                wrap.innerHTML = startBtnHtml;
+                summary.insertAdjacentElement('afterend', wrap);
+            }
+        }
+
+        function startLeitnerReview() {
+            leitnerReviewQueue = [...leitnerCards];
+            document.getElementById('leitner-review-area').classList.remove('hidden');
+            nextLeitnerCard();
+        }
+
+        function nextLeitnerCard() {
+            const textEl = document.getElementById('leitner-card-text');
+            const progressEl = document.getElementById('leitner-progress');
+            if (leitnerReviewQueue.length === 0) {
+                if (textEl) textEl.innerText = 'All done for now!';
+                if (progressEl) progressEl.innerText = 'Come back tomorrow for Box 1.';
+                leitnerCurrentCard = null;
+                return;
+            }
+            leitnerCurrentCard = leitnerReviewQueue.shift();
+            leitnerFlipped = false;
+            if (textEl) textEl.innerText = leitnerCurrentCard.front;
+            if (progressEl) progressEl.innerText = `${leitnerReviewQueue.length} card${leitnerReviewQueue.length === 1 ? '' : 's'} left in this session`;
+        }
+
+        function flipLeitnerCard() {
+            if (!leitnerCurrentCard) return;
+            leitnerFlipped = !leitnerFlipped;
+            const textEl = document.getElementById('leitner-card-text');
+            if (textEl) textEl.innerText = leitnerFlipped ? leitnerCurrentCard.back : leitnerCurrentCard.front;
+        }
+
+        function answerLeitnerCard(correct) {
+            if (!leitnerCurrentCard) return;
+            const card = leitnerCards.find(c => c.id === leitnerCurrentCard.id);
+            if (card) {
+                card.box = correct ? Math.min(5, card.box + 1) : 1;
+                saveLeitnerCards();
+            }
+            nextLeitnerCard();
+            renderLeitnerBoxes();
+        }
+
+        // ---------------------------------------------
+        // Blurting Session Timer
+        // ---------------------------------------------
+        let blurtInterval = null;
+        let blurtSecondsLeft = 0;
+
+        function toggleBlurtWidget() {
+            const widget = document.getElementById('blurt-widget');
+            if (widget) widget.classList.toggle('hidden');
+        }
+
+        function startBlurtTimer(minutes) {
+            stopBlurtTimer();
+            blurtSecondsLeft = minutes * 60;
+            updateBlurtDisplay();
+            blurtInterval = setInterval(() => {
+                blurtSecondsLeft--;
+                updateBlurtDisplay();
+                if (blurtSecondsLeft <= 0) {
+                    stopBlurtTimer();
+                    playBeep('alarm');
+                    alert("Time's up! Reopen your notes and check what you missed.");
+                }
+            }, 1000);
+        }
+
+        function stopBlurtTimer() {
+            if (blurtInterval) clearInterval(blurtInterval);
+            blurtInterval = null;
+            blurtSecondsLeft = 0;
+            updateBlurtDisplay();
+        }
+
+        function updateBlurtDisplay() {
+            const el = document.getElementById('blurt-timer-display');
+            if (!el) return;
+            const m = Math.floor(blurtSecondsLeft / 60);
+            const s = blurtSecondsLeft % 60;
+            el.innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+
         function syncHubCardSpan(detailsEl) {
             const wrapper = detailsEl.parentElement;
             if (wrapper) wrapper.classList.toggle('span-full', detailsEl.open);
@@ -1898,13 +2361,13 @@ Off-ramps (don't force a question): they've solved it and said thanks - congratu
 
         // View Management
         function showView(viewId) {
-            if (viewId === 'tools' || viewId === 'vault' || viewId === 'wellbeing' || viewId === 'litnum') {
+            if (viewId === 'tools' || viewId === 'vault' || viewId === 'wellbeing' || viewId === 'litnum' || viewId === 'tradstudy') {
                 document.getElementById('global-context').classList.add('hidden');
             } else {
                 document.getElementById('global-context').classList.remove('hidden');
             }
 
-            const views = ['learn', 'revision', 'writing', 'litnum', 'tools', 'vault', 'wellbeing'];
+            const views = ['learn', 'revision', 'writing', 'litnum', 'tools', 'vault', 'wellbeing', 'tradstudy'];
             views.forEach(v => {
                 const el = document.getElementById(`view-${v}`);
                 const nav = document.getElementById(`nav-${v}`);
@@ -3230,6 +3693,7 @@ Off-ramps (don't force a question): they've solved it and said thanks - congratu
             setResourcesInitialState();
             initStemTutor();
             initJustTeachHub();
+            renderLeitnerBoxes();
         };
     </script>
 </body>
