@@ -49,19 +49,19 @@
         }
 
         .nav-btn {
-            padding: 0.6rem 0.9rem;
+            padding: 0.5rem 0.7rem;
             font-weight: 700;
             transition: all 0.2s;
             white-space: nowrap;
-            font-size: 0.8125rem;
+            font-size: 0.75rem;
             border-radius: 9999px;
             border: 2px solid transparent;
         }
         .nav-btn:focus-visible { outline: 3px solid #c5a059; outline-offset: 2px; }
         @media (min-width: 768px) {
             .nav-btn {
-                padding: 0.75rem 1.25rem;
-                font-size: 0.9375rem;
+                padding: 0.6rem 1rem;
+                font-size: 0.8125rem;
             }
         }
 
@@ -77,6 +77,7 @@
         .nav-btn.nav-color-indigo   { background: #e0e7ff; color: #4338ca; border-color: #a5b4fc; }
         .nav-btn.nav-color-gold     { background: #fffcf5; color: #8a6d3b; border-color: #c5a059; }
         .nav-btn.nav-color-rose     { background: #ffe4e6; color: #be123c; border-color: #fda4af; }
+        .nav-btn.nav-color-emerald  { background: #d1fae5; color: #047857; border-color: #6ee7b7; }
 
         .nav-btn.nav-color-sky:hover    { background: #bae6fd; }
         .nav-btn.nav-color-amber:hover  { background: #fde68a; }
@@ -85,6 +86,7 @@
         .nav-btn.nav-color-indigo:hover { background: #c7d2fe; }
         .nav-btn.nav-color-gold:hover   { background: #f5ecd2; }
         .nav-btn.nav-color-rose:hover   { background: #fecdd3; }
+        .nav-btn.nav-color-emerald:hover  { background: #a7f3d0; }
 
         .nav-btn.nav-color-sky.nav-active    { background: #7dd3fc; color: #0c4a6e; border-color: #0369a1; box-shadow: 0 2px 8px rgba(3,105,161,0.3); }
         .nav-btn.nav-color-amber.nav-active  { background: #fcd34d; color: #78350f; border-color: #b45309; box-shadow: 0 2px 8px rgba(180,83,9,0.3); }
@@ -93,6 +95,7 @@
         .nav-btn.nav-color-indigo.nav-active { background: #a5b4fc; color: #312e81; border-color: #4338ca; box-shadow: 0 2px 8px rgba(67,56,202,0.3); }
         .nav-btn.nav-color-gold.nav-active   { background: #c5a059; color: #3f2f14; border-color: #8a6d3b; box-shadow: 0 2px 8px rgba(197,160,89,0.35); }
         .nav-btn.nav-color-rose.nav-active   { background: #fda4af; color: #881337; border-color: #be123c; box-shadow: 0 2px 8px rgba(190,18,60,0.3); }
+        .nav-btn.nav-color-emerald.nav-active { background: #6ee7b7; color: #064e3b; border-color: #047857; box-shadow: 0 2px 8px rgba(4,120,87,0.3); }
 
         body.dark-mode .nav-btn.nav-color-sky    { background: rgba(14,165,233,0.15); color: #7dd3fc; border-color: rgba(125,211,252,0.4); }
         body.dark-mode .nav-btn.nav-color-amber  { background: rgba(245,158,11,0.15); color: #fcd34d; border-color: rgba(252,211,77,0.4); }
@@ -101,6 +104,7 @@
         body.dark-mode .nav-btn.nav-color-indigo { background: rgba(99,102,241,0.15); color: #a5b4fc; border-color: rgba(165,180,252,0.4); }
         body.dark-mode .nav-btn.nav-color-gold   { background: rgba(197,160,89,0.15); color: #e8d5ae; border-color: rgba(197,160,89,0.5); }
         body.dark-mode .nav-btn.nav-color-rose   { background: rgba(244,63,94,0.15); color: #fda4af; border-color: rgba(253,164,175,0.4); }
+        body.dark-mode .nav-btn.nav-color-emerald { background: rgba(16,185,129,0.15); color: #6ee7b7; border-color: rgba(110,231,183,0.4); }
 
         body.dark-mode .nav-btn.nav-color-sky.nav-active    { background: #0369a1; color: white; }
         body.dark-mode .nav-btn.nav-color-amber.nav-active  { background: #b45309; color: white; }
@@ -109,6 +113,7 @@
         body.dark-mode .nav-btn.nav-color-indigo.nav-active { background: #4338ca; color: white; }
         body.dark-mode .nav-btn.nav-color-gold.nav-active   { background: #8a6d3b; color: white; }
         body.dark-mode .nav-btn.nav-color-rose.nav-active   { background: #be123c; color: white; }
+        body.dark-mode .nav-btn.nav-color-emerald.nav-active { background: #047857; color: white; }
 
         /* Page tint: matches each tab's colour, applied to that view's own container so
            the whole page carries the section's colour, not just the nav pill. Cards
@@ -380,6 +385,7 @@
                 <button onclick="showView('writing')" id="nav-writing" class="nav-btn nav-color-teal flex-1 text-center flex justify-center min-w-max">Writing</button>
                 <button onclick="showView('litnum')" id="nav-litnum" class="nav-btn nav-color-purple flex-1 text-center flex justify-center min-w-max">Year 10 CAA</button>
                 <button onclick="showView('vault')" id="nav-vault" class="nav-btn nav-color-indigo flex items-center justify-center gap-2 flex-1 min-w-max">🗄️ NCEA Hub</button>
+                <a href="https://kennedyd-create.github.io/StudentNCEA/" target="_blank" title="Opens the NCEA Master Tutor in a new tab" id="nav-master-tutor" class="nav-btn nav-color-emerald flex items-center justify-center gap-2 flex-1 min-w-max">🎓 NCEA Master Tutor ↗</a>
                 <button onclick="showView('tradstudy')" id="nav-tradstudy" class="nav-btn nav-color-gold flex items-center justify-center gap-2 flex-1 min-w-max">📚 Trad Study</button>
                 <button onclick="showView('wellbeing')" id="nav-wellbeing" class="nav-btn nav-color-rose flex items-center justify-center gap-2 flex-1 min-w-max">💚 Wellbeing</button>
             </nav>
@@ -458,7 +464,7 @@
             </div>
 
             <div id="stem-tutor-banner-learn" class="hidden max-w-3xl mx-auto -mt-2 text-center">
-                <button onclick="showView('vault')" class="inline-flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 px-4 py-2 rounded-full text-xs font-bold transition">🧮 Doing senior Maths, Physics, or Chemistry? Try our Specialist STEM Tutor in the NCEA Hub ↗</button>
+                <a href="https://kennedyd-create.github.io/StudentNCEA/" target="_blank" class="inline-flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 px-4 py-2 rounded-full text-xs font-bold transition">🎓 Doing senior NCEA work? Try the NCEA Master Tutor ↗</a>
             </div>
 
             <div class="grid lg:grid-cols-12 gap-6 lg:gap-8 max-w-6xl mx-auto">
@@ -546,7 +552,7 @@
             </div>
 
             <div id="stem-tutor-banner-revision" class="hidden max-w-3xl mx-auto -mt-2 text-center">
-                <button onclick="showView('vault')" class="inline-flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 px-4 py-2 rounded-full text-xs font-bold transition">🧮 Doing senior Maths, Physics, or Chemistry? Try our Specialist STEM Tutor in the NCEA Hub ↗</button>
+                <a href="https://kennedyd-create.github.io/StudentNCEA/" target="_blank" class="inline-flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 px-4 py-2 rounded-full text-xs font-bold transition">🎓 Doing senior NCEA work? Try the NCEA Master Tutor ↗</a>
             </div>
 
             <div class="grid lg:grid-cols-12 gap-6 lg:gap-8 max-w-6xl mx-auto">
@@ -1034,12 +1040,8 @@
                 <p class="text-sm text-slate-600">Quick links to official resources, tutors, cheat sheets, and your personalized library of saved AI prompts.</p>
             </div>
 
-            <!-- Gemini Notebook + STEM Tutor + Just Teach Me: side-by-side (one-third width
-                 each) when collapsed, each expands to the full grid width when opened. -->
-            <div class="ncea-hub-dual-grid grid lg:grid-cols-3 gap-6 max-w-[1400px] mx-auto">
-
             <!-- Gemini Notebook Explainer -->
-            <div class="glass-card p-6 md:p-8 border-t-4 border-t-blue-500" style="background-color: #f0f7ff;">
+            <div class="glass-card p-6 md:p-8 max-w-[1400px] mx-auto border-t-4 border-t-blue-500" style="background-color: #f0f7ff;">
                 <details id="gemini-notebook-details" ontoggle="syncHubCardSpan(this)">
                     <summary class="cursor-pointer list-none flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
                         <h3 class="text-xl font-bold text-whs-darkblue flex items-center gap-2">📓 Study Smarter with Gemini Notebook</h3>
@@ -1129,115 +1131,6 @@ Please begin with Phase 1.</span>
                 </details>
             </div>
 
-            <!-- STEM Specialist Tutor: NCEA L2/L3 Maths, Physics & Chemistry -->
-            <div class="glass-card p-6 md:p-8 border-t-4 border-t-emerald-500" style="background-color: #f0fdf4;">
-                <details id="stem-tutor-details" ontoggle="syncHubCardSpan(this)">
-                    <summary class="cursor-pointer list-none flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
-                        <h3 class="text-xl font-bold text-whs-darkblue flex items-center gap-2">🧮 STEM Specialist Tutor for Externals — Maths, Physics and Chemistry</h3>
-                        <span class="text-xs font-bold text-emerald-600 flex items-center gap-1.5 shrink-0">See how it works <span class="details-chevron">▾</span></span>
-                    </summary>
-
-                    <div class="mt-5 pt-5 border-t border-slate-200">
-                        <div class="flex flex-wrap justify-end gap-2 mb-4">
-                            <a href="https://gemini.google.com/app" target="_blank" title="Opens Gemini in a new tab" class="bg-amber-500 text-white px-3 py-2 rounded-lg text-xs font-bold shadow-sm hover:bg-amber-600 transition">Open Gemini ↗</a>
-                            <a href="https://chatgpt.com/" target="_blank" title="Opens ChatGPT in a new tab" class="bg-white border border-slate-300 px-3 py-2 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">ChatGPT ↗</a>
-                            <a href="https://claude.ai/new" target="_blank" title="Opens Claude in a new tab" class="bg-white border border-slate-300 px-3 py-2 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-50 shadow-sm transition">Claude ↗</a>
-                        </div>
-                        <p class="text-sm text-slate-600 mb-3">This is a specialist Socratic tutor built specifically for <strong>NCEA Level 2 and Level 3 Mathematics &amp; Statistics, Chemistry, and Physics</strong> external exams. It knows the exact standards, common misconceptions, and Achieved/Merit/Excellence expectations for these three subjects, and guides you step-by-step rather than just handing you answers.</p>
-                        <p class="text-sm text-slate-600 mb-4"><strong>How to use it:</strong> Choose your subject, level, standard, and topic below, then copy the prompt — it'll already be filled in with your context. Paste it as the very first message in a brand-new chat (or set it as the custom instructions / persona if you're building a Gemini "Gem").</p>
-
-                        <div class="flex flex-wrap gap-2 mb-6">
-                            <a href="https://www.google.com/search?q=site:nzqa.govt.nz+formulae+and+tables+booklet" target="_blank" class="quick-link-tab flex items-center gap-2 bg-emerald-100 hover:bg-emerald-200 text-emerald-800 border border-emerald-300 px-3 py-2 rounded-lg text-xs font-bold transition">📐 NCEA Formulae &amp; Tables Booklets ↗</a>
-                            <a href="https://www.google.com/search?q=site:nzqa.govt.nz+periodic+table+chemistry" target="_blank" class="quick-link-tab flex items-center gap-2 bg-emerald-100 hover:bg-emerald-200 text-emerald-800 border border-emerald-300 px-3 py-2 rounded-lg text-xs font-bold transition">🧪 NCEA Periodic Table (Chemistry) ↗</a>
-                        </div>
-
-                        <div class="bg-white/60 rounded-xl border border-emerald-200 p-4 mb-6">
-                            <label class="text-[10px] font-black text-emerald-700 uppercase tracking-widest block mb-2">Subject</label>
-                            <div class="flex flex-wrap gap-2 mb-4" id="stem-subject-tabs">
-                                <button onclick="setStemSubject('Physics')" data-subject="Physics" class="stem-tab px-3 py-1.5 rounded-full text-xs font-bold border transition">Physics</button>
-                                <button onclick="setStemSubject('Chemistry')" data-subject="Chemistry" class="stem-tab px-3 py-1.5 rounded-full text-xs font-bold border transition">Chemistry</button>
-                                <button onclick="setStemSubject('Calculus')" data-subject="Calculus" class="stem-tab px-3 py-1.5 rounded-full text-xs font-bold border transition">Calculus</button>
-                                <button onclick="setStemSubject('Statistics')" data-subject="Statistics" class="stem-tab px-3 py-1.5 rounded-full text-xs font-bold border transition">Statistics</button>
-                            </div>
-
-                            <label class="text-[10px] font-black text-emerald-700 uppercase tracking-widest block mb-2">Level</label>
-                            <div class="flex flex-wrap gap-2 mb-4" id="stem-level-tabs">
-                                <button onclick="setStemLevel('Level 2')" data-level="Level 2" class="stem-tab px-3 py-1.5 rounded-full text-xs font-bold border transition">Level 2</button>
-                                <button onclick="setStemLevel('Level 3')" data-level="Level 3" class="stem-tab px-3 py-1.5 rounded-full text-xs font-bold border transition">Level 3</button>
-                            </div>
-
-                            <div class="grid sm:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="text-[10px] font-black text-emerald-700 uppercase tracking-widest block mb-2">Standard Number</label>
-                                    <select id="stem-standard-select" onchange="stemStandardChanged()" class="w-full p-2 rounded-lg border border-slate-300 text-sm font-medium focus:border-emerald-500 outline-none"></select>
-                                </div>
-                                <div>
-                                    <label class="text-[10px] font-black text-emerald-700 uppercase tracking-widest block mb-2">Topic</label>
-                                    <select id="stem-topic-select" onchange="updateStemTutorPrompt()" class="w-full p-2 rounded-lg border border-slate-300 text-sm font-medium focus:border-emerald-500 outline-none"></select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <h4 class="text-xs font-black uppercase tracking-widest text-emerald-700 mb-2">Full Specialist Prompt</h4>
-                        <div class="bg-slate-50 p-4 rounded-xl text-xs font-mono text-slate-700 border border-slate-200 shadow-inner mb-3 whitespace-pre-wrap max-h-64 overflow-y-auto custom-scrollbar">
-                            <span id="prompt-stem-tutor">...</span>
-                        </div>
-                        <div class="flex flex-wrap gap-2 justify-end">
-                            <button onclick="copyText('prompt-stem-tutor', this)" class="btn-copy-prompt px-4 py-2 rounded-lg text-xs transition">COPY PROMPT</button>
-                            <a href="https://gemini.google.com/app" target="_blank" title="Opens Gemini in a new tab" class="bg-amber-500 text-white px-3 py-2 rounded-lg text-xs font-bold shadow-sm hover:bg-amber-600 transition">Open Gemini ↗</a>
-                        </div>
-                    </div>
-                </details>
-            </div>
-
-            <!-- Just Teach Me: any NCEA subject, Level 1-3 -->
-            <div class="glass-card p-6 md:p-8 border-t-4 border-t-purple-500" style="background-color: #faf5ff;">
-                <details id="just-teach-hub-details" ontoggle="syncHubCardSpan(this)">
-                    <summary class="cursor-pointer list-none flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
-                        <h3 class="text-xl font-bold text-whs-darkblue flex items-center gap-2">👩‍🏫 Just Teach Me — Any NCEA Subject</h3>
-                        <span class="text-xs font-bold text-purple-600 flex items-center gap-1.5 shrink-0">See how it works <span class="details-chevron">▾</span></span>
-                    </summary>
-
-                    <div class="mt-5 pt-5 border-t border-slate-200">
-                        <p class="text-sm text-slate-600 mb-6">A subject teacher for <strong>any NCEA subject, Level 1-3</strong>. It starts teaching your topic immediately — no warm-up questions — and builds through Foundation, Connection, and Justification toward Excellence, in New Zealand English throughout.</p>
-
-                        <div class="bg-white/60 rounded-xl border border-purple-200 p-4 mb-6">
-                            <label class="text-[10px] font-black text-purple-700 uppercase tracking-widest block mb-2">NCEA Level</label>
-                            <div class="flex flex-wrap gap-2 mb-4" id="just-teach-level-tabs">
-                                <button onclick="setJustTeachLevel('Level 1')" data-level="Level 1" class="stem-tab px-3 py-1.5 rounded-full text-xs font-bold border transition">Level 1</button>
-                                <button onclick="setJustTeachLevel('Level 2')" data-level="Level 2" class="stem-tab px-3 py-1.5 rounded-full text-xs font-bold border transition">Level 2</button>
-                                <button onclick="setJustTeachLevel('Level 3')" data-level="Level 3" class="stem-tab px-3 py-1.5 rounded-full text-xs font-bold border transition">Level 3</button>
-                            </div>
-
-                            <div class="grid sm:grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label class="text-[10px] font-black text-purple-700 uppercase tracking-widest block mb-2">Subject</label>
-                                    <input type="text" id="just-teach-subject" oninput="updateJustTeachHubPrompt()" placeholder="e.g. History, Biology, Art" class="w-full p-2 rounded-lg border border-slate-300 text-sm font-medium focus:border-purple-500 outline-none">
-                                </div>
-                                <div>
-                                    <label class="text-[10px] font-black text-purple-700 uppercase tracking-widest block mb-2">Standard <span class="text-slate-400 font-medium normal-case">(number/title, optional)</span></label>
-                                    <input type="text" id="just-teach-standard" oninput="updateJustTeachHubPrompt()" placeholder="e.g. AS91202" class="w-full p-2 rounded-lg border border-slate-300 text-sm font-medium focus:border-purple-500 outline-none">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="text-[10px] font-black text-purple-700 uppercase tracking-widest block mb-2">Topic</label>
-                                <input type="text" id="just-teach-topic" oninput="updateJustTeachHubPrompt()" placeholder="e.g. The Treaty of Waitangi, cell division" class="w-full p-2 rounded-lg border border-slate-300 text-sm font-medium focus:border-purple-500 outline-none">
-                            </div>
-                        </div>
-
-                        <h4 class="text-xs font-black uppercase tracking-widest text-purple-700 mb-2">Full Prompt</h4>
-                        <div class="bg-slate-50 p-4 rounded-xl text-xs font-mono text-slate-700 border border-slate-200 shadow-inner mb-3 whitespace-pre-wrap max-h-64 overflow-y-auto custom-scrollbar">
-                            <span id="prompt-just-teach-hub">...</span>
-                        </div>
-                        <div class="flex flex-wrap gap-2 justify-end">
-                            <button onclick="copyText('prompt-just-teach-hub', this)" class="btn-copy-prompt px-4 py-2 rounded-lg text-xs transition">COPY PROMPT</button>
-                            <a href="https://gemini.google.com/app" target="_blank" title="Opens Gemini in a new tab" class="bg-amber-500 text-white px-3 py-2 rounded-lg text-xs font-bold shadow-sm hover:bg-amber-600 transition">Open Gemini ↗</a>
-                        </div>
-                    </div>
-                </details>
-            </div>
-
-            </div>
 
             <!-- Resources & Support: two columns, each stacking related cards so Subject
                  Resources sits directly above Tutoring Providers. Cards size to their own
@@ -1691,6 +1584,7 @@ Please begin with Phase 1.</span>
                     <li><button onclick="goToSectionFromTour('writing')" class="w-full flex gap-3 items-start text-left p-2 rounded-lg hover:bg-slate-100 transition"><span class="shrink-0">✍️</span><span><strong>Writing</strong> — feedback, structure help, and sentence starters.</span></button></li>
                     <li><button onclick="goToSectionFromTour('litnum')" class="w-full flex gap-3 items-start text-left p-2 rounded-lg hover:bg-slate-100 transition"><span class="shrink-0">🔢</span><span><strong>Year 10 CAA</strong> — literacy & numeracy prep for the Y10 CAAs.</span></button></li>
                     <li><button onclick="goToSectionFromTour('vault')" class="w-full flex gap-3 items-start text-left p-2 rounded-lg hover:bg-slate-100 transition"><span class="shrink-0">🗄️</span><span><strong>NCEA Hub</strong> — saved prompts, resources, and the Gemini Notebook guide.</span></button></li>
+                    <li><a href="https://kennedyd-create.github.io/StudentNCEA/" target="_blank" class="w-full flex gap-3 items-start text-left p-2 rounded-lg hover:bg-slate-100 transition"><span class="shrink-0">🎓</span><span><strong>NCEA Master Tutor</strong> — precision, per-standard tutoring for NCEA Levels 1-3. Opens in a new tab.</span></a></li>
                     <li><button onclick="goToSectionFromTour('tradstudy')" class="w-full flex gap-3 items-start text-left p-2 rounded-lg hover:bg-slate-100 transition"><span class="shrink-0">📚</span><span><strong>Trad Study</strong> — no AI, just study techniques backed by real research.</span></button></li>
                     <li><button onclick="goToSectionFromTour('tools')" class="w-full flex gap-3 items-start text-left p-2 rounded-lg hover:bg-slate-100 transition"><span class="shrink-0">⏱️</span><span><strong>Tools</strong> — your progress, badges, focus timer, to-do list, and exam countdown.</span></button></li>
                     <li><button onclick="goToSectionFromTour('wellbeing')" class="w-full flex gap-3 items-start text-left p-2 rounded-lg hover:bg-slate-100 transition"><span class="shrink-0">💚</span><span><strong>Wellbeing</strong> — feeling overwhelmed? Start here instead.</span></button></li>
