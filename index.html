@@ -462,7 +462,16 @@
             </div>
 
             <div id="stem-tutor-banner-learn" class="hidden max-w-3xl mx-auto -mt-2 text-center">
-                <a href="https://kennedyd-create.github.io/StudentNCEA/" target="_blank" class="inline-flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 px-4 py-2 rounded-full text-xs font-bold transition">🎓 Doing senior NCEA work? Try the NCEA Master Tutor ↗</a>
+                <a href="https://kennedyd-create.github.io/StudentNCEA/" target="_blank" class="flex items-center justify-between gap-4 bg-emerald-50 hover:bg-emerald-100 border-2 border-emerald-300 rounded-2xl px-5 py-4 transition shadow-sm text-left">
+                    <span class="flex items-center gap-3">
+                        <span class="text-3xl shrink-0">🎓</span>
+                        <span>
+                            <span class="block text-sm font-black text-emerald-900">Doing senior NCEA work?</span>
+                            <span class="block text-xs text-emerald-700">Try the NCEA Master Tutor — precision, per-standard tutoring for Levels 1-3</span>
+                        </span>
+                    </span>
+                    <span class="shrink-0 bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap">Open ↗</span>
+                </a>
             </div>
 
             <div class="grid lg:grid-cols-12 gap-6 lg:gap-8 max-w-6xl mx-auto">
@@ -550,7 +559,16 @@
             </div>
 
             <div id="stem-tutor-banner-revision" class="hidden max-w-3xl mx-auto -mt-2 text-center">
-                <a href="https://kennedyd-create.github.io/StudentNCEA/" target="_blank" class="inline-flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 px-4 py-2 rounded-full text-xs font-bold transition">🎓 Doing senior NCEA work? Try the NCEA Master Tutor ↗</a>
+                <a href="https://kennedyd-create.github.io/StudentNCEA/" target="_blank" class="flex items-center justify-between gap-4 bg-emerald-50 hover:bg-emerald-100 border-2 border-emerald-300 rounded-2xl px-5 py-4 transition shadow-sm text-left">
+                    <span class="flex items-center gap-3">
+                        <span class="text-3xl shrink-0">🎓</span>
+                        <span>
+                            <span class="block text-sm font-black text-emerald-900">Doing senior NCEA work?</span>
+                            <span class="block text-xs text-emerald-700">Try the NCEA Master Tutor — precision, per-standard tutoring for Levels 1-3</span>
+                        </span>
+                    </span>
+                    <span class="shrink-0 bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap">Open ↗</span>
+                </a>
             </div>
 
             <div class="grid lg:grid-cols-12 gap-6 lg:gap-8 max-w-6xl mx-auto">
@@ -1131,7 +1149,29 @@ Please begin with Phase 1.</span>
                         <button onclick="reportBrokenLink()" class="text-[11px] font-bold text-slate-500 hover:text-red-600 bg-white border border-slate-200 hover:border-red-200 px-3 py-1 rounded-full transition">🔗 Report a broken link</button>
                     </div>
 
-                    <!-- Zone 1: changes with Department — one shared selector controls both cards below it -->
+                    <!-- Official Quick Links: moved to the top since it's the most general,
+                         most-used card and doesn't depend on Department. -->
+                    <div class="glass-card p-6 border-t-4 border-t-indigo-400 mb-6">
+                        <h3 class="text-lg font-bold text-whs-darkblue mb-4 border-b pb-2">🔗 Official Quick Links</h3>
+                        <div class="flex flex-wrap gap-2.5">
+                            <a href="https://www2.nzqa.govt.nz/ncea/student-assessment-hub/" target="_blank" class="flex items-center gap-2 quick-link-tab bg-indigo-100 hover:bg-indigo-200 text-indigo-800 border border-indigo-300 px-4 py-2.5 rounded-lg text-sm font-bold transition"><span>🎯</span> NCEA Student Assessment Hub ↗</a>
+                            <a href="https://www.nzqa.govt.nz/ncea/assessment/search.do?query=&view=all" target="_blank" class="flex items-center gap-2 quick-link-tab bg-blue-100 hover:bg-blue-200 text-blue-800 border border-blue-300 px-4 py-2.5 rounded-lg text-sm font-bold transition"><span>📄</span> Search Past Papers by Standard ↗</a>
+                            <a href="https://www.nzqa.govt.nz/ncea/subjects/" target="_blank" class="flex items-center gap-2 quick-link-tab bg-sky-100 hover:bg-sky-200 text-sky-800 border border-sky-300 px-4 py-2.5 rounded-lg text-sm font-bold transition"><span>📚</span> Browse by Subject ↗</a>
+                            <a href="https://studyit.govt.nz/" target="_blank" class="flex items-center gap-2 quick-link-tab bg-teal-100 hover:bg-teal-200 text-teal-800 border border-teal-300 px-4 py-2.5 rounded-lg text-sm font-bold transition"><span>💬</span> StudyIt Forums ↗</a>
+                            <a href="https://studytime.co.nz/" target="_blank" class="flex items-center gap-2 quick-link-tab bg-amber-100 hover:bg-amber-200 text-amber-800 border border-amber-300 px-4 py-2.5 rounded-lg text-sm font-bold transition"><span>📖</span> StudyTime NZ ↗</a>
+                            <a id="vault-nzc-link" href="https://newzealandcurriculum.tahurangi.education.govt.nz" target="_blank" class="flex items-center gap-2 quick-link-tab bg-purple-100 hover:bg-purple-200 text-purple-800 border border-purple-300 px-4 py-2.5 rounded-lg text-sm font-bold transition"><span>📘</span> NZ Curriculum (Tāhūrangi) ↗</a>
+                            <a href="https://www2.nzqa.govt.nz/assets/NCEA/2026-Exam-Timetable.pdf" target="_blank" class="flex items-center gap-2 quick-link-tab bg-red-100 hover:bg-red-200 text-red-800 border border-red-300 px-4 py-2.5 rounded-lg text-sm font-bold transition"><span>📅</span> 2026 Exam Timetable ↗</a>
+                        </div>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="h-px flex-grow bg-slate-200"></div>
+                        <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Subject-Specific — changes with Department</span>
+                        <div class="h-px flex-grow bg-slate-200"></div>
+                    </div>
+
+                    <!-- Zone 1: changes with Department — one shared selector controls both cards below it, now stacked vertically -->
                     <div class="flex items-center justify-between gap-3 mb-4 bg-red-50 border-2 border-red-300 rounded-xl px-4 py-3 flex-wrap">
                         <span class="flex items-center gap-2 text-sm font-black text-red-700">
                             <span class="pulse-dot" aria-hidden="true"></span> Change subject here:
@@ -1147,7 +1187,7 @@ Please begin with Phase 1.</span>
                             <option value="Māori">Māori</option>
                         </select>
                     </div>
-                    <div class="grid lg:grid-cols-2 gap-6 items-start mb-8">
+                    <div class="flex flex-col gap-6 mb-8">
                         <!-- Dynamic Cheat Sheet -->
                         <div class="glass-card p-6 border-l-4 border-l-whs-gold">
                             <h3 class="text-lg font-bold text-whs-darkblue mb-4 border-b pb-2" id="cheat-sheet-title">📋 Cheat Sheet</h3>
@@ -1168,36 +1208,21 @@ Please begin with Phase 1.</span>
                     <!-- Divider -->
                     <div class="flex items-center gap-3 mb-6">
                         <div class="h-px flex-grow bg-slate-200"></div>
-                        <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">General Resources — same for every subject</span>
+                        <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">More Support — same for every subject</span>
                         <div class="h-px flex-grow bg-slate-200"></div>
                     </div>
 
                     <!-- Zone 2: static, doesn't change with Department -->
-                    <div class="grid lg:grid-cols-2 gap-6 items-start">
-                        <div class="glass-card p-6 border-t-4 border-t-indigo-400">
-                            <h3 class="text-lg font-bold text-whs-darkblue mb-4 border-b pb-2">🔗 Official Quick Links</h3>
-                            <div class="flex flex-wrap gap-2.5">
-                                <a href="https://www2.nzqa.govt.nz/ncea/student-assessment-hub/" target="_blank" class="flex items-center gap-2 quick-link-tab bg-indigo-100 hover:bg-indigo-200 text-indigo-800 border border-indigo-300 px-4 py-2.5 rounded-lg text-sm font-bold transition"><span>🎯</span> NCEA Student Assessment Hub ↗</a>
-                                <a href="https://www.nzqa.govt.nz/ncea/assessment/search.do?query=&view=all" target="_blank" class="flex items-center gap-2 quick-link-tab bg-blue-100 hover:bg-blue-200 text-blue-800 border border-blue-300 px-4 py-2.5 rounded-lg text-sm font-bold transition"><span>📄</span> Search Past Papers by Standard ↗</a>
-                                <a href="https://www.nzqa.govt.nz/ncea/subjects/" target="_blank" class="flex items-center gap-2 quick-link-tab bg-sky-100 hover:bg-sky-200 text-sky-800 border border-sky-300 px-4 py-2.5 rounded-lg text-sm font-bold transition"><span>📚</span> Browse by Subject ↗</a>
-                                <a href="https://studyit.govt.nz/" target="_blank" class="flex items-center gap-2 quick-link-tab bg-teal-100 hover:bg-teal-200 text-teal-800 border border-teal-300 px-4 py-2.5 rounded-lg text-sm font-bold transition"><span>💬</span> StudyIt Forums ↗</a>
-                                <a href="https://studytime.co.nz/" target="_blank" class="flex items-center gap-2 quick-link-tab bg-amber-100 hover:bg-amber-200 text-amber-800 border border-amber-300 px-4 py-2.5 rounded-lg text-sm font-bold transition"><span>📖</span> StudyTime NZ ↗</a>
-                                <a id="vault-nzc-link" href="https://newzealandcurriculum.tahurangi.education.govt.nz" target="_blank" class="flex items-center gap-2 quick-link-tab bg-purple-100 hover:bg-purple-200 text-purple-800 border border-purple-300 px-4 py-2.5 rounded-lg text-sm font-bold transition"><span>📘</span> NZ Curriculum (Tāhūrangi) ↗</a>
-                                <a href="https://www2.nzqa.govt.nz/assets/NCEA/2026-Exam-Timetable.pdf" target="_blank" class="flex items-center gap-2 quick-link-tab bg-red-100 hover:bg-red-200 text-red-800 border border-red-300 px-4 py-2.5 rounded-lg text-sm font-bold transition"><span>📅</span> 2026 Exam Timetable ↗</a>
+                    <div class="glass-card p-6 border-t-4 border-t-emerald-500 flex flex-col">
+                        <h3 class="text-lg font-bold text-whs-darkblue mb-4 border-b pb-2">🎓 Tutoring Providers</h3>
+                        <div class="flex flex-wrap gap-2.5">
+                            <a href="https://mytuition.nz" target="_blank" class="flex items-center gap-2 quick-link-tab bg-emerald-100 hover:bg-emerald-200 text-emerald-800 border border-emerald-300 px-4 py-2.5 rounded-lg text-sm font-bold transition">🧑‍🏫 MyTuition NZ ↗</a>
+                            <a href="https://www.google.com/search?q=NCEA+Tutor+NZ" target="_blank" class="flex items-center gap-2 quick-link-tab bg-green-100 hover:bg-green-200 text-green-800 border border-green-300 px-4 py-2.5 rounded-lg text-sm font-bold transition">🔍 NCEA Tutor NZ ↗</a>
+                            <a href="https://kiwitutoring.co.nz" target="_blank" class="flex items-center gap-2 quick-link-tab bg-cyan-100 hover:bg-cyan-200 text-cyan-800 border border-cyan-300 px-4 py-2.5 rounded-lg text-sm font-bold transition">🔬 Kiwi Tutoring ↗</a>
+                            <a href="https://learncoach.com/" target="_blank" class="flex items-center gap-2 quick-link-tab bg-rose-100 hover:bg-rose-200 text-rose-800 border border-rose-300 px-4 py-2.5 rounded-lg text-sm font-bold transition">🎬 LearnCoach ↗</a>
+                            <a href="https://myelevatetutor.com/chat" target="_blank" class="flex items-center gap-2 quick-link-tab bg-violet-100 hover:bg-violet-200 text-violet-800 border border-violet-300 px-4 py-2.5 rounded-lg text-sm font-bold transition">🎓 Elevate AI Tutor ↗</a>
                             </div>
                         </div>
-
-                        <div class="glass-card p-6 border-t-4 border-t-emerald-500 flex flex-col">
-                            <h3 class="text-lg font-bold text-whs-darkblue mb-4 border-b pb-2">🎓 Tutoring Providers</h3>
-                            <div class="flex flex-wrap gap-2.5">
-                                <a href="https://mytuition.nz" target="_blank" class="flex items-center gap-2 quick-link-tab bg-emerald-100 hover:bg-emerald-200 text-emerald-800 border border-emerald-300 px-4 py-2.5 rounded-lg text-sm font-bold transition">🧑‍🏫 MyTuition NZ ↗</a>
-                                <a href="https://www.google.com/search?q=NCEA+Tutor+NZ" target="_blank" class="flex items-center gap-2 quick-link-tab bg-green-100 hover:bg-green-200 text-green-800 border border-green-300 px-4 py-2.5 rounded-lg text-sm font-bold transition">🔍 NCEA Tutor NZ ↗</a>
-                                <a href="https://kiwitutoring.co.nz" target="_blank" class="flex items-center gap-2 quick-link-tab bg-cyan-100 hover:bg-cyan-200 text-cyan-800 border border-cyan-300 px-4 py-2.5 rounded-lg text-sm font-bold transition">🔬 Kiwi Tutoring ↗</a>
-                                <a href="https://learncoach.com/" target="_blank" class="flex items-center gap-2 quick-link-tab bg-rose-100 hover:bg-rose-200 text-rose-800 border border-rose-300 px-4 py-2.5 rounded-lg text-sm font-bold transition">🎬 LearnCoach ↗</a>
-                                <a href="https://myelevatetutor.com/chat" target="_blank" class="flex items-center gap-2 quick-link-tab bg-violet-100 hover:bg-violet-200 text-violet-800 border border-violet-300 px-4 py-2.5 rounded-lg text-sm font-bold transition">🎓 Elevate AI Tutor ↗</a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </details>
         </div>
